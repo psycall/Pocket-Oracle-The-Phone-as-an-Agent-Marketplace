@@ -1,0 +1,82 @@
+:root {
+  color-scheme: dark;
+  --bg: #07131f;
+  --surface: #0e2233;
+  --card: #112b41;
+  --primary: #3fc1ff;
+  --text: #f7fafc;
+  --muted: #9db4c8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #07131f 0%, #0d1d2c 100%);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+.hero {
+  padding: 24px 0 16px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--primary);
+  font-size: 0.78rem;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 7vw, 4.25rem);
+  line-height: 1.02;
+  margin: 0.2rem 0 1rem;
+}
+
+.lead {
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin: 32px 0;
+}
+
+.card, .panel {
+  background: rgba(17, 43, 65, 0.92);
+  border: 1px solid rgba(63, 193, 255, 0.16);
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+}
+
+.price {
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+button {
+  margin-top: 12px;
+  border: none;
+  background: var(--primary);
+  color: #04111a;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+}

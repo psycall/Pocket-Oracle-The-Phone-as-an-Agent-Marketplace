@@ -1,0 +1,7 @@
+<svg width="640" height="160" viewBox="0 0 640 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="160" rx="24" fill="#07131F"/>
+  <circle cx="80" cy="80" r="34" fill="#3FC1FF"/>
+  <path d="M80 38L92 68H124L98 88L108 122L80 101L52 122L62 88L36 68H68L80 38Z" fill="#0A1C2B"/>
+  <text x="150" y="74" fill="#F7FAFC" font-size="34" font-family="Arial, Helvetica, sans-serif" font-weight="700">Pocket Oracle</text>
+  <text x="150" y="112" fill="#9DB4C8" font-size="22" font-family="Arial, Helvetica, sans-serif">The Phone as an Agent Marketplace</text>
+</svg>

@@ -1,0 +1,15 @@
+{
+  "name": "Pocket Oracle",
+  "tagline": "The Phone as an Agent Marketplace",
+  "colors": {
+    "background": "#07131F",
+    "primary": "#3FC1FF",
+    "secondary": "#9DB4C8",
+    "surface": "#0E2233",
+    "text": "#F7FAFC"
+  },
+  "typography": {
+    "display": "Inter, Arial, sans-serif",
+    "body": "Inter, Arial, sans-serif"
+  }
+}

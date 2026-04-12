@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Build API gateway
+        run: npm run build:api
+
+      - name: Build mobile PWA
+        run: npm run build:mobile
+
+      - name: Build admin dashboard
+        run: npm run build:admin
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r services/sensor-orchestrator/requirements.txt
+
+      - name: Compile FastAPI app
+        run: python -m compileall services/sensor-orchestrator/app

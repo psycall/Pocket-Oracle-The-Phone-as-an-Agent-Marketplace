@@ -1,0 +1,23 @@
+{
+  "name": "pocket-oracle",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Pocket Oracle monorepo starter for agentic micropayments and real-world intelligence.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev -w @pocket-oracle/api-gateway",
+    "dev:mobile": "npm run dev -w @pocket-oracle/mobile-pwa",
+    "dev:admin": "npm run dev -w @pocket-oracle/admin-dashboard",
+    "build:api": "npm run build -w @pocket-oracle/api-gateway",
+    "build:mobile": "npm run build -w @pocket-oracle/mobile-pwa",
+    "build:admin": "npm run build -w @pocket-oracle/admin-dashboard",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
