@@ -1,177 +1,87 @@
-# Pocket Oracle
+# Psycall
 
-![Pocket Oracle Social Preview](public/brand/pocket-oracle-social-preview.png)
+<div align="center">
+  <img src="./assets/psycall-dev-banner.png" alt="Psycall developer banner" width="100%" />
+</div>
 
-**PT-BR** | [**English Version**](README.en.md)
+## PT-BR
 
-**Pocket Oracle** transforma qualquer smartphone em um **oráculo monetizável do mundo real para agentes de IA**, combinando verificação humana, sinais contextuais e cobrança por uso em um fluxo pronto para demonstração, validação técnica e evolução para micropagamentos machine-to-machine.
+Sou **fundador e desenvolvedor de produtos orientados por IA**, com foco em sistemas agentic, automação econômica, infraestrutura de software e experiências mobile capazes de operar no mundo real. Meu trabalho une **produto, engenharia e visão estratégica**, buscando transformar hipóteses ambiciosas em plataformas utilizáveis, demonstráveis e prontas para crescer.
 
-> A tese do projeto é direta: quando um agente precisa de uma confirmação do mundo físico, ele não deveria esperar por integrações lentas, processos manuais longos ou operações caras. Ele deveria pagar centavos, receber uma resposta verificável e continuar sua execução quase em tempo real.
+Hoje estou construindo o **Pocket Oracle**, uma tese de produto em que o celular deixa de ser apenas interface e passa a ser um **agente econômico verificável**, capaz de observar, confirmar e acionar fluxos inteligentes com valor operacional claro. Meu interesse principal está em sistemas que conectam **IA, coordenação, pagamentos, observação do mundo físico e orquestração de ações confiáveis**.
 
-## Visão executiva
-
-Este repositório foi estruturado para parecer e operar como **startup séria**, não como protótipo improvisado. A base atual apresenta uma arquitetura de monorepo orientada a produto, com separação clara entre monetização, interfaces de operação, serviços de campo, contratos compartilhados, documentação estratégica, branding e controles de governança.
-
-| Camada | Diretório | Papel estratégico |
-| --- | --- | --- |
-| Gateway pago | `apps/api-gateway` | Implementa o fluxo comercial e o comportamento `402 Payment Required` |
-| Operação mobile | `apps/mobile-pwa` | Leva a experiência para smartphone, o centro do produto |
-| Inteligência operacional | `apps/admin-dashboard` | Organiza métricas, estado da demo e visão executiva |
-| Serviços de campo | `services/sensor-orchestrator` | Entrega OCR, geoproof e verificações humanas em FastAPI |
-| Contratos e SDK | `packages/*` | Reduz acoplamento e acelera integrações buyer-side |
-| Infra local | `infra/docker` | Sustenta banco, fila e ambiente previsível de evolução |
-| Marca | `public/brand` | Consolida identidade visual premium para README, pitch e produto |
-| Governança | `.github`, `SECURITY.md`, `CODEOWNERS` | Reforça disciplina operacional e confiança pública |
-
-## O que o produto oferece agora
-
-A versão atual já cobre o esqueleto funcional necessário para uma demonstração com narrativa econômica forte e potencial claro de produto.
-
-| Serviço | Endpoint | Preço sugerido | Resultado esperado |
-| --- | --- | ---: | --- |
-| GeoProof | `POST /oracle/geoproof` | `0.0015` | Evidência contextual de localização |
-| SnapOCR | `POST /oracle/snap-ocr` | `0.0040` | Extração curta de texto em ambiente real |
-| HumanTap Verify | `POST /oracle/human-tap-verify` | `0.0060` | Confirmação humana rápida e auditável |
-
-O gateway já demonstra o comportamento comercial central do produto: a primeira chamada sem autorização de pagamento retorna **HTTP 402**, o buyer assina ou envia a autorização correspondente, repete a chamada, e recebe a resposta do serviço imediatamente. Esse padrão torna a demo mais convincente para narrativas de cobrança por uso, automação agentic e marketplaces de microserviços físicos.
-
-## Por que este repositório chama atenção
-
-O objetivo não é somente “rodar”. O objetivo é fazer empresas, jurados, parceiros e desenvolvedores **entenderem rapidamente o valor**, sentirem confiança na execução e enxergarem espaço real de expansão.
-
-| Frente | O que já existe | Valor percebido |
-| --- | --- | --- |
-| Narrativa | README executivo, roadmap, arquitetura e checklist | Explica o produto com clareza para públicos técnicos e de negócio |
-| Segurança | Política de segurança, hardening, scanning e higiene de segredos | Reduz sinais de amadorismo e aumenta confiança pública |
-| Produto | Monorepo com apps, serviços, SDK e contratos | Mostra visão arquitetural de longo prazo |
-| Visual | Logo, ícone, tokens e arte premium gerada | Aumenta impacto na primeira impressão |
-| Operação | Docker, scripts e base de build validada | Facilita onboarding e evolução do time |
-| Governança | Templates, revisão e ownership | Aproxima o projeto de padrão profissional de engenharia |
-
-## Estrutura do monorepo
-
-```text
-.
-├── apps/
-│   ├── admin-dashboard/
-│   ├── api-gateway/
-│   └── mobile-pwa/
-├── docs/
-├── infra/
-│   ├── docker/
-│   └── scripts/
-├── packages/
-│   ├── agent-sdk/
-│   └── shared-types/
-├── public/
-│   └── brand/
-└── services/
-    └── sensor-orchestrator/
-```
-
-## Quick start
-
-A base foi organizada para permitir uma evolução rápida em ambiente local, mantendo previsibilidade operacional.
-
-```bash
-cp .env.example .env.local
-npm install
-docker compose -f infra/docker/docker-compose.yml up -d
-npm run dev:api
-```
-
-Em outro terminal:
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r services/sensor-orchestrator/requirements.txt
-uvicorn app.main:app --app-dir services/sensor-orchestrator --host 0.0.0.0 --port 8100 --reload
-```
-
-Para subir as interfaces:
-
-```bash
-npm run dev:mobile
-npm run dev:admin
-```
-
-## Documentação principal
-
-A documentação foi pensada como material de operação e também como ativo de credibilidade pública.
-
-| Documento | Finalidade |
+| Foco atual | O que significa na prática |
 | --- | --- |
-| [`SETUP.md`](SETUP.md) | Guia bilíngue de instalação, execução local, governança e preparo de demo |
-| [`ROADMAP.md`](ROADMAP.md) | Roadmap executivo com as fases atuais e futuras do produto |
-| [`docs/architecture.md`](docs/architecture.md) | Explica o desenho técnico do produto |
-| [`docs/roadmap.md`](docs/roadmap.md) | Organiza a evolução por fases de negócio e engenharia |
-| [`docs/submission-checklist.md`](docs/submission-checklist.md) | Estrutura a prontidão para demo e submissão |
-| [`docs/github-hardening.md`](docs/github-hardening.md) | Detalha controles de segurança e governança no GitHub |
-| [`docs/release-readiness.md`](docs/release-readiness.md) | Resume o estado validado da base atual |
-| [`docs/ultra-hardening-and-profile-plan.md`](docs/ultra-hardening-and-profile-plan.md) | Define a próxima camada premium de posicionamento |
-| [`docs/founder-launch-playbook.md`](docs/founder-launch-playbook.md) | Traz o passo a passo executivo para posicionar o projeto como startup premium |
-| [`docs/brand-system.md`](docs/brand-system.md) | Documenta a identidade visual premium e as regras de uso da marca |
-| [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) | Define padrões de colaboração e comportamento profissional |
-| [`README.en.md`](README.en.md) | Apresenta a versão completa em inglês para parceiros e público internacional |
+| Agentic systems | Produtos que tomam decisões com contexto e guardrails |
+| AI infrastructure | Pipelines, governança, segurança e operação reprodutível |
+| Mobile-first execution | O telefone como ponto de captura, validação e comando |
+| Product engineering | Código com narrativa de negócio e prontidão para evolução |
+| Startup building | Repositórios e ativos pensados para atrair parceiros e mercado |
 
-## Segurança e higiene operacional
+### O que você encontrará aqui
 
-Qualquer segredo exposto deve ser tratado como **comprometido imediatamente**. O fluxo correto é revogar, regenerar, limitar escopo e encurtar expiração. O GitHub recomenda ativar controles como branch protection, revisão obrigatória, secret scanning e práticas de build seguro para fortalecer repositórios e cadeias de build públicas [1] [2].
+Meus repositórios são organizados para comunicar não apenas código, mas também **clareza de produto, disciplina de segurança, documentação forte e potencial de mercado**. Procuro estruturar cada projeto como um ativo público sério, com base técnica compreensível para desenvolvedores e leitura estratégica útil para parceiros, operadores e empresas.
 
-| Regra | Padrão recomendado |
+| Área | Ênfase |
 | --- | --- |
-| Credenciais expostas | Revogar imediatamente |
-| Branch principal | `main` protegida |
-| Alterações sensíveis | Revisão obrigatória |
-| Workflows | Permissões mínimas |
-| Dependências | Auditoria e atualização contínuas |
+| Arquitetura | Estruturas modulares, legíveis e preparadas para escalar |
+| Segurança | Boas práticas de segredos, build, permissões e governança |
+| Documentação | Narrativa executiva, técnica e operacional bem conectada |
+| Branding técnico | Apresentação premium sem perder densidade de engenharia |
+| Roadmap | Evolução por fases com visão de produto e mercado |
 
-## Roadmap executivo
+### Projeto em destaque
 
-O projeto já comunica potencial de mercado no presente, mas também foi estruturado para crescimento claro em fases sucessivas. A versão executiva detalhada do roadmap está em [`ROADMAP.md`](ROADMAP.md).
+> **Pocket Oracle** é minha principal iniciativa atual: uma visão de marketplace agentic em que o smartphone atua como interface de confiança entre percepção, verificação, ação e valor econômico.
 
-| Fase | Objetivo | Resultado |
-| --- | --- | --- |
-| Fase 1 | Travar demo funcional | PWA, gateway, orquestrador e dashboard operando juntos |
-| Fase 2 | Conectar liquidação real | Integração com wallet, settlement e prova auditável |
-| Fase 3 | Tornar submission-grade | Deploy, narrativa pública, vídeo, slides e métricas |
-| Fase 4 | Evoluir para produto real | Marketplace multi-device, reputação, SLA e roteamento |
+Se você trabalha com **IA aplicada, plataformas de automação, mobile intelligence, agent commerce, infraestrutura de produto ou venture building**, há uma boa chance de encontrarmos interseções relevantes.
 
-## Próximas oportunidades de produto
+### Como eu penso construção de produto
 
-A mesma infraestrutura conceitual pode evoluir para múltiplos mercados onde agentes precisam de dados físicos confiáveis e rápidos.
+Acredito que projetos fortes precisam combinar cinco camadas ao mesmo tempo: **ideia convincente**, **arquitetura clara**, **execução disciplinada**, **apresentação pública forte** e **capacidade real de evolução**. Meu objetivo não é apenas publicar código; é construir ativos digitais que pareçam preparados para colaboração, validação e crescimento.
 
-| Vertical | Uso potencial |
+## EN
+
+I am a **founder and AI-oriented product developer** focused on agentic systems, economic automation, software infrastructure, and mobile experiences that can operate in the real world. My work connects **product, engineering, and strategic vision**, turning ambitious ideas into usable, demo-ready, and scalable platforms.
+
+I am currently building **Pocket Oracle**, a product thesis in which the phone stops being just an interface and becomes a **verifiable economic agent** able to observe, confirm, and trigger intelligent flows with clear operational value. My main interests sit at the intersection of **AI, coordination, payments, real-world observation, and trusted action orchestration**.
+
+| Current focus | What it means in practice |
 | --- | --- |
-| Retail compliance | Checagem de preço, estoque, execução e auditoria |
-| Delivery verification | Prova de entrega e confirmação contextual |
-| Field operations | Inspeção, presença e validação operacional |
-| Agentic commerce | Microtarefas físicas para agentes autônomos |
-| Proof-of-presence | Evidência rápida para workflows híbridos |
+| Agentic systems | Products that make decisions with context and guardrails |
+| AI infrastructure | Pipelines, governance, security, and reproducible operations |
+| Mobile-first execution | The phone as a point of capture, validation, and command |
+| Product engineering | Code connected to business narrative and long-term evolution |
+| Startup building | Repositories and assets designed to attract partners and market attention |
 
-## Regras de Git recomendadas
+### What you will find here
 
-A governança de Git foi organizada para passar seriedade desde o primeiro contato com o repositório.
+My repositories are structured to communicate not only code, but also **product clarity, security discipline, strong documentation, and market potential**. I aim to make each project feel like a serious public asset, with technical depth for developers and strategic readability for partners, operators, and companies.
 
-| Tema | Padrão |
+### Featured project
+
+> **Pocket Oracle** is my current flagship initiative: a vision for an agentic marketplace in which the smartphone becomes a trust interface between perception, verification, action, and economic value.
+
+If you work in **applied AI, automation platforms, mobile intelligence, agent commerce, product infrastructure, or venture building**, we may have meaningful overlap.
+
+## Working principles
+
+| Principle | Interpretation |
 | --- | --- |
-| Branch principal | `main` |
-| Features | `feat/...` |
-| Correções | `fix/...` |
-| Operação e docs | `chore/...`, `docs/...` |
-| Estilo de commit | `feat:`, `fix:`, `docs:`, `chore:` |
-| Política crítica | Nunca fazer commit de `.env`, segredos ou credenciais |
+| Build for trust | Security and clarity are core product features |
+| Show the system | Documentation matters as much as implementation |
+| Design for growth | Every repo should be able to evolve into a stronger company asset |
+| Keep technical density | Premium presentation should never dilute engineering substance |
+| Think beyond demos | The goal is operational relevance, not superficial novelty |
 
-## English summary
+## Highlight repositories
 
-**Pocket Oracle** turns any smartphone into a **monetizable real-world oracle for AI agents**, combining human verification, contextual sensing, and usage-based billing in a repository designed to look credible to developers, partners, judges, and early adopters.
+| Repository | Role |
+| --- | --- |
+| `Pocket-Oracle-The-Phone-as-an-Agent-Marketplace` | Flagship thesis and startup-facing public repository |
 
-The current monorepo already includes a paid gateway, mobile-first interface, admin dashboard, FastAPI field orchestration service, shared contracts, starter SDK, local infrastructure, visual branding, documentation, and GitHub governance. The next strategic move is to deepen trust, public polish, and real settlement integration.
+## Contact and collaboration
 
-For the full English version, open [**README.en.md**](README.en.md).
+Estou aberto a conversas estratégicas sobre **produto, IA, infraestrutura, automação e novas plataformas**.
 
-## References
-
-[1]: https://docs.github.com/en/code-security/getting-started/quickstart-for-securing-your-repository "GitHub Docs — Quickstart for securing your repository"
-[2]: https://docs.github.com/en/code-security/tutorials/implement-supply-chain-best-practices/securing-builds "GitHub Docs — Securing builds"
+I am open to strategic conversations about **product, AI, infrastructure, automation, and new computing platforms**.
