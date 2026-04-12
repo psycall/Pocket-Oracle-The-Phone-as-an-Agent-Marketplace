@@ -1,168 +1,119 @@
-# Pocket Oracle
+<p align="center">
+  <img src="public/brand/logo.png" width="200" alt="Pocket Oracle Logo">
+</p>
 
-![Pocket Oracle Social Preview](public/brand/pocket-oracle-social-preview.png)
+<h1 align="center">Pocket Oracle</h1>
 
-[**Versão em Português**](README.md) | **EN**
+<p align="center">
+  <strong>The Phone as an Agent Marketplace</strong><br>
+  <em>Transforming smartphones into monetizable real-world oracles for AI agents.</em>
+</p>
 
-**Pocket Oracle** turns any smartphone into a **monetizable real-world oracle for AI agents**, combining human verification, contextual sensing, and usage-based billing in a repository designed to look credible to developers, partners, judges, and investors.
+<p align="center">
+  <a href="#-executive-vision">Executive Vision</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#-current-features">Features</a> •
+  <a href="#-roadmap">Roadmap</a> •
+  <a href="#-security">Security</a> •
+  <a href="README.md">Portuguese Version</a>
+</p>
 
-> The core thesis is simple: when an agent needs confirmation from the physical world, it should not wait for slow integrations, expensive manual operations, or fragile one-off workflows. It should pay cents, receive a verifiable answer, and keep executing.
+<img src="public/brand/banner.png" width="100%" alt="Pocket Oracle Banner">
 
-## Executive overview
+---
 
-This repository was structured to look and operate like a **serious startup foundation**, not a loose prototype. The current base presents a product-oriented monorepo with a clear separation between monetization, mobile experience, field services, shared contracts, strategic documentation, visual branding, and governance controls.
+## 👁️ Executive Vision
 
-| Layer | Directory | Strategic role |
-| --- | --- | --- |
-| Paid gateway | `apps/api-gateway` | Implements the commercial flow and `402 Payment Required` behavior |
-| Mobile operations | `apps/mobile-pwa` | Carries the product into the smartphone, the center of the thesis |
-| Operational intelligence | `apps/admin-dashboard` | Organizes demo metrics, state visibility, and executive monitoring |
-| Field services | `services/sensor-orchestrator` | Delivers OCR, geoproof, and human verification with FastAPI |
-| Contracts and SDK | `packages/*` | Reduces coupling and accelerates buyer-side integrations |
-| Local infra | `infra/docker` | Supports queue, database, and repeatable environment evolution |
-| Brand | `public/brand` | Centralizes visual identity for README, pitch, and product layers |
-| Governance | `.github`, `SECURITY.md`, `CODEOWNERS` | Reinforces engineering discipline and public trust |
+**Pocket Oracle** solves the trust bottleneck between the digital and physical worlds. When an AI agent needs real-world confirmation, it shouldn't rely on slow manual processes. It should be able to **pay cents, receive a verifiable response, and continue its execution in real-time**.
 
-## What the product already offers
+Our thesis is to transform every smartphone into a node of a decentralized oracle network, where human verification and contextual signals are monetizable assets.
 
-The current version already covers the functional skeleton required for a compelling demo with strong commercial logic and obvious product potential.
+---
 
-| Service | Endpoint | Suggested price | Expected outcome |
-| --- | --- | ---: | --- |
-| GeoProof | `POST /oracle/geoproof` | `0.0015` | Contextual location evidence |
-| SnapOCR | `POST /oracle/snap-ocr` | `0.0040` | Short-form text extraction from the real world |
-| HumanTap Verify | `POST /oracle/human-tap-verify` | `0.0060` | Fast, auditable human confirmation |
+## 🏗️ Architecture
 
-The gateway already demonstrates the central business mechanic: an unpaid first call returns **HTTP 402**, the buyer signs or sends the payment authorization, retries the request, and immediately receives the service result. That pattern makes the demo much stronger for usage-based billing, agentic commerce, and physical microservice marketplace narratives.
+The project is structured as an industrial-grade monorepo, ensuring scalability and clear separation of concerns.
 
-## Why this repository can impress serious audiences
+<img src="public/brand/architecture.png" width="100%" alt="Pocket Oracle Architecture">
 
-The goal is not only to “run.” The goal is to make companies, judges, partners, and developers **understand the value quickly**, trust the execution, and see a credible path to scale.
+| Layer | Strategic Role |
+| :--- | :--- |
+| **Paid Gateway** | Implements the commercial flow and `402 Payment Required` behavior. |
+| **Mobile Operation** | PWA that turns the smartphone into the data collection hub. |
+| **Sensor Orchestrator** | FastAPI intelligence for OCR, Geoproof, and human validation. |
+| **Admin Dashboard** | Executive view of metrics, demo state, and governance. |
+| **Infrastructure** | Dockerized environment for predictable and secure evolution. |
 
-| Dimension | What already exists | Why it matters |
-| --- | --- | --- |
-| Narrative | Executive README, roadmap, architecture, and checklist | Explains the product clearly to technical and business audiences |
-| Security | Security policy, hardening guide, scanning, and secret hygiene | Reduces amateur signals and strengthens public credibility |
-| Product | Monorepo with apps, services, SDK, and contracts | Shows long-term architectural thinking |
-| Visual identity | Logo, icon, tokens, and premium-generated artwork | Improves first impression and memorability |
-| Operations | Docker, scripts, and validated build base | Makes onboarding and iteration easier |
-| Governance | Templates, review structure, and ownership | Moves the project closer to professional engineering standards |
+---
 
-## Monorepo structure
+## 🚀 Current Features
 
-```text
-.
-├── apps/
-│   ├── admin-dashboard/
-│   ├── api-gateway/
-│   └── mobile-pwa/
-├── docs/
-├── infra/
-│   ├── docker/
-│   └── scripts/
-├── packages/
-│   ├── agent-sdk/
-│   └── shared-types/
-├── public/
-│   └── brand/
-└── services/
-    └── sensor-orchestrator/
-```
+The current version delivers the functional skeleton for a high-impact demonstration with a strong economic narrative.
 
-## Quick start
+| Service | Description | Suggested Price |
+| :--- | :--- | :--- |
+| **GeoProof** | Verifiable contextual location evidence. | `0.0015` |
+| **SnapOCR** | Text extraction from physical environments via camera. | `0.0040` |
+| **HumanTap** | Fast, auditable, and secure human confirmation. | `0.0060` |
 
-The base was organized to support fast local iteration while keeping operational clarity.
+---
+
+## 🗺️ Strategic Roadmap
+
+We are building more than a prototype; we are defining a new market for physical microservices for agents.
+
+<img src="public/brand/roadmap_visual.png" width="100%" alt="Pocket Oracle Roadmap">
+
+### Phase 1: Functional Demo (Current)
+- [x] Operational Mobile PWA.
+- [x] Gateway with `402 Payment Required` support.
+- [x] Basic sensor orchestrator.
+
+### Phase 2: Real Settlement
+- [ ] Wallet and micropayment integration.
+- [ ] On-chain auditable proofs.
+- [ ] Initial reputation system.
+
+### Phase 3: Submission Grade
+- [ ] Large-scale deployment.
+- [ ] Ultra-deep technical documentation.
+- [ ] Pitch video and marketing materials.
+
+### Phase 4: Real Product
+- [ ] Multi-device marketplace.
+- [ ] SLAs guaranteed by staking.
+- [ ] Intelligent task routing.
+
+---
+
+## 🛡️ Security and Governance
+
+As a CEO-level project, security is not optional. We follow operational hygiene best practices:
+
+- **Secret Hygiene:** We never commit `.env` files or credentials.
+- **Branch Protection:** The `main` branch is protected and requires review.
+- **Scanning:** Continuous monitoring of vulnerabilities in dependencies.
+
+---
+
+## 🛠️ Quick Start
 
 ```bash
-cp .env.example .env.local
-npm install
+# Clone and setup
+git clone https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace.git
+cd Pocket-Oracle-The-Phone-as-an-Agent-Marketplace
+
+# Start infrastructure
 docker compose -f infra/docker/docker-compose.yml up -d
+
+# Start services
+npm install
 npm run dev:api
 ```
 
-In another terminal:
+---
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r services/sensor-orchestrator/requirements.txt
-uvicorn app.main:app --app-dir services/sensor-orchestrator --host 0.0.0.0 --port 8100 --reload
-```
-
-To run the interfaces:
-
-```bash
-npm run dev:mobile
-npm run dev:admin
-```
-
-## Core documentation
-
-The documentation was designed both as operational material and as a credibility asset.
-
-| Document | Purpose |
-| --- | --- |
-| [`SETUP.md`](SETUP.md) | Bilingual guide for installation, local execution, governance, and demo preparation |
-| [`ROADMAP.md`](ROADMAP.md) | Executive roadmap covering present and future product phases |
-| [`docs/architecture.md`](docs/architecture.md) | Explains the technical design of the product |
-| [`docs/roadmap.md`](docs/roadmap.md) | Organizes evolution across business and engineering phases |
-| [`docs/submission-checklist.md`](docs/submission-checklist.md) | Structures demo and submission readiness |
-| [`docs/github-hardening.md`](docs/github-hardening.md) | Details GitHub security and governance controls |
-| [`docs/release-readiness.md`](docs/release-readiness.md) | Summarizes the validated current state |
-| [`docs/ultra-hardening-and-profile-plan.md`](docs/ultra-hardening-and-profile-plan.md) | Defines the next premium positioning layer |
-| [`docs/founder-launch-playbook.md`](docs/founder-launch-playbook.md) | Provides the executive step-by-step guide for turning the project into a premium startup showcase |
-| [`docs/brand-system.md`](docs/brand-system.md) | Documents the premium brand identity and official visual usage rules |
-| [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) | Defines professional collaboration and behavior standards |
-
-## Security and operational hygiene
-
-Any exposed secret must be treated as **immediately compromised**. The correct flow is revoke, regenerate, limit scope, and shorten expiration. GitHub recommends controls such as branch protection, required reviews, secret scanning, and secure build practices to strengthen public repositories and software supply chains [1] [2].
-
-| Rule | Recommended standard |
-| --- | --- |
-| Exposed credentials | Revoke immediately |
-| Main branch | Protected `main` |
-| Sensitive changes | Mandatory review |
-| Workflows | Least privilege permissions |
-| Dependencies | Ongoing auditing and updates |
-
-## Executive roadmap
-
-The project already communicates present-day market potential, but it was also structured for credible staged expansion. A more visible executive version is available in [`ROADMAP.md`](ROADMAP.md).
-
-| Phase | Objective | Outcome |
-| --- | --- | --- |
-| Phase 1 | Lock a functional demo | PWA, gateway, orchestrator, and dashboard working together |
-| Phase 2 | Connect real settlement | Wallet integration, settlement, and auditable proof |
-| Phase 3 | Become submission-grade | Deployment, public narrative, video, slides, and metrics |
-| Phase 4 | Evolve into a real product | Multi-device marketplace, reputation, SLA, and routing |
-
-## Product expansion opportunities
-
-The same conceptual infrastructure can evolve into multiple markets where agents need trusted and fast physical-world signals.
-
-| Vertical | Potential use |
-| --- | --- |
-| Retail compliance | Price, stock, execution, and audit checks |
-| Delivery verification | Proof of delivery and contextual confirmation |
-| Field operations | Inspection, presence, and operational validation |
-| Agentic commerce | Physical microtasks for autonomous agents |
-| Proof-of-presence | Fast evidence for hybrid workflows |
-
-## Recommended Git rules
-
-Git governance was organized to signal seriousness from the first repository impression.
-
-| Topic | Standard |
-| --- | --- |
-| Main branch | `main` |
-| Features | `feat/...` |
-| Fixes | `fix/...` |
-| Ops and docs | `chore/...`, `docs/...` |
-| Commit style | `feat:`, `fix:`, `docs:`, `chore:` |
-| Critical policy | Never commit `.env`, secrets, or credentials |
-
-## References
-
-[1]: https://docs.github.com/en/code-security/getting-started/quickstart-for-securing-your-repository "GitHub Docs — Quickstart for securing your repository"
-[2]: https://docs.github.com/en/code-security/tutorials/implement-supply-chain-best-practices/securing-builds "GitHub Docs — Securing builds"
+<p align="center">
+  Developed with a focus on technical excellence and market vision.<br>
+  <strong>Pocket Oracle © 2026</strong>
+</p>
