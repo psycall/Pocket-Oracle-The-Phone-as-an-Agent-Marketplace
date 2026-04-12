@@ -9,7 +9,7 @@
     "lint": "echo 'admin-dashboard lint placeholder'"
   },
   "dependencies": {
-    "next": "^15.2.0",
+    "next": "^16.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
