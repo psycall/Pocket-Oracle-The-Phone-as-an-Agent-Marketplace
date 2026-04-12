@@ -1,49 +1,52 @@
 # Pocket Oracle
 
-**Pocket Oracle** transforma qualquer smartphone em um **oracle humano e contextual para agentes de IA**, com monetização por uso, prova de execução e trilha clara para micropagamentos machine-to-machine.
+![Pocket Oracle Social Preview](public/brand/pocket-oracle-social-preview.png)
 
-> A tese central do projeto é simples: quando um agente precisa de um dado do mundo físico, ele pode pagar centavos ou sub-centavos para obter uma resposta humana confiável, contextual e verificável.
+**PT-BR** | [**English Version**](README.en.md)
+
+**Pocket Oracle** transforma qualquer smartphone em um **oráculo monetizável do mundo real para agentes de IA**, combinando verificação humana, sinais contextuais e cobrança por uso em um fluxo pronto para demonstração, validação técnica e evolução para micropagamentos machine-to-machine.
+
+> A tese do projeto é direta: quando um agente precisa de uma confirmação do mundo físico, ele não deveria esperar por integrações lentas, processos manuais longos ou operações caras. Ele deveria pagar centavos, receber uma resposta verificável e continuar sua execução quase em tempo real.
 
 ## Visão executiva
 
-O repositório foi estruturado para apresentar o projeto com padrão de **startup séria**, não como um MVP improvisado. A arquitetura está organizada em monorepo, com separação entre gateway de monetização, experiência mobile, painel executivo, orquestração de sensores, documentação de produto, branding e governança de engenharia.
+Este repositório foi estruturado para parecer e operar como **startup séria**, não como protótipo improvisado. A base atual apresenta uma arquitetura de monorepo orientada a produto, com separação clara entre monetização, interfaces de operação, serviços de campo, contratos compartilhados, documentação estratégica, branding e controles de governança.
 
-| Bloco | Função | Valor estratégico |
+| Camada | Diretório | Papel estratégico |
 | --- | --- | --- |
-| `apps/api-gateway` | Gateway pago com resposta `402 Payment Required` | Demonstra monetização por requisição |
-| `apps/mobile-pwa` | Interface mobile-first para operadores e buyers | Mostra uso prático em smartphone |
-| `apps/admin-dashboard` | Painel de métricas e estado operacional | Fortalece narrativa de negócio |
-| `services/sensor-orchestrator` | Serviço FastAPI para tarefas do mundo real | Base para OCR, geoproof e validação humana |
-| `packages/agent-sdk` | SDK buyer-side para fluxo pay-and-retry | Acelera integrações futuras |
-| `packages/shared-types` | Tipos e contratos compartilhados | Reduz drift entre serviços |
-| `infra/docker` | Postgres e Redis locais | Base para persistência e fila |
-| `public/brand` | Logo, ícone e tokens de marca | Aparência profissional e consistente |
+| Gateway pago | `apps/api-gateway` | Implementa o fluxo comercial e o comportamento `402 Payment Required` |
+| Operação mobile | `apps/mobile-pwa` | Leva a experiência para smartphone, o centro do produto |
+| Inteligência operacional | `apps/admin-dashboard` | Organiza métricas, estado da demo e visão executiva |
+| Serviços de campo | `services/sensor-orchestrator` | Entrega OCR, geoproof e verificações humanas em FastAPI |
+| Contratos e SDK | `packages/*` | Reduz acoplamento e acelera integrações buyer-side |
+| Infra local | `infra/docker` | Sustenta banco, fila e ambiente previsível de evolução |
+| Marca | `public/brand` | Consolida identidade visual premium para README, pitch e produto |
+| Governança | `.github`, `SECURITY.md`, `CODEOWNERS` | Reforça disciplina operacional e confiança pública |
 
 ## O que o produto oferece agora
 
-O starter entrega o esqueleto funcional para uma demo de marketplace agentic com serviços pagos de alto valor narrativo.
+A versão atual já cobre o esqueleto funcional necessário para uma demonstração com narrativa econômica forte e potencial claro de produto.
 
-| Serviço | Endpoint | Preço sugerido | Resultado |
+| Serviço | Endpoint | Preço sugerido | Resultado esperado |
 | --- | --- | ---: | --- |
 | GeoProof | `POST /oracle/geoproof` | `0.0015` | Evidência contextual de localização |
-| SnapOCR | `POST /oracle/snap-ocr` | `0.0040` | Extração curta de texto em campo |
-| HumanTap Verify | `POST /oracle/human-tap-verify` | `0.0060` | Confirmação humana rápida e rastreável |
+| SnapOCR | `POST /oracle/snap-ocr` | `0.0040` | Extração curta de texto em ambiente real |
+| HumanTap Verify | `POST /oracle/human-tap-verify` | `0.0060` | Confirmação humana rápida e auditável |
 
-O gateway já implementa o comportamento de demonstração mais importante para o pitch: a primeira chamada protegida responde com **HTTP 402**, a segunda chamada com autorização de pagamento é aceita, e a resposta do serviço é entregue imediatamente.
+O gateway já demonstra o comportamento comercial central do produto: a primeira chamada sem autorização de pagamento retorna **HTTP 402**, o buyer assina ou envia a autorização correspondente, repete a chamada, e recebe a resposta do serviço imediatamente. Esse padrão torna a demo mais convincente para narrativas de cobrança por uso, automação agentic e marketplaces de microserviços físicos.
 
-## Diferenciais do repositório
+## Por que este repositório chama atenção
 
-Este repositório já foi preparado para parecer ativo, seguro e escalável desde o primeiro contato de um investidor, jurado ou parceiro técnico.
+O objetivo não é somente “rodar”. O objetivo é fazer empresas, jurados, parceiros e desenvolvedores **entenderem rapidamente o valor**, sentirem confiança na execução e enxergarem espaço real de expansão.
 
-| Frente | Entrega incluída |
-| --- | --- |
-| Branding | SVG de logo, ícone e tokens de marca |
-| Governança | `CODEOWNERS`, templates de PR e issues, guia de contribuição |
-| Segurança | `SECURITY.md`, `.gitignore`, baseline de segredos e rotação |
-| Engenharia | monorepo com workspaces, apps, packages e docs |
-| Operação | Docker Compose para Postgres e Redis |
-| Demo | script para gerar carga de requisições pagas |
-| Produto | roadmap com fases atual, próxima e expansão |
+| Frente | O que já existe | Valor percebido |
+| --- | --- | --- |
+| Narrativa | README executivo, roadmap, arquitetura e checklist | Explica o produto com clareza para públicos técnicos e de negócio |
+| Segurança | Política de segurança, hardening, scanning e higiene de segredos | Reduz sinais de amadorismo e aumenta confiança pública |
+| Produto | Monorepo com apps, serviços, SDK e contratos | Mostra visão arquitetural de longo prazo |
+| Visual | Logo, ícone, tokens e arte premium gerada | Aumenta impacto na primeira impressão |
+| Operação | Docker, scripts e base de build validada | Facilita onboarding e evolução do time |
+| Governança | Templates, revisão e ownership | Aproxima o projeto de padrão profissional de engenharia |
 
 ## Estrutura do monorepo
 
@@ -68,7 +71,7 @@ Este repositório já foi preparado para parecer ativo, seguro e escalável desd
 
 ## Quick start
 
-A base foi pensada para permitir evolução rápida em ambiente local.
+A base foi organizada para permitir uma evolução rápida em ambiente local, mantendo previsibilidade operacional.
 
 ```bash
 cp .env.example .env.local
@@ -93,33 +96,82 @@ npm run dev:mobile
 npm run dev:admin
 ```
 
+## Documentação principal
+
+A documentação foi pensada como material de operação e também como ativo de credibilidade pública.
+
+| Documento | Finalidade |
+| --- | --- |
+| [`SETUP.md`](SETUP.md) | Guia bilíngue de instalação, execução local, governança e preparo de demo |
+| [`ROADMAP.md`](ROADMAP.md) | Roadmap executivo com as fases atuais e futuras do produto |
+| [`docs/architecture.md`](docs/architecture.md) | Explica o desenho técnico do produto |
+| [`docs/roadmap.md`](docs/roadmap.md) | Organiza a evolução por fases de negócio e engenharia |
+| [`docs/submission-checklist.md`](docs/submission-checklist.md) | Estrutura a prontidão para demo e submissão |
+| [`docs/github-hardening.md`](docs/github-hardening.md) | Detalha controles de segurança e governança no GitHub |
+| [`docs/release-readiness.md`](docs/release-readiness.md) | Resume o estado validado da base atual |
+| [`docs/ultra-hardening-and-profile-plan.md`](docs/ultra-hardening-and-profile-plan.md) | Define a próxima camada premium de posicionamento |
+| [`docs/founder-launch-playbook.md`](docs/founder-launch-playbook.md) | Traz o passo a passo executivo para posicionar o projeto como startup premium |
+| [`docs/brand-system.md`](docs/brand-system.md) | Documenta a identidade visual premium e as regras de uso da marca |
+| [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) | Define padrões de colaboração e comportamento profissional |
+| [`README.en.md`](README.en.md) | Apresenta a versão completa em inglês para parceiros e público internacional |
+
 ## Segurança e higiene operacional
 
-Qualquer segredo exposto deve ser tratado como comprometido. O fluxo recomendado é **revogar, regenerar, limitar escopo e definir expiração curta**. Nunca faça commit de `.env`, credenciais de wallet, prints com segredos ou chaves em mensagens e documentação.
+Qualquer segredo exposto deve ser tratado como **comprometido imediatamente**. O fluxo correto é revogar, regenerar, limitar escopo e encurtar expiração. O GitHub recomenda ativar controles como branch protection, revisão obrigatória, secret scanning e práticas de build seguro para fortalecer repositórios e cadeias de build públicas [1] [2].
+
+| Regra | Padrão recomendado |
+| --- | --- |
+| Credenciais expostas | Revogar imediatamente |
+| Branch principal | `main` protegida |
+| Alterações sensíveis | Revisão obrigatória |
+| Workflows | Permissões mínimas |
+| Dependências | Auditoria e atualização contínuas |
 
 ## Roadmap executivo
 
-| Fase | Objetivo | Resultado esperado |
+O projeto já comunica potencial de mercado no presente, mas também foi estruturado para crescimento claro em fases sucessivas. A versão executiva detalhada do roadmap está em [`ROADMAP.md`](ROADMAP.md).
+
+| Fase | Objetivo | Resultado |
 | --- | --- | --- |
-| Fase 1 | Travar demo funcional | PWA + gateway + orquestrador + dashboard integrados |
-| Fase 2 | Tornar Circle/Arc real | Liquidação real, hash e prova onchain |
-| Fase 3 | Submission grade | Deploy, vídeo, slides e métricas públicas |
-| Fase 4 | Produto de verdade | Marketplace multi-device, reputação e SLA |
+| Fase 1 | Travar demo funcional | PWA, gateway, orquestrador e dashboard operando juntos |
+| Fase 2 | Conectar liquidação real | Integração com wallet, settlement e prova auditável |
+| Fase 3 | Tornar submission-grade | Deploy, narrativa pública, vídeo, slides e métricas |
+| Fase 4 | Evoluir para produto real | Marketplace multi-device, reputação, SLA e roteamento |
+
+## Próximas oportunidades de produto
+
+A mesma infraestrutura conceitual pode evoluir para múltiplos mercados onde agentes precisam de dados físicos confiáveis e rápidos.
+
+| Vertical | Uso potencial |
+| --- | --- |
+| Retail compliance | Checagem de preço, estoque, execução e auditoria |
+| Delivery verification | Prova de entrega e confirmação contextual |
+| Field operations | Inspeção, presença e validação operacional |
+| Agentic commerce | Microtarefas físicas para agentes autônomos |
+| Proof-of-presence | Evidência rápida para workflows híbridos |
 
 ## Regras de Git recomendadas
 
-O repositório foi preparado para operar com convenção limpa de branches e commits.
+A governança de Git foi organizada para passar seriedade desde o primeiro contato com o repositório.
 
-| Tema | Padrão recomendado |
+| Tema | Padrão |
 | --- | --- |
 | Branch principal | `main` |
-| Branches de feature | `feat/...` |
-| Branches de correção | `fix/...` |
-| Branches operacionais | `chore/...`, `docs/...` |
-| Commit style | `feat:`, `fix:`, `docs:`, `chore:` |
+| Features | `feat/...` |
+| Correções | `fix/...` |
+| Operação e docs | `chore/...`, `docs/...` |
+| Estilo de commit | `feat:`, `fix:`, `docs:`, `chore:` |
+| Política crítica | Nunca fazer commit de `.env`, segredos ou credenciais |
 
-## Próximas fases do produto
+## English summary
 
-O potencial da plataforma vai além do hackathon. A mesma base pode evoluir para verificação de entrega, auditoria de campo, compliance em varejo, proof-of-presence e marketplaces regionais de microtarefas para agentes autônomos.
+**Pocket Oracle** turns any smartphone into a **monetizable real-world oracle for AI agents**, combining human verification, contextual sensing, and usage-based billing in a repository designed to look credible to developers, partners, judges, and early adopters.
 
-Consulte também [`docs/architecture.md`](docs/architecture.md), [`docs/roadmap.md`](docs/roadmap.md), [`docs/submission-checklist.md`](docs/submission-checklist.md), [`docs/github-hardening.md`](docs/github-hardening.md) e [`docs/release-readiness.md`](docs/release-readiness.md).
+The current monorepo already includes a paid gateway, mobile-first interface, admin dashboard, FastAPI field orchestration service, shared contracts, starter SDK, local infrastructure, visual branding, documentation, and GitHub governance. The next strategic move is to deepen trust, public polish, and real settlement integration.
+
+For the full English version, open [**README.en.md**](README.en.md).
+
+## References
+
+[1]: https://docs.github.com/en/code-security/getting-started/quickstart-for-securing-your-repository "GitHub Docs — Quickstart for securing your repository"
+[2]: https://docs.github.com/en/code-security/tutorials/implement-supply-chain-best-practices/securing-builds "GitHub Docs — Securing builds"
