@@ -1,70 +1,156 @@
-from datetime import datetime, timezone
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, HttpUrl
+from fastapi import FastAPI, HTTPException, Depends
+from pydantic import BaseModel
+import requests
+import time
+import uuid
+
+app = FastAPI(title="Pocket Oracle GOD MODE 🚀")
+
+# =========================
+# CONFIG
+# =========================
+
+API_KEY = "oracle-secret-key"  # troque depois
+
+# =========================
+# SECURITY
+# =========================
+
+def verify_api_key(key: str):
+    if key != API_KEY:
+        raise HTTPException(status_code=403, detail="Invalid API Key")
+
+# =========================
+# MODELS
+# =========================
+
+class Task(BaseModel):
+    type: str
+    data: dict = {}
+
+# =========================
+# LOGGER
+# =========================
+
+def log(message):
+    print(f"[{time.strftime('%H:%M:%S')}] {message}")
+
+# =========================
+# BASE AGENT
+# =========================
+
+class BaseAgent:
+    def run(self, data: dict):
+        raise NotImplementedError()
+
+# =========================
+# AGENTS
+# =========================
+
+class CryptoAgent(BaseAgent):
+    def run(self, data):
+        log("Fetching crypto trends...")
+        url = "https://api.coingecko.com/api/v3/search/trending"
+        res = requests.get(url).json()
+        coins = [coin["item"]["name"] for coin in res["coins"][:5]]
+        return {"trending": coins}
 
 
-app = FastAPI(title="Pocket Oracle Sensor Orchestrator", version="0.1.0")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+class SummarizerAgent(BaseAgent):
+    def run(self, data):
+        text = data.get("text", "")
+        summary = text[:120] + "..." if len(text) > 120 else text
+        return {"summary": summary}
 
 
-class GeoProofRequest(BaseModel):
-    latitude: float
-    longitude: float
-    accuracy: float | None = None
+class TelegramAgent(BaseAgent):
+    def run(self, data):
+        token = data.get("token")
+        chat_id = data.get("chat_id")
+        message = data.get("message")
+
+        if not token or not chat_id:
+            return {"error": "Missing Telegram credentials"}
+
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+
+        try:
+            requests.post(url, json={"chat_id": chat_id, "text": message})
+            return {"status": "sent"}
+        except:
+            return {"error": "telegram_failed"}
 
 
-class SnapOCRRequest(BaseModel):
-    imageUrl: HttpUrl
+# =========================
+# AGENT REGISTRY
+# =========================
 
+AGENTS = {
+    "crypto": CryptoAgent(),
+    "summarize": SummarizerAgent(),
+    "telegram": TelegramAgent()
+}
 
-class HumanTapVerifyRequest(BaseModel):
-    prompt: str
-    answer: str
+# =========================
+# ORCHESTRATOR
+# =========================
 
+class Orchestrator:
 
-@app.get("/health")
-def health() -> dict:
-    return {"status": "ok", "service": "sensor-orchestrator"}
+    def execute(self, task: Task):
+        log(f"Executing task: {task.type}")
 
+        if task.type == "crypto_pipeline":
 
-@app.post("/geoproof")
-def geoproof(payload: GeoProofRequest) -> dict:
+            crypto = AGENTS["crypto"].run({})
+            text = ", ".join(crypto["trending"])
+
+            summary = AGENTS["summarize"].run({"text": text})
+
+            telegram = AGENTS["telegram"].run({
+                "token": task.data.get("token"),
+                "chat_id": task.data.get("chat_id"),
+                "message": summary["summary"]
+            })
+
+            return {
+                "id": str(uuid.uuid4()),
+                "flow": "crypto_pipeline",
+                "steps": {
+                    "crypto": crypto,
+                    "summary": summary,
+                    "telegram": telegram
+                }
+            }
+
+        if task.type in AGENTS:
+            result = AGENTS[task.type].run(task.data)
+            return {
+                "id": str(uuid.uuid4()),
+                "result": result
+            }
+
+        raise HTTPException(status_code=400, detail="Unknown task")
+
+orchestrator = Orchestrator()
+
+# =========================
+# ROUTES
+# =========================
+
+@app.get("/")
+def root():
     return {
-        "verified": True,
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "location": {
-            "latitude": payload.latitude,
-            "longitude": payload.longitude,
-            "accuracy": payload.accuracy,
-        },
-        "evidence": "mock_device_signal_bundle",
+        "name": "Pocket Oracle",
+        "status": "running",
+        "mode": "GOD"
     }
 
+@app.get("/agents")
+def list_agents():
+    return {"agents": list(AGENTS.keys()) + ["crypto_pipeline"]}
 
-@app.post("/snap-ocr")
-def snap_ocr(payload: SnapOCRRequest) -> dict:
-    return {
-        "verified": True,
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "image_url": str(payload.imageUrl),
-        "extracted_text": "TOTAL 42.90 | STORE SAMPLE | 2026-04-12",
-    }
-
-
-@app.post("/human-tap-verify")
-def human_tap_verify(payload: HumanTapVerifyRequest) -> dict:
-    return {
-        "verified": payload.answer.lower() in {"yes", "true", "confirmado", "sim"},
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "prompt": payload.prompt,
-        "answer": payload.answer,
-        "operator_signature": "mock_operator_attestation",
-    }
+@app.post("/execute")
+def execute(task: Task, api_key: str):
+    verify_api_key(api_key)
+    return orchestrator.execute(task)
