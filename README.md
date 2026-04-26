@@ -2,141 +2,109 @@
   <img src="public/brand/logo.png" width="200" alt="Pocket Oracle Logo">
 </p>
 
-<h1 align="center">Pocket Oracle</h1>
+<h1 align="center">Pocket Oracle OS</h1>
 
 <p align="center">
-  <strong>The Phone as an Agent Marketplace</strong><br>
-  <em>Transformando smartphones em oráculos monetizáveis do mundo real para agentes de IA.</em>
+  <strong>Execution Layer for Autonomous Agents</strong><br>
+  <em>De intenção à execução: Transformando o smartphone na camada de ação definitiva para a economia de agentes de IA.</em>
 </p>
 
 <p align="center">
   <a href="https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/actions"><img src="https://img.shields.io/github/actions/workflow/status/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/ci.yml?branch=main&style=flat-square" alt="Build Status"></a>
   <a href="https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/blob/main/LICENSE"><img src="https://img.shields.io/github/license/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace?style=flat-square" alt="License"></a>
   <a href="https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/stargazers"><img src="https://img.shields.io/github/stars/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace?style=flat-square" alt="Stars"></a>
-  <a href="https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/network/members"><img src="https://img.shields.io/github/forks/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace?style=flat-square" alt="Forks"></a>
-  <a href="https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/issues"><img src="https://img.shields.io/github/issues/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace?style=flat-square" alt="Issues"></a>
 </p>
 
 <p align="center">
-  <a href="#-visão-executiva">Visão Executiva</a> •
-  <a href="#-arquitetura">Arquitetura</a> •
-  <a href="#-funcionalidades-atuais">Funcionalidades</a> •
-  <a href="#-roadmap">Roadmap</a> •
-  <a href="#-segurança">Segurança</a> •
+  <a href="#-visao-executiva">Visão Executiva</a> •
+  <a href="#-arquitetura-do-produto">Arquitetura</a> •
+  <a href="#-funcionalidades-de-execucao">Funcionalidades</a> •
+  <a href="#-roadmap-do-produto">Roadmap</a> •
   <a href="README.en.md">English Version</a>
 </p>
 
-<img src="public/brand/banner.png" width="100%" alt="Pocket Oracle Banner">
+<img src="public/brand/new_banner.png" width="100%" alt="Pocket Oracle OS Banner">
 
 ---
 
 ## 👁️ Visão Executiva
 
-O **Pocket Oracle** resolve o gargalo de confiança entre o mundo digital e o físico. Quando um agente de IA precisa de uma confirmação do mundo real, ele não deve depender de processos manuais lentos. Ele deve ser capaz de **pagar centavos, receber uma resposta verificável e continuar sua execução em tempo real**.
+O **Pocket Oracle OS** não é apenas um marketplace; é a **Execution Layer** que faltava para agentes autônomos. Enquanto outros sistemas apenas "pensam" ou "conversam", o Pocket Oracle **executa**. 
 
-Nossa tese é transformar cada smartphone em um nó de uma rede de oráculos descentralizada, onde a verificação humana e os sinais contextuais são ativos monetizáveis. Não somos apenas um aplicativo; somos uma infraestrutura de execução para a economia baseada em agentes.
+Nossa tese resolve a maior dor do mercado de IA (como ARC e outros): a fricção entre a decisão do agente e a ação no mundo real. Nós transformamos smartphones em oráculos de execução que conectam APIs, processam intenções em linguagem natural e entregam resultados concretos, sem intervenção manual.
 
 ---
 
-## 🏗️ Arquitetura
+## 🏗️ Arquitetura do Produto
 
-O projeto é estruturado como um monorepo de nível industrial, garantindo escalabilidade, segurança e separação clara de responsabilidades.
+O sistema é desenhado para escala industrial, focado em **autonomia e integridade**.
 
-<img src="public/brand/architecture.png" width="100%" alt="Pocket Oracle Architecture">
-
-| Camada | Papel Estratégico |
+| Componente | Papel Estratégico |
 | :--- | :--- |
-| **Gateway Pago** | Implanta o fluxo comercial e o comportamento `402 Payment Required`, atuando como a principal barreira de monetização. |
-| **Operação Mobile** | PWA (Progressive Web App) que transforma o smartphone no centro de coleta de dados e interação humana. |
-| **Sensor Orchestrator** | Inteligência em FastAPI responsável por processar OCR, validar GeoProof e gerenciar a confirmação humana. |
-| **Admin Dashboard** | Visão executiva de métricas, estado da demonstração e governança do sistema. |
-| **Infraestrutura** | Ambiente Dockerizado (PostgreSQL, Redis) para evolução previsível, segura e escalável. |
+| **Agent Engine** | O cérebro que interpreta tarefas e orquestra a execução. |
+| **Orchestrator** | Encadeia múltiplos agentes para fluxos complexos de decisão. |
+| **Executors** | Camada de ação real: APIs, Scraping, Transações e Sensores Mobile. |
+| **User Layer** | Gestão de chaves de API, identidades e histórico de execução. |
+| **Interface OS** | Mobile PWA + Dashboard Web para monitoramento em tempo real. |
 
 ---
 
-## 🚀 Funcionalidades Atuais
+## 🚀 Funcionalidades de Execução
 
-A versão atual entrega o esqueleto funcional para uma demonstração de alto impacto com uma narrativa econômica forte.
+Diferente de automações simples, o Pocket Oracle opera como um motor de decisão ativa.
 
-| Serviço | Descrição | Preço Sugerido (USDC) |
-| :--- | :--- | :--- |
-| **GeoProof** | Evidência contextual de localização verificável. | `0.0015` |
-| **SnapOCR** | Extração de texto de ambientes físicos via câmera. | `0.0040` |
-| **HumanTap** | Confirmação humana rápida, auditável e segura. | `0.0060` |
+- **Intelligent Action Pipeline:** Transformação de linguagem natural em fluxos de trabalho multi-step.
+- **Real-World Oracles:** Uso de sensores de smartphones (GeoProof, SnapOCR) como prova de execução física.
+- **Monetização por Execução:** Modelo de `402 Payment Required` integrado para cada tarefa concluída com sucesso.
 
 ---
 
-## 🗺️ Roadmap Estratégico
+## 🗺️ Roadmap do Produto (CEO Vision)
 
-Estamos construindo mais do que um protótipo; estamos definindo um novo mercado de microserviços físicos para agentes.
+Estamos evoluindo de um protótipo técnico para uma infraestrutura de mercado global.
 
-<img src="public/brand/roadmap_visual.png" width="100%" alt="Pocket Oracle Roadmap">
+<img src="public/brand/new_roadmap.png" width="100%" alt="Pocket Oracle OS Roadmap">
 
-### Fase 1: Demo Funcional (Atual)
-- [x] PWA Mobile operacional.
-- [x] Gateway com suporte a `402 Payment Required`.
-- [x] Orquestrador de sensores básico.
+### Fase 1: Intelligent Action Pipeline (Atual)
+- [x] Motor de execução base em FastAPI.
+- [x] Integração de agentes de decisão inicial.
+- [x] PWA para coleta de sinais físicos.
 
-### Fase 2: Liquidação Real
-- [ ] Integração com wallets e micropagamentos.
-- [ ] Provas auditáveis on-chain.
-- [ ] Sistema de reputação inicial.
+### Fase 2: Multi-Agent Orchestration
+- [ ] Orquestração complexa entre diferentes modelos de LLM.
+- [ ] Persistência de estado de execução distribuída.
+- [ ] Liquidação real via micropagamentos.
 
-### Fase 3: Submission Grade
-- [ ] Deploy em larga escala.
-- [ ] Documentação técnica ultra-profunda.
-- [ ] Vídeo de pitch e materiais de marketing.
+### Fase 3: Enterprise Execution Layer
+- [ ] SDK para integração de terceiros.
+- [ ] Hardening de segurança e auditoria de jobs.
+- [ ] SLAs garantidos para execução crítica.
 
-### Fase 4: Produto Real
-- [ ] Marketplace multi-device.
-- [ ] SLAs garantidos por staking.
-- [ ] Roteamento inteligente de tarefas.
-
-Para mais detalhes, consulte nosso [Roadmap Completo](ROADMAP.md).
+### Fase 4: Global Agent Marketplace
+- [ ] Marketplace descentralizado de executores.
+- [ ] Sistema de reputação baseado em prova de trabalho (PoW).
+- [ ] Escala global de oráculos físicos.
 
 ---
 
-## 🛡️ Segurança e Governança
-
-Como um projeto de nível CEO, a segurança não é opcional. Seguimos as melhores práticas de higiene operacional:
-
-- **Higiene de Segredos:** Nunca fazemos commit de arquivos `.env` ou credenciais.
-- **Branch Protection:** A branch `main` é protegida e requer revisão (Pull Requests).
-- **Scanning:** Monitoramento contínuo de vulnerabilidades em dependências.
-
-Para relatar vulnerabilidades, consulte nossa [Política de Segurança](SECURITY.md).
-
----
-
-## 🛠️ Quick Start
-
-Para executar o Pocket Oracle localmente, siga os passos abaixo. Para um guia detalhado, consulte o [SETUP.md](SETUP.md).
+## 🛠️ Quick Start para Desenvolvedores
 
 ```bash
-# 1. Clonar o repositório
+# 1. Clone o OS
 git clone https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace.git
 cd Pocket-Oracle-The-Phone-as-an-Agent-Marketplace
 
-# 2. Configurar variáveis de ambiente
-cp .env.example .env.local
-
-# 3. Subir infraestrutura (PostgreSQL, Redis)
+# 2. Setup de Infra
 docker compose -f infra/docker/docker-compose.yml up -d
 
-# 4. Instalar dependências e iniciar serviços
+# 3. Inicie o Engine
 npm install
 npm run dev:api
 ```
 
 ---
 
-## 🤝 Contribuindo
-
-Valorizamos contribuições da comunidade! Se você deseja ajudar a construir o futuro dos oráculos para agentes de IA, leia nosso [Guia de Contribuição](CONTRIBUTING.md) e nosso [Código de Conduta](CODE_OF_CONDUCT.md).
-
----
-
 <p align="center">
-  Desenvolvido com foco em excelência técnica e visão de mercado.<br>
-  <strong>Pocket Oracle © 2026</strong>
+  <strong>Pocket Oracle OS © 2026</strong><br>
+  <em>From Intent to Execution.</em>
 </p>
