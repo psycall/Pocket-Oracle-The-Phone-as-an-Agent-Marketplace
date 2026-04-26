@@ -1,10 +1,11 @@
 """
 Orvion — Execution Engine
-The orchestrator. Takes a goal, routes it, executes, stores result.
+The orchestrator. Takes a goal, routes it, executes, stores result, and verifies via Arc Network.
 """
 
 import time
 import json
+import hashlib
 from uuid import uuid4
 from typing import AsyncGenerator
 
@@ -12,6 +13,7 @@ from agents import AGENT_REGISTRY
 from agents.decision_agent import DecisionAgent
 from core.memory import memory
 from core.config import settings
+from core.arc_integration import arc_client
 
 
 class ExecutionEngine:
@@ -19,8 +21,9 @@ class ExecutionEngine:
     Core engine. Workflow:
       1. DecisionAgent routes the goal to right agent
       2. Specialized agent executes
-      3. Result is persisted in Redis
-      4. Full record returned
+      3. Arc Network verifies execution proof
+      4. Result is persisted in Redis
+      5. Full record returned
     """
 
     async def execute(self, goal: str, context: dict) -> dict:
@@ -38,7 +41,11 @@ class ExecutionEngine:
         agent = agent_cls()
         result = await agent.run(refined_goal, context)
 
-        # Step 3 — Build record
+        # Step 3 — Arc Network Verification (The Proof Layer)
+        result_hash = hashlib.sha256(json.dumps(result, sort_keys=True).encode()).hexdigest()
+        arc_proof = await arc_client.verify_execution(task_id, result_hash)
+
+        # Step 4 — Build record
         record = {
             "id": task_id,
             "node": settings.NODE_ID,
@@ -46,12 +53,13 @@ class ExecutionEngine:
             "routing": routing,
             "agent_used": agent_name,
             "result": result,
+            "arc_verification": arc_proof,
             "duration_ms": round((time.time() - started_at) * 1000),
             "timestamp": started_at,
             "status": "complete",
         }
 
-        # Step 4 — Persist
+        # Step 5 — Persist
         await memory.store_task(record)
         await memory.increment_metric("total_executions")
         await memory.increment_metric(f"agent_{agent_name}_executions")
@@ -63,7 +71,7 @@ class ExecutionEngine:
     ) -> AsyncGenerator[str, None]:
         """
         Streaming execution — sends SSE events as each step completes.
-        Frontend sees execution in real time.
+        Frontend sees execution in real time with Arc Network proofing.
         """
         task_id = str(uuid4())
         started_at = time.time()
@@ -88,6 +96,12 @@ class ExecutionEngine:
         result = await agent.run(refined_goal, context)
         yield event({"type": "result", "data": result})
 
+        # Arc Network Verification
+        yield event({"type": "verifying", "message": "Submitting proof to Arc Network..."})
+        result_hash = hashlib.sha256(json.dumps(result, sort_keys=True).encode()).hexdigest()
+        arc_proof = await arc_client.verify_execution(task_id, result_hash)
+        yield event({"type": "verified", "proof": arc_proof})
+
         # Persist
         record = {
             "id": task_id,
@@ -96,6 +110,7 @@ class ExecutionEngine:
             "routing": routing,
             "agent_used": agent_name,
             "result": result,
+            "arc_verification": arc_proof,
             "duration_ms": round((time.time() - started_at) * 1000),
             "timestamp": started_at,
             "status": "complete",
