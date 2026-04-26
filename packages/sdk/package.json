@@ -1,17 +1,17 @@
 {
   "name": "@orvion/sdk",
-  "version": "2.0.0",
-  "type": "module",
+  "version": "2.1.0",
   "description": "Official TypeScript SDK for the Orvion Execution Layer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc --watch -p tsconfig.json",
+    "lint": "echo 'sdk lint placeholder'",
     "test": "vitest run"
   },
-  "keywords": ["orvion", "ai-agents", "execution-layer", "autonomous-agents"],
+  "keywords": ["orvion", "ai-agents", "execution-layer"],
   "license": "MIT",
   "devDependencies": {
     "typescript": "^5.5.0",

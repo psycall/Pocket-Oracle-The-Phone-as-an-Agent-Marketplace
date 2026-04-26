@@ -1,86 +1,126 @@
 <p align="center">
-  <img src="public/brand/orvion_logo_4k.png" width="250" alt="Orvion 4K Logo">
+  <img src="public/brand/orvion_logo_4k.png" width="220" alt="Orvion logo">
 </p>
 
-<h1 align="center">🜂 Orvion — Investor-Ready Agent Commerce Layer</h1>
+<h1 align="center">Orvion · Pocket Oracle</h1>
 
 <p align="center">
-  <strong>The complete monorepo for autonomous agent execution and commerce.</strong>
+  <strong>The phone as an agent marketplace.</strong><br/>
+  An investor-ready monorepo: landing page, mobile operator PWA, admin
+  dashboard, paid API gateway, FastAPI execution layer and TypeScript SDK.
 </p>
 
 <p align="center">
-  <a href="https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/actions"><img src="https://img.shields.io/github/actions/workflow/status/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/ci.yml?branch=main&style=flat-square" alt="Build Status"></a>
-  <a href="https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/blob/main/LICENSE"><img src="https://img.shields.io/github/license/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace?style=flat-square" alt="License"></a>
-  <img src="https://img.shields.io/badge/Version-2.1.0-blue.svg" alt="Version 2.1.0">
-  <img src="https://img.shields.io/badge/Network-Arc_Network-blue.svg" alt="Arc Network">
+  <img src="https://img.shields.io/badge/status-investor--ready-7af3cf" alt="status">
+  <img src="https://img.shields.io/badge/stack-monorepo-56b7ff" alt="stack">
+  <img src="https://img.shields.io/badge/payments-mock%20%E2%86%92%20x402-FF5733" alt="payments">
+  <img src="https://img.shields.io/badge/license-MIT-9db4c8" alt="license">
 </p>
 
 ---
 
-## 🏗️ Monorepo Architecture
+## What is in this repo
 
-Orvion v2.1 is structured as a high-performance monorepo, providing all necessary surfaces for an agentic economy.
+| Surface | Path | Port (dev) | Purpose |
+| --- | --- | --- | --- |
+| Investor landing | `apps/web` | 3002 | Premium narrative, economics, roadmap |
+| Mobile operator PWA | `apps/mobile-pwa` | 3000 | Phone-native job queue and escalation |
+| Admin dashboard | `apps/admin-dashboard` | 3001 | Executive metrics and readiness checklist |
+| Paid API gateway | `apps/api-gateway` | 8080 | 402-style paid endpoints with mock auth |
+| Execution layer (FastAPI) | `apps/api` | 8000 | JWT-auth, agents, marketplace, history |
+| Sensor orchestrator | `services/sensor-orchestrator` | 8100 | Deterministic GeoProof / OCR / HumanTap |
+| TypeScript SDK | `packages/sdk` | – | Official client (`@orvion/sdk`) |
 
-```
-orvion/
-├── apps/
-│   ├── api/                ← FastAPI (Python, :8000) - Core Execution Engine
-│   ├── api-gateway/        ← Express Gateway (TS, :8080) - Paid x402 Gateway
-│   ├── web/                ← Investor Landing (Next.js, :3002)
-│   ├── mobile-pwa/         ← Operator App (Next.js, :3000)
-│   └── admin-dashboard/    ← Control Plane (Next.js, :3001)
-├── packages/
-│   └── sdk/                ← Official TypeScript SDK
-├── contracts/
-│   └── src/                ← Solidity (AgentRegistry + TaskEscrow)
-├── services/
-│   └── sensor-orchestrator/← Sensor Data Pipeline (:8100)
-└── infra/
-    └── docker/             ← Container Orchestration
-```
+Everything is designed to keep working in **DEMO MODE** — Redis, Anthropic and
+ the orchestrator are all optional thanks to graceful in-process fallbacks.
 
 ---
 
-## ⚡ Quick Start (60s)
+## Quick start (60 seconds)
 
 ```bash
-# 1. Setup Environment
-npm run setup
-
-# 2. Install & Build
+# 1. Setup
+cp .env.example .env
 npm install
+
+# 2. Build everything
 npm run build
 
-# 3. Launch Services (Separate terminals recommended)
-npm run dev:web          # Investor Landing (:3002)
-npm run dev:mobile       # Operator PWA (:3000)
-npm run dev:admin        # Admin Dashboard (:3001)
-npm run dev:gateway      # x402 Gateway (:8080)
-npm run dev:api          # Execution Engine (:8000)
-npm run dev:orchestrator # Sensor Pipeline (:8100)
+# 3. Start the surfaces (each in its own terminal)
+npm run dev:api          # FastAPI on :8000
+npm run dev:gateway      # Paid gateway on :8080
+npm run dev:web          # Investor landing on :3002
+npm run dev:mobile       # Mobile PWA on :3000
+npm run dev:admin        # Admin dashboard on :3001
+npm run dev:orchestrator # (optional) sensors on :8100
+
+# 4. Tests
+npm run test:py          # pytest for the FastAPI layer
+npm run test:js          # vitest for the SDK
+```
+
+Optional infrastructure (Redis + Postgres + sensor orchestrator container):
+
+```bash
+docker compose -f infra/docker/docker-compose.yml up -d
 ```
 
 ---
 
-## 🧪 Testing
+## Why this is investable
 
-- **Python Core:** `npm run test:py` (13/13 passing in DEMO_MODE)
-- **TypeScript/SDK:** `npm run test:js`
+| Market friction | Legacy workaround | Orvion answer |
+| --- | --- | --- |
+| Agents struggle to pay for tiny tasks | Cards / invoices / human billing loops | HTTP-native paid calls, sub-cent pricing |
+| Automation fails at the messy edge of reality | Manual back-office interventions | Phone-native operators step in only when needed |
+| Buyers need proof, not black-box promises | Loose logs, vendor trust | Execution records, routing trace, verification metadata |
 
 ---
 
-## 🗺️ Roadmap
+## Paid Oracle services (demo pricing)
 
-<img src="public/brand/orvion_roadmap_4k.png" width="100%" alt="Orvion 4K Roadmap">
+| Service | Price | Latency | Outcome |
+| --- | --- | --- | --- |
+| GeoProof | $0.0015 | < 2s | Signed-style location attestation with confidence |
+| SnapOCR | $0.0040 | < 3s | Structured text extraction from receipts/labels |
+| HumanTap Verify | $0.0060 | < 20s | Human approve/reject decision with operator trace |
 
-- [x] **v2.1 Investor-Ready:** Monorepo, 3 frontends, x402 gateway.
-- [ ] **Multi-Agent Swarms:** Coordinated execution across nodes.
-- [ ] **Mobile Native SDK:** Direct sensor integration for iOS/Android.
-- [ ] **Global Liquidity:** Automated USDC settlement on Arc Mainnet.
+---
+
+## Architecture (simplified)
+
+```
+                     ┌──────────────┐
+ Operator phone ───► │ Mobile PWA   │ ── job queue, escalation
+                     └─────┬────────┘
+                           │
+                     ┌─────▼────────┐    402 challenge → retry with auth
+ Investor / buyer ─► │ Web landing  │◄── shows economics & roadmap
+                     └─────┬────────┘
+                           │
+                     ┌─────▼────────┐    pricing, catalog, stats
+                     │ API Gateway  │────────────────────────────┐
+                     │  (Express)   │                            │
+                     └─────┬────────┘                            ▼
+                           │                            ┌────────────────────┐
+                           ▼                            │ Sensor Orchestrator│
+                     ┌──────────────┐                   │     (FastAPI)      │
+                     │  Exec API    │ JWT, agents,      └────────────────────┘
+                     │ (FastAPI)    │ history, registry
+                     └──────────────┘
+```
+
+---
+
+## Roadmap
+
+1. **Now** — polished demo stack (this repo).
+2. **Next** — replace mock authorisation with real Circle / x402 settlement.
+3. **Then** — open marketplace: external agent registration, partner distribution, usage-based billing across operator networks.
 
 ---
 
 <p align="center">
-  <strong>Orvion © 2026</strong><br>
-  <em>The execution layer for autonomous agents. Powered by Arc Network.</em>
+  <strong>Orvion · Pocket Oracle © 2026</strong><br/>
+  <em>The phone as an agent marketplace.</em>
 </p>

@@ -1,13 +1,13 @@
 """
 Orvion — Security Layer
-JWT authentication. No more query-param API keys.
+JWT authentication, demo-friendly defaults.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
@@ -17,42 +17,31 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 bearer_scheme = HTTPBearer()
 
 
-# ── Token creation ───────────────────────────────────────────
+def _now() -> datetime:
+    return datetime.now(timezone.utc)
+
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
     payload = data.copy()
-    expire = datetime.utcnow() + (
-        expires_delta or timedelta(minutes=settings.JWT_EXPIRE_MINUTES)
-    )
-    payload.update({"exp": expire, "iat": datetime.utcnow()})
+    expire = _now() + (expires_delta or timedelta(minutes=settings.JWT_EXPIRE_MINUTES))
+    payload.update({"exp": expire, "iat": _now()})
     return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
 
 
 def verify_token(token: str) -> dict:
     try:
-        payload = jwt.decode(
-            token,
-            settings.SECRET_KEY,
-            algorithms=[settings.JWT_ALGORITHM],
-        )
-        return payload
-    except JWTError:
+        return jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
+    except JWTError as exc:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid or expired token",
             headers={"WWW-Authenticate": "Bearer"},
-        )
+        ) from exc
 
 
-# ── FastAPI dependency ───────────────────────────────────────
-
-def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
-) -> dict:
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)) -> dict:
     return verify_token(credentials.credentials)
 
-
-# ── Password utils ───────────────────────────────────────────
 
 def hash_password(password: str) -> str:
     return pwd_context.hash(password)

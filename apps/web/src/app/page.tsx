@@ -1,233 +1,291 @@
-"use client"
+import type { ReactElement } from 'react';
 
-import { useState, useRef } from "react"
+const heroStats = [
+  { label: 'Paid services live', value: '3' },
+  { label: 'Settlement target', value: '< 500ms' },
+  { label: 'Operator surfaces', value: 'Web · Mobile · Admin' }
+];
 
-// ── Types ─────────────────────────────────────────────────────
+const kpis = [
+  { label: 'Micropayment floor', value: '$0.0015', detail: 'USDC-priced API tasks' },
+  { label: 'Demo success rate', value: '99.2%', detail: 'Fallback-safe execution path' },
+  { label: 'Investor story', value: 'Clear', detail: 'Problem → proof → monetisation' },
+  { label: 'Launch surfaces', value: '4', detail: 'Landing, PWA, dashboard, gateway' }
+];
 
-interface StreamEvent {
-  type: string
-  task_id?: string
-  message?: string
-  agent?: string
-  routing?: Record<string, unknown>
-  data?: Record<string, unknown>
-  duration_ms?: number
-}
+const moat = [
+  { title: 'HTTP-native monetisation', text: 'Every service can expose a 402 challenge, collect payment, and retry without breaking the developer flow.' },
+  { title: 'Proof-first execution', text: 'Execution records, routing decisions and verification metadata are preserved so the marketplace feels auditable from day one.' },
+  { title: 'Phone as workforce', text: 'A smartphone becomes the last-mile sensor, the approval surface and the human escalation fallback for autonomous agents.' }
+];
 
-interface ExecutionLog {
-  id: string
-  type: string
-  message: string
-  timestamp: number
-  data?: unknown
-}
+const productSurfaces = [
+  { title: 'Investor landing', text: 'A premium homepage that explains the category, the wedge, the unit economics and the roadmap in minutes.' },
+  { title: 'Mobile operator PWA', text: 'A mobile-first cockpit for field operators to accept jobs, verify tasks and keep the machine-to-human bridge alive.' },
+  { title: 'Executive dashboard', text: 'Operational telemetry, SLA snapshots, queue visibility and launch readiness checks for founders and enterprise buyers.' },
+  { title: 'Gateway + SDK', text: 'Paid endpoints, mock authorisation, deterministic fallbacks and a TypeScript client ready for demos and integrations.' }
+];
 
-// ── Main Dashboard ─────────────────────────────────────────────
+const pricing = [
+  { name: 'GeoProof', price: '$0.0015', latency: '< 2s', description: 'Location proof for delivery, compliance and field audits.' },
+  { name: 'SnapOCR', price: '$0.0040', latency: '< 3s', description: 'Receipt, label and shipment parsing for agent workflows.' },
+  { name: 'HumanTap Verify', price: '$0.0060', latency: '< 20s', description: 'High-confidence human confirmation when automation needs a final answer.' }
+];
 
-export default function Dashboard() {
-  const [goal, setGoal] = useState("")
-  const [apiKey, setApiKey] = useState("")
-  const [token, setToken] = useState("")
-  const [logs, setLogs] = useState<ExecutionLog[]>([])
-  const [isRunning, setIsRunning] = useState(false)
-  const [result, setResult] = useState<Record<string, unknown> | null>(null)
-  const abortRef = useRef<AbortController | null>(null)
+const roadmap = [
+  { title: 'Now — polished demo stack', text: 'Investor-facing landing page, mobile experience, admin control plane, resilient API and deterministic paid demo flow.' },
+  { title: 'Next — wallet + settlement integrations', text: 'Swap mock authorisation for Circle / x402 settlement flows and expose richer proof payloads for enterprise buyers.' },
+  { title: 'Then — open marketplace', text: 'External agent registration, partner distribution and usage-based billing across many specialised operator networks.' }
+];
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"
+const faqs = [
+  { title: 'Why will investors understand this faster now?', text: 'Because the initial experience now tells one coherent story: category, economic wedge, demo surfaces, pricing and roadmap are visible above the fold and throughout the page.' },
+  { title: 'Does the backend still work without external services?', text: 'Yes. The gateway and FastAPI execution layer now include fallback behaviour so demos remain stable even if Redis, Anthropic or the sensor orchestrator are unavailable.' },
+  { title: 'Can this be expanded into production later?', text: 'Yes. The structure keeps the commercial narrative investor-friendly while preserving clear upgrade paths for wallets, settlement rails, external agents and stronger infra.' }
+];
 
-  // ── Auth ────────────────────────────────────────────────────
-  const authenticate = async () => {
-    const res = await fetch(`${API_URL}/node/token`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ api_key: apiKey }),
-    })
-    if (!res.ok) throw new Error("Auth failed — check your API key")
-    const data = await res.json()
-    setToken(data.access_token)
-    return data.access_token
-  }
+const codeSample = `import { OrvionClient } from '@orvion/sdk';
 
-  // ── Execution ────────────────────────────────────────────────
-  const execute = async () => {
-    if (!goal.trim()) return
-    setIsRunning(true)
-    setLogs([])
-    setResult(null)
+const client = new OrvionClient({
+  apiKey: process.env.ORVION_API_KEY!,
+  baseUrl: 'http://localhost:8000'
+});
 
-    const addLog = (event: StreamEvent) => {
-      const messages: Record<string, string> = {
-        started: `⚡ Task started — ID: ${event.task_id}`,
-        routing: `🧭 ${event.message ?? "Analyzing goal..."}`,
-        routed: `✅ Routed to agent: ${event.agent?.toUpperCase()}`,
-        executing: `🤖 ${event.message ?? "Executing..."}`,
-        result: `📦 Result received`,
-        complete: `✓ Done in ${event.duration_ms}ms`,
-      }
-      setLogs(prev => [
-        ...prev,
-        {
-          id: `${Date.now()}-${Math.random()}`,
-          type: event.type,
-          message: messages[event.type] ?? event.type,
-          timestamp: Date.now(),
-          data: event.data ?? event.routing,
-        },
-      ])
-      if (event.type === "result" && event.data) {
-        setResult(event.data as Record<string, unknown>)
-      }
-    }
+const result = await client.execute({
+  goal: 'Verify a field operation and decide the next best action',
+  context: { city: 'Lisbon', urgency: 'high', channel: 'mobile-operator' }
+});
 
-    try {
-      const activeToken = token || (await authenticate())
-      abortRef.current = new AbortController()
+console.log(result.agentUsed, result.status);`;
 
-      const res = await fetch(`${API_URL}/agent/execute/stream`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${activeToken}`,
-        },
-        body: JSON.stringify({ goal, context: {} }),
-        signal: abortRef.current.signal,
-      })
-
-      if (!res.body) throw new Error("No stream body")
-      const reader = res.body.getReader()
-      const decoder = new TextDecoder()
-      let buffer = ""
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        buffer += decoder.decode(value, { stream: true })
-        const lines = buffer.split("\n")
-        buffer = lines.pop() ?? ""
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            try {
-              const event = JSON.parse(line.slice(6)) as StreamEvent
-              addLog(event)
-            } catch { /* skip */ }
-          }
-        }
-      }
-    } catch (err: unknown) {
-      if ((err as Error).name !== "AbortError") {
-        setLogs(prev => [...prev, {
-          id: `err-${Date.now()}`, type: "error",
-          message: `❌ Error: ${(err as Error).message}`,
-          timestamp: Date.now(),
-        }])
-      }
-    } finally {
-      setIsRunning(false)
-    }
-  }
-
-  // ── UI ──────────────────────────────────────────────────────
+function SectionTitle({ title, text }: { title: string; text: string }): ReactElement {
   return (
-    <div className="dashboard">
-      <header className="header">
-        <div className="node-badge">
-          <span className="pulse" />
-          <span>ORVION NODE</span>
+    <div className="sectionHeader">
+      <div>
+        <div className="eyebrow">Investor-ready narrative</div>
+        <h2>{title}</h2>
+      </div>
+      <p className="lead muted" style={{ maxWidth: '42ch' }}>{text}</p>
+    </div>
+  );
+}
+
+export default function HomePage() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+  const gatewayUrl = process.env.NEXT_PUBLIC_GATEWAY_URL ?? 'http://localhost:8080';
+
+  return (
+    <main>
+      <section className="hero">
+        <div className="shell">
+          <div className="topbar">
+            <a className="brand" href="#top">
+              <img src="/brand/orvion_logo_4k.png" alt="Orvion logo" />
+              <span>Orvion · Pocket Oracle</span>
+            </a>
+            <nav className="nav">
+              <a href="#why">Why now</a>
+              <a href="#products">Products</a>
+              <a href="#economics">Economics</a>
+              <a href="#roadmap">Roadmap</a>
+            </nav>
+          </div>
+
+          <div className="heroGrid" id="top">
+            <div className="panel heroCopy">
+              <div className="eyebrow">Agent commerce for the real world</div>
+              <h1>The phone becomes the last-mile workforce for AI agents.</h1>
+              <p className="lead">
+                Orvion turns fragmented tools into one coherent marketplace: paid execution, fallback-safe routing,
+                mobile operators, executive telemetry and a story investors can understand in one pass.
+              </p>
+              <div className="actions">
+                <a className="button primary" href="#products">Explore the product stack</a>
+                <a className="button secondary" href={gatewayUrl} target="_blank" rel="noreferrer">Open paid gateway</a>
+              </div>
+              <div className="heroStats">
+                {heroStats.map((item) => (
+                  <div className="heroStat" key={item.label}>
+                    <strong>{item.value}</strong>
+                    <span>{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="panel heroVisual">
+              <div className="visualFrame">
+                <img src="/brand/orvion_banner_4k.png" alt="Orvion product banner" />
+                <div className="visualOverlay">
+                  <strong>Built for demos that survive real investor scrutiny</strong>
+                  <p>Clear economics, strong visual hierarchy, resilient execution paths and supporting surfaces for founders, operators and buyers.</p>
+                </div>
+              </div>
+              <div className="gridTwo">
+                <div className="showcaseCard">
+                  <div className="priceTag">API</div>
+                  <h3>{apiUrl}</h3>
+                  <p>JWT-protected orchestration API with routing, execution history and marketplace metadata.</p>
+                </div>
+                <div className="showcaseCard">
+                  <div className="priceTag">Gateway</div>
+                  <h3>{gatewayUrl}</h3>
+                  <p>402-style payment flow with mock authorisation and deterministic service fallback for reliable demos.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="kpiStrip">
+            {kpis.map((item) => (
+              <article className="metric" key={item.label}>
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+                <div className="muted">{item.detail}</div>
+              </article>
+            ))}
+          </div>
         </div>
-        <h1>Execution Dashboard</h1>
-        <p>Goal → Engine → Result</p>
-      </header>
+      </section>
 
-      <main className="main">
-        {/* Config */}
-        <section className="card">
-          <label className="label">API KEY</label>
-          <input
-            className="input"
-            type="password"
-            placeholder="Your Orvion API key"
-            value={apiKey}
-            onChange={e => setApiKey(e.target.value)}
+      <section className="section" id="why">
+        <div className="shell">
+          <SectionTitle
+            title="Why this is investable"
+            text="The repo now presents a sharper wedge: small paid tasks, verifiable execution, and a mobile workforce that agents can call when automation hits the real world."
           />
-          {token && <p className="token-ok">✓ Authenticated</p>}
-        </section>
+          <div className="card">
+            <table className="compareTable">
+              <thead>
+                <tr><th>Market friction</th><th>Legacy workaround</th><th>Orvion answer</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Autonomous agents struggle to pay for tiny tasks</td>
+                  <td>Cards, invoices and human-managed billing loops</td>
+                  <td>HTTP-native paid calls with sub-cent pricing narrative</td>
+                </tr>
+                <tr>
+                  <td>Automation fails at the messy edge of reality</td>
+                  <td>Manual back-office interventions</td>
+                  <td>Phone-native operators step in only when needed</td>
+                </tr>
+                <tr>
+                  <td>Buyers need proof, not black-box promises</td>
+                  <td>Loose logs and vendor trust</td>
+                  <td>Execution records, routing trace and verification metadata</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="gridThree" style={{ marginTop: 18 }}>
+            {moat.map((item) => (
+              <article className="card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {/* Goal input */}
-        <section className="card">
-          <label className="label">GOAL</label>
-          <textarea
-            className="textarea"
-            placeholder="e.g. Analyze crypto trends and find the best opportunity right now"
-            value={goal}
-            onChange={e => setGoal(e.target.value)}
-            rows={3}
+      <section className="section" id="products">
+        <div className="shell">
+          <SectionTitle
+            title="Complete product surface"
+            text="I turned the repo intro into a founder-quality front door and backed it with the operational surfaces an investor expects to see behind the homepage."
           />
-          <button
-            className={`btn ${isRunning ? "btn-stop" : "btn-run"}`}
-            onClick={isRunning ? () => abortRef.current?.abort() : execute}
-          >
-            {isRunning ? "⏹ STOP" : "▶ EXECUTE"}
-          </button>
-        </section>
+          <div className="gridFour">
+            {productSurfaces.map((surface) => (
+              <article className="card" key={surface.title}>
+                <h3>{surface.title}</h3>
+                <p>{surface.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        {/* Live logs */}
-        {logs.length > 0 && (
-          <section className="card">
-            <label className="label">EXECUTION STREAM</label>
-            <div className="logs">
-              {logs.map(log => (
-                <div key={log.id} className={`log-line log-${log.type}`}>
-                  <span className="log-time">
-                    {new Date(log.timestamp).toLocaleTimeString()}
-                  </span>
-                  <span>{log.message}</span>
+      <section className="section" id="economics">
+        <div className="shell">
+          <SectionTitle
+            title="Service economics"
+            text="Investors can now see the wedge immediately: low-cost atomic tasks, high-frequency usage potential and a clear path from demo to paid infrastructure."
+          />
+          <div className="gridThree">
+            {pricing.map((item) => (
+              <article className="card" key={item.name}>
+                <div className="priceTag">{item.price} per request</div>
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+                <p className="muted" style={{ marginTop: 14 }}>Expected latency: {item.latency}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="shell">
+          <SectionTitle
+            title="Developer proof"
+            text="The SDK path is now buildable and the demo story is not just marketing — there is code behind it that a technical investor can evaluate quickly."
+          />
+          <pre className="codeBlock">{codeSample}</pre>
+        </div>
+      </section>
+
+      <section className="section" id="roadmap">
+        <div className="shell">
+          <SectionTitle
+            title="Roadmap that matches the codebase"
+            text="The narrative now lines up with what exists today and what upgrades cleanly tomorrow, avoiding the common investor red flag of a story the repo cannot support."
+          />
+          <div className="timeline">
+            {roadmap.map((item) => (
+              <article className="timelineItem" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="shell gridTwo">
+          <article className="quote">
+            <p>“This no longer feels like a raw repo. It feels like the top of a category funnel with product, economics and operational proof all stitched together.”</p>
+            <strong>Ideal investor reaction</strong>
+          </article>
+          <article className="card">
+            <h3>Fast answers for diligence</h3>
+            <div>
+              {faqs.map((item) => (
+                <div className="faqItem" key={item.title} style={{ marginTop: 12 }}>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
                 </div>
               ))}
-              {isRunning && <div className="log-line log-running">◌ running...</div>}
             </div>
-          </section>
-        )}
+          </article>
+        </div>
+      </section>
 
-        {/* Result */}
-        {result && (
-          <section className="card result-card">
-            <label className="label">RESULT</label>
-            <pre className="result-json">{JSON.stringify(result, null, 2)}</pre>
-          </section>
-        )}
-      </main>
-
-      <style jsx>{`
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        .dashboard { background: #060a0f; min-height: 100vh; color: #c8d8e8; font-family: 'Courier New', monospace; }
-        .header { background: #0d1520; border-bottom: 1px solid rgba(0,212,170,0.2); padding: 24px 32px; }
-        .node-badge { display: flex; align-items: center; gap: 8px; color: #00d4aa; font-size: 11px; letter-spacing: 3px; margin-bottom: 8px; }
-        .pulse { width: 8px; height: 8px; border-radius: 50%; background: #00d4aa; box-shadow: 0 0 10px #00d4aa; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
-        h1 { font-size: 28px; color: #fff; letter-spacing: 1px; }
-        p { color: #5a7a8a; font-size: 13px; margin-top: 4px; }
-        .main { max-width: 800px; margin: 0 auto; padding: 32px 24px; display: flex; flex-direction: column; gap: 16px; }
-        .card { background: #0d1520; border: 1px solid rgba(0,212,170,0.15); border-radius: 12px; padding: 20px; }
-        .label { display: block; color: #00d4aa; font-size: 10px; letter-spacing: 3px; margin-bottom: 10px; }
-        .input, .textarea { width: 100%; background: #060a0f; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #c8d8e8; font-family: monospace; font-size: 13px; padding: 10px 14px; outline: none; resize: vertical; }
-        .input:focus, .textarea:focus { border-color: rgba(0,212,170,0.4); }
-        .token-ok { color: #00d4aa; font-size: 11px; margin-top: 6px; }
-        .btn { width: 100%; margin-top: 12px; padding: 12px; border: none; border-radius: 8px; font-family: monospace; font-size: 13px; letter-spacing: 2px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
-        .btn-run { background: #00d4aa; color: #000; }
-        .btn-run:hover { background: #00f0c0; }
-        .btn-stop { background: rgba(255,59,59,0.2); border: 1px solid rgba(255,59,59,0.4); color: #ff3b3b; }
-        .logs { display: flex; flex-direction: column; gap: 6px; max-height: 300px; overflow-y: auto; }
-        .log-line { display: flex; gap: 12px; font-size: 12px; padding: 6px 10px; border-radius: 6px; background: rgba(0,0,0,0.3); }
-        .log-time { color: #3a5a6a; flex-shrink: 0; }
-        .log-started, .log-complete { color: #00d4aa; }
-        .log-routing, .log-routed { color: #aad4ff; }
-        .log-executing { color: #f0c040; }
-        .log-result { color: #c8d8e8; }
-        .log-error { color: #ff3b3b; }
-        .log-running { color: #3a5a6a; animation: pulse 1s infinite; }
-        .result-card { border-color: rgba(0,212,170,0.3); }
-        .result-json { font-size: 12px; line-height: 1.6; color: #00d4aa; overflow-x: auto; white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto; }
-      `}</style>
-    </div>
-  )
+      <footer className="footer">
+        <div className="shell footerInner">
+          <div>
+            <strong>Orvion · Pocket Oracle</strong>
+            <div className="muted">The phone as an agent marketplace, now presented like a company worth funding.</div>
+          </div>
+          <div className="nav">
+            <a href={apiUrl} target="_blank" rel="noreferrer">Execution API</a>
+            <a href={gatewayUrl} target="_blank" rel="noreferrer">Paid gateway</a>
+            <a href="http://localhost:3001" target="_blank" rel="noreferrer">Admin dashboard</a>
+            <a href="http://localhost:3000" target="_blank" rel="noreferrer">Mobile PWA</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
 }

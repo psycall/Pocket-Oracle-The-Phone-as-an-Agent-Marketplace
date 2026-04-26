@@ -1,156 +1,98 @@
-from fastapi import FastAPI, HTTPException, Depends
-from pydantic import BaseModel
-import requests
+"""
+Pocket Oracle — Sensor Orchestrator
+Tiny FastAPI service called by the API Gateway to fulfil paid Oracle
+requests. Deterministic responses keep demos predictable.
+"""
+
+import hashlib
 import time
-import uuid
+from typing import Any
 
-app = FastAPI(title="Orvion GOD MODE 🚀")
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
 
-# =========================
-# CONFIG
-# =========================
+app = FastAPI(
+    title="Pocket Oracle — Sensor Orchestrator",
+    version="1.0.0",
+    description="Coordinates phone-side sensors for paid Oracle services.",
+)
 
-API_KEY = "oracle-secret-key"  # troque depois
-
-# =========================
-# SECURITY
-# =========================
-
-def verify_api_key(key: str):
-    if key != API_KEY:
-        raise HTTPException(status_code=403, detail="Invalid API Key")
-
-# =========================
-# MODELS
-# =========================
-
-class Task(BaseModel):
-    type: str
-    data: dict = {}
-
-# =========================
-# LOGGER
-# =========================
-
-def log(message):
-    print(f"[{time.strftime('%H:%M:%S')}] {message}")
-
-# =========================
-# BASE AGENT
-# =========================
-
-class BaseAgent:
-    def run(self, data: dict):
-        raise NotImplementedError()
-
-# =========================
-# AGENTS
-# =========================
-
-class CryptoAgent(BaseAgent):
-    def run(self, data):
-        log("Fetching crypto trends...")
-        url = "https://api.coingecko.com/api/v3/search/trending"
-        res = requests.get(url).json()
-        coins = [coin["item"]["name"] for coin in res["coins"][:5]]
-        return {"trending": coins}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
-class SummarizerAgent(BaseAgent):
-    def run(self, data):
-        text = data.get("text", "")
-        summary = text[:120] + "..." if len(text) > 120 else text
-        return {"summary": summary}
+class GeoProofRequest(BaseModel):
+    latitude: float = Field(..., ge=-90, le=90)
+    longitude: float = Field(..., ge=-180, le=180)
+    accuracy: float | None = Field(default=18.0, ge=0, le=10_000)
 
 
-class TelegramAgent(BaseAgent):
-    def run(self, data):
-        token = data.get("token")
-        chat_id = data.get("chat_id")
-        message = data.get("message")
-
-        if not token or not chat_id:
-            return {"error": "Missing Telegram credentials"}
-
-        url = f"https://api.telegram.org/bot{token}/sendMessage"
-
-        try:
-            requests.post(url, json={"chat_id": chat_id, "text": message})
-            return {"status": "sent"}
-        except:
-            return {"error": "telegram_failed"}
+class SnapOcrRequest(BaseModel):
+    imageUrl: str
 
 
-# =========================
-# AGENT REGISTRY
-# =========================
+class HumanTapRequest(BaseModel):
+    prompt: str
+    answer: str
 
-AGENTS = {
-    "crypto": CryptoAgent(),
-    "summarize": SummarizerAgent(),
-    "telegram": TelegramAgent()
-}
 
-# =========================
-# ORCHESTRATOR
-# =========================
+def _exec_id(prefix: str, payload: dict[str, Any]) -> str:
+    digest = hashlib.sha256(repr(sorted(payload.items())).encode("utf-8")).hexdigest()
+    return f"{prefix}_{digest[:12]}"
 
-class Orchestrator:
 
-    def execute(self, task: Task):
-        log(f"Executing task: {task.type}")
+@app.get("/health")
+def health() -> dict[str, Any]:
+    return {"status": "ok", "service": "sensor-orchestrator", "ts": time.time()}
 
-        if task.type == "crypto_pipeline":
 
-            crypto = AGENTS["crypto"].run({})
-            text = ", ".join(crypto["trending"])
-
-            summary = AGENTS["summarize"].run({"text": text})
-
-            telegram = AGENTS["telegram"].run({
-                "token": task.data.get("token"),
-                "chat_id": task.data.get("chat_id"),
-                "message": summary["summary"]
-            })
-
-            return {
-                "id": str(uuid.uuid4()),
-                "flow": "crypto_pipeline",
-                "steps": {
-                    "crypto": crypto,
-                    "summary": summary,
-                    "telegram": telegram
-                }
-            }
-
-        if task.type in AGENTS:
-            result = AGENTS[task.type].run(task.data)
-            return {
-                "id": str(uuid.uuid4()),
-                "result": result
-            }
-
-        raise HTTPException(status_code=400, detail="Unknown task")
-
-orchestrator = Orchestrator()
-
-# =========================
-# ROUTES
-# =========================
-
-@app.get("/")
-def root():
+@app.post("/geoproof")
+def geoproof(req: GeoProofRequest) -> dict[str, Any]:
+    payload = req.model_dump()
+    accuracy = float(payload.get("accuracy") or 18.0)
+    confidence = max(0.82, min(0.99, 1 - accuracy / 200))
     return {
-        "name": "Orvion",
-        "status": "running",
-        "mode": "GOD"
+        "execution_id": _exec_id("geoproof", payload),
+        "verified": True,
+        "latitude": req.latitude,
+        "longitude": req.longitude,
+        "accuracy": accuracy,
+        "confidence": round(confidence, 2),
+        "region_hint": "northern-hemisphere" if req.latitude >= 0 else "southern-hemisphere",
+        "issued_at": time.time(),
     }
 
-@app.get("/agents")
-def list_agents():
-    return {"agents": list(AGENTS.keys()) + ["crypto_pipeline"]}
 
-@app.post("/execute")
-def execute(task: Task, api_key: str):
-    verify_api_key(api_key)
-    return orchestrator.execute(task)
+@app.post("/snap-ocr")
+def snap_ocr(req: SnapOcrRequest) -> dict[str, Any]:
+    token = hashlib.md5(req.imageUrl.encode("utf-8")).hexdigest()[:6].upper()
+    return {
+        "execution_id": _exec_id("snapocr", req.model_dump()),
+        "extracted_text": f"DEMO-RECEIPT-{token}",
+        "fields": {
+            "merchant": "Pocket Oracle Demo Co.",
+            "total": "12.34 USDC",
+            "shipment_id": f"SHIP-{token}",
+        },
+        "confidence": 0.94,
+        "source": req.imageUrl,
+    }
+
+
+@app.post("/human-tap-verify")
+def human_tap_verify(req: HumanTapRequest) -> dict[str, Any]:
+    answer = req.answer.strip().lower()
+    approved = answer in {"yes", "y", "approved", "approve", "ok", "true"}
+    return {
+        "execution_id": _exec_id("humantap", req.model_dump()),
+        "verdict": "approved" if approved else "needs-review",
+        "prompt": req.prompt,
+        "answer": req.answer,
+        "reviewer": "operator-demo-01",
+        "decided_at": time.time(),
+    }

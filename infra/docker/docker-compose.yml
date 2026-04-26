@@ -1,71 +1,33 @@
-# Orvion — Docker Compose
-# Full local development stack: API + Redis + Web Dashboard
-
 version: "3.9"
 
 services:
-
-  # ── Orvion API ─────────────────────────────────────────────
-  api:
-    build:
-      context: ../../apps/api
-      dockerfile: Dockerfile
-    container_name: orvion-api
-    ports:
-      - "8000:8000"
-    environment:
-      - NODE_ID=orvion-node-001
-      - ENVIRONMENT=development
-      - REDIS_URL=redis://redis:6379
-      - DATABASE_URL=sqlite:///./orvion.db
-    env_file:
-      - ../../.env          # SECRET_KEY and ANTHROPIC_API_KEY live here
-    depends_on:
-      redis:
-        condition: service_healthy
-    volumes:
-      - ../../apps/api:/app  # hot-reload in dev
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # ── Redis ─────────────────────────────────────────────────
   redis:
     image: redis:7-alpine
     container_name: orvion-redis
     ports:
       - "6379:6379"
-    volumes:
-      - redis_data:/data
     restart: unless-stopped
-    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
-  # ── Web Dashboard ─────────────────────────────────────────
-  web:
-    build:
-      context: ../../apps/web
-      dockerfile: Dockerfile
-    container_name: orvion-web
-    ports:
-      - "3000:3000"
+  postgres:
+    image: postgres:16-alpine
+    container_name: orvion-postgres
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8000
-    depends_on:
-      - api
+      POSTGRES_USER: orvion
+      POSTGRES_PASSWORD: orvion
+      POSTGRES_DB: orvion
+    ports:
+      - "5432:5432"
+    volumes:
+      - orvion-pg:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  sensor-orchestrator:
+    build:
+      context: ../../services/sensor-orchestrator
+    container_name: orvion-sensor-orchestrator
+    ports:
+      - "8100:8100"
     restart: unless-stopped
 
 volumes:
-  redis_data:
-    driver: local
-
-networks:
-  default:
-    name: orvion-network
+  orvion-pg:

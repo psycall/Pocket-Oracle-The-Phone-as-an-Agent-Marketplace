@@ -2,7 +2,7 @@
   "name": "orvion",
   "version": "2.1.0",
   "private": true,
-  "description": "Pocket Oracle / Orvion — investor-ready agent commerce layer.",
+  "description": "Pocket Oracle / Orvion — investor-ready agent commerce layer (web, mobile, dashboard, gateway, SDK).",
   "workspaces": [
     "apps/web",
     "apps/mobile-pwa",
@@ -25,6 +25,10 @@
     "test:py": "cd apps/api && pytest -q",
     "test:js": "npm run test --workspace @orvion/sdk --if-present"
   },
-  "engines": { "node": ">=20.0.0" },
-  "devDependencies": { "typescript": "^5.5.4" }
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
 }
