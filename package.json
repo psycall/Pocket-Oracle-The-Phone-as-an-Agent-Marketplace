@@ -1,8 +1,8 @@
 {
-  "name": "pocket-oracle",
+  "name": "orvion",
   "private": true,
   "version": "0.1.0",
-  "description": "Pocket Oracle monorepo starter for agentic micropayments and real-world intelligence.",
+  "description": "Orvion — Agent Execution System. The definitive execution layer for autonomous agents.",
   "workspaces": [
     "apps/*",
     "packages/*"

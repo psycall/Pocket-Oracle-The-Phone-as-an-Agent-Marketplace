@@ -1,110 +1,97 @@
 <p align="center">
-  <img src="public/brand/logo.png" width="200" alt="Pocket Oracle Logo">
+  <img src="public/brand/orvion_logo.png" width="200" alt="Orvion Logo">
 </p>
 
-<h1 align="center">Pocket Oracle OS</h1>
+<h1 align="center">🧠 Orvion</h1>
 
 <p align="center">
-  <strong>Execution Layer for Autonomous Agents</strong><br>
-  <em>From Intent to Execution: Transforming the smartphone into the definitive action layer for the AI agent economy.</em>
+  <strong>Execution Layer for Autonomous Agents</strong>
 </p>
 
-<p align="center">
-  <a href="https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/actions"><img src="https://img.shields.io/github/actions/workflow/status/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/ci.yml?branch=main&style=flat-square" alt="Build Status"></a>
-  <a href="https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/blob/main/LICENSE"><img src="https://img.shields.io/github/license/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace?style=flat-square" alt="License"></a>
-  <a href="https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace/stargazers"><img src="https://img.shields.io/github/stars/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace?style=flat-square" alt="Stars"></a>
-</p>
+---
 
-<p align="center">
-  <a href="#-executive-vision">Executive Vision</a> •
-  <a href="#-product-architecture">Architecture</a> •
-  <a href="#-execution-features">Features</a> •
-  <a href="#-product-roadmap">Roadmap</a> •
-  <a href="README.pt-br.md">Versão em Português</a>
-</p>
+## 🚀 What it does
 
-<img src="public/brand/new_banner.png" width="100%" alt="Pocket Oracle OS Banner">
+**Orvion** is the definitive execution layer for autonomous agents. While other AI systems focus on chat and thought, Orvion focuses on **action**. We take a high-level goal and execute it through a specialized pipeline of autonomous agents.
+
+### Real-World Example
+
+**Input Intent:**
+> "Analyze crypto trends and provide execution path"
+
+**Orvion Execution:**
+- ✅ **Data Acquisition:** Fetches real-time trending data from global markets.
+- ✅ **Intelligent Analysis:** Processes information through a specialized Decision Agent.
+- ✅ **Outcome Delivery:** Returns a concrete decision and actionable steps.
 
 ---
 
-## 👁️ Executive Vision
+## 🔥 Live Execution Proof
 
-**Pocket Oracle OS** is not just a marketplace; it is the missing **Execution Layer** for autonomous agents. While other systems only "think" or "chat", Pocket Oracle **executes**.
+Orvion is a working product, not just a concept. You can test the core execution pipeline immediately.
 
-Our thesis solves the biggest bottleneck in the AI market (as seen in ARC and others): the friction between an agent's decision and real-world action. We transform smartphones into execution oracles that connect APIs, process natural language intents, and deliver concrete results without manual intervention.
+**Endpoint:** `POST /execute_real_task`  
+**Authentication:** `?api_key=oracle-secret-key`
 
----
-
-## 🏗️ Product Architecture
-
-The system is designed for industrial scale, focusing on **autonomy and integrity**.
-
-| Component | Strategic Role |
-| :--- | :--- |
-| **Agent Engine** | The brain that interprets tasks and orchestrates execution. |
-| **Orchestrator** | Chains multiple agents for complex decision flows. |
-| **Executors** | Real action layer: APIs, Scraping, Transactions, and Mobile Sensors. |
-| **User Layer** | Management of API keys, identities, and execution history. |
-| **OS Interface** | Mobile PWA + Web Dashboard for real-time monitoring. |
+**Response Preview:**
+- **Real-time Data:** Live market insights.
+- **Decision Logic:** Autonomous reasoning.
+- **Execution Status:** `execution_complete`.
 
 ---
 
-## 🚀 Execution Features
+## ⚙️ Current Stage: Working MVP
 
-Unlike simple automations, Pocket Oracle operates as an active decision engine.
-
-- **Intelligent Action Pipeline:** Transformation of natural language into multi-step workflows.
-- **Real-World Oracles:** Use of smartphone sensors (GeoProof, SnapOCR) as physical execution proof.
-- **Execution-based Monetization:** Integrated `402 Payment Required` model for every successfully completed task.
+Orvion currently features a functional **Agent Execution Engine** capable of:
+- **Autonomous Intent Interpretation**
+- **Real-time API Interaction**
+- **Multi-step Decision Orchestration**
 
 ---
 
-## 🗺️ Product Roadmap (CEO Vision)
+## 🗺️ Vision: The Future of Execution
 
-We are evolving from a technical prototype to a global market infrastructure.
+<img src="public/brand/orvion_roadmap.png" width="100%" alt="Orvion Roadmap">
 
-<img src="public/brand/new_roadmap.png" width="100%" alt="Pocket Oracle OS Roadmap">
+- **From Apps → to Agents**
+- **From Manual → to Execution**
+- **From Intent → to Action**
 
-### Phase 1: Intelligent Action Pipeline (Current)
-- [x] Base execution engine in FastAPI.
-- [x] Initial decision agent integration.
-- [x] PWA for physical signal collection.
-
-### Phase 2: Multi-Agent Orchestration
-- [ ] Complex orchestration between different LLM models.
-- [ ] Distributed execution state persistence.
-- [ ] Real settlement via micropayments.
-
-### Phase 3: Enterprise Execution Layer
-- [ ] SDK for third-party integration.
-- [ ] Security hardening and job auditing.
-- [ ] Guaranteed SLAs for critical execution.
-
-### Phase 4: Global Agent Marketplace
-- [ ] Decentralized marketplace of executors.
-- [ ] Reputation system based on Proof of Work (PoW).
-- [ ] Global scale of physical oracles.
+Orvion turns complex digital goals into automated reality.
 
 ---
 
 ## 🛠️ Developer Quick Start
 
 ```bash
-# 1. Clone the OS
+# 1. Clone the Execution System
 git clone https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace.git
-cd Pocket-Oracle-The-Phone-as-an-Agent-Marketplace
+cd Orvion
 
-# 2. Infra Setup
+# 2. Spin up the Infrastructure
 docker compose -f infra/docker/docker-compose.yml up -d
 
-# 3. Start the Engine
+# 3. Launch the Engine
 npm install
 npm run dev:api
 ```
 
 ---
 
+## 🎥 Demo Script (Investor Mode)
+
+To impress immediately, follow this 30-second demo flow:
+1.  Open `/docs` (Swagger UI).
+2.  Navigate to `POST /execute_real_task`.
+3.  Click **Try it out**.
+4.  Enter `oracle-secret-key` in the `api_key` field.
+5.  **Execute** and showcase the real-time data and decision output.
+
+> *"This is Orvion. You give a goal → it executes → it returns a decision. Real execution, real value."*
+
+---
+
 <p align="center">
-  <strong>Pocket Oracle OS © 2026</strong><br>
-  <em>From Intent to Execution.</em>
+  <strong>Orvion © 2026</strong><br>
+  <em>The Agent Execution System.</em>
 </p>

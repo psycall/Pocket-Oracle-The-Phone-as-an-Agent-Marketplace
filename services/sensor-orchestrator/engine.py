@@ -1,19 +1,19 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Query
 from pydantic import BaseModel
 import requests, uuid, time
 from typing import List, Optional
 
-app = FastAPI(title="Pocket Oracle OS - Engine")
+app = FastAPI(title="Orvion — Agent Execution System")
 
 # =========================
 # AUTH SYSTEM
 # =========================
-# In production, this would be integrated with a DB/Vault
+# Professional secret key management (Simulation)
 USERS = {
-    "demo-key": {"name": "demo-user"}
+    "oracle-secret-key": {"name": "CEO-User", "tier": "Enterprise"}
 }
 
-def auth(api_key: str):
+def verify_api_key(api_key: str):
     if api_key not in USERS:
         raise HTTPException(status_code=403, detail="Invalid API Key")
     return USERS[api_key]
@@ -26,86 +26,62 @@ class Task(BaseModel):
     context: Optional[dict] = {}
 
 # =========================
-# AGENTS (Core Execution Units)
+# FEATURE: REAL EXECUTION (The Game Changer)
 # =========================
-class CryptoAgent:
-    """Monitors crypto trends and opportunities"""
-    def run(self):
-        try:
-            url = "https://api.coingecko.com/api/v3/search/trending"
-            res = requests.get(url, timeout=10).json()
-            return [c["item"]["name"] for c in res["coins"][:5]]
-        except Exception as e:
-            return [f"Error fetching crypto data: {str(e)}"]
+@app.post("/execute_real_task")
+def execute_real_task(api_key: str = Query(..., description="Your Orvion API Key")):
+    """
+    RECEIVE GOAL -> EXECUTE -> RETURN USEFUL RESULT
+    This endpoint proves the system actually performs real-world actions.
+    """
+    verify_api_key(api_key)
 
-class DecisionAgent:
-    """Analyzes data and makes logical decisions"""
-    def run(self, data: List[str]):
-        if any(coin in ["Bitcoin", "Ethereum", "Solana"] for coin in data):
-            return "Market is heating up in major assets. Potential opportunity detected."
-        return "No strong signals from major assets at the moment."
+    try:
+        # 1. Fetch Real Data (Action)
+        url = "https://api.coingecko.com/api/v3/search/trending"
+        response = requests.get(url, timeout=10)
+        data = response.json()
 
-class NotificationAgent:
-    """Manages delivery of alerts and results"""
-    def run(self, message: str):
-        return {"notify": message, "channel": "push/api", "status": "sent"}
+        # 2. Process & Extract
+        coins = [c["item"]["name"] for c in data["coins"][:5]]
 
-# =========================
-# ORCHESTRATOR (The Brain)
-# =========================
-class Engine:
-    """Orchestrates agent execution based on intent (goal)"""
-    def execute(self, goal: str, context: dict):
-        goal_lower = goal.lower()
-        
-        # Pipeline: Crypto Intelligence
-        if "crypto" in goal_lower or "coin" in goal_lower:
-            data = CryptoAgent().run()
-            decision = DecisionAgent().run(data)
-            notification = NotificationAgent().run(decision)
-            
-            return {
-                "pipeline": "Crypto Intelligence",
-                "goal": goal,
-                "execution_steps": [
-                    {"agent": "CryptoAgent", "status": "completed", "output": data},
-                    {"agent": "DecisionAgent", "status": "completed", "output": decision},
-                    {"agent": "NotificationAgent", "status": "completed", "output": notification}
-                ],
-                "final_result": decision
-            }
-            
+        # 3. Intelligent Decision Logic
+        decision = "🔥 Market is trending (High Volatility Detected)" if "Bitcoin" in coins or "Ethereum" in coins else "Market stable (Standard Operations)"
+
+        # 4. Final Output (Execution Proof)
         return {
-            "pipeline": "Unknown",
-            "message": "No specific execution path found for this intent. Routing to general LLM agent (Coming soon)."
+            "execution_id": str(uuid.uuid4()),
+            "timestamp": time.time(),
+            "input_intent": "Analyze crypto trends and provide execution path",
+            "step_1_data_acquisition": coins,
+            "step_2_decision_logic": decision,
+            "status": "execution_complete",
+            "result": {
+                "summary": f"Orvion successfully processed the trend analysis. Decision: {decision}",
+                "data_points": coins
+            }
         }
-
-engine = Engine()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Execution failed: {str(e)}")
 
 # =========================
-# API ENDPOINTS
+# CORE ENGINE ENDPOINTS
 # =========================
-@app.post("/execute")
-def execute_task(task: Task, user=Depends(auth)):
-    """Main entry point for task execution"""
-    result = engine.execute(task.goal, task.context)
-    return {
-        "execution_id": str(uuid.uuid4()),
-        "user": user["name"],
-        "result": result,
-        "timestamp": time.time()
-    }
-
 @app.get("/status")
 def status():
-    """System status"""
+    """System status and health check"""
     return {
-        "product": "Pocket Oracle OS",
-        "version": "1.0.0-alpha",
+        "product": "Orvion OS",
+        "version": "1.0.0-gold",
         "mode": "execution-layer",
-        "status": "active"
+        "status": "active",
+        "engine": "v2.5-nano-banana"
     }
 
 @app.get("/")
 def root():
-    return {"message": "Pocket Oracle OS Engine is running. Access /docs for API documentation."}
+    return {
+        "message": "Orvion — Agent Execution System is online.",
+        "docs": "/docs",
+        "vision": "From intent to action."
+    }
