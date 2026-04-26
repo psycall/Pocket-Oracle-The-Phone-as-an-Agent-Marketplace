@@ -1,23 +1,22 @@
 {
   "name": "orvion",
+  "version": "2.0.0",
   "private": true,
-  "version": "0.1.0",
-  "description": "Orvion — Agent Execution System. The definitive execution layer for autonomous agents.",
+  "description": "Execution Layer for Autonomous Agents",
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/web",
+    "packages/sdk"
   ],
   "scripts": {
-    "dev:api": "npm run dev -w @orvion/api-gateway",
-    "dev:mobile": "npm run dev -w @orvion/mobile-pwa",
-    "dev:admin": "npm run dev -w @orvion/admin-dashboard",
-    "build:api": "npm run build -w @orvion/api-gateway",
-    "build:mobile": "npm run build -w @orvion/mobile-pwa",
-    "build:admin": "npm run build -w @orvion/admin-dashboard",
+    "dev": "docker compose -f infra/docker/docker-compose.yml up",
+    "dev:api": "cd apps/api && uvicorn main:app --reload --port 8000",
+    "dev:web": "cd apps/web && next dev",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present"
+    "setup": "cp .env.example .env && echo '✅ .env created — fill in your API keys'"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=20.0.0"
   }
 }

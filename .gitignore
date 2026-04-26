@@ -1,18 +1,44 @@
+# ── SECRETS — NEVER COMMIT ───────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ── Python ────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+venv/
+.venv/
+env/
+*.db
+*.sqlite3
+
+# ── Node / TypeScript ─────────────────────────────────────────
 node_modules/
 .next/
-dist/
-coverage/
 .turbo/
-.venv/
-__pycache__/
-*.pyc
+dist/
+*.tsbuildinfo
+
+# ── Docker ────────────────────────────────────────────────────
+*.log
+docker-compose.override.yml
+
+# ── Editor ────────────────────────────────────────────────────
 .DS_Store
-.env
-.env.*
-!.env.example
-npm-debug.log*
-pnpm-debug.log*
-yarn-error.log*
-*.local
 .idea/
 .vscode/
+*.swp
+*.swo
+Thumbs.db
+
+# ── Misc ──────────────────────────────────────────────────────
+coverage/
+.nyc_output/
