@@ -1,103 +1,77 @@
-# Pocket Oracle Roadmap
+# Roadmap Estratégico do Pocket Oracle
 
 **PT-BR** | **EN**
 
-Este roadmap resume a trajetória estratégica do **Pocket Oracle** como produto, repositório público e ativo de demonstração para parceiros, jurados, empresas e investidores. A lógica central é evoluir de um MVP convincente com fluxo econômico claro para uma infraestrutura confiável de **marketplace agentic orientado a sinais do mundo real**.
+Este roadmap delineia a evolução estratégica do **Pocket Oracle**, posicionando-o como um produto inovador, um repositório público de referência e um ativo demonstrável para parceiros, investidores e a comunidade. Nossa visão é transformar um MVP convincente, com um fluxo econômico claro, em uma infraestrutura robusta de **marketplace agentic, impulsionado por sinais do mundo real**.
 
-| Horizonte | Objetivo principal | Resultado esperado |
-| --- | --- | --- |
-| Presente | Sustentar uma demo forte e crível | Gateway pago, PWA, dashboard, FastAPI, branding e governança públicos |
-| Curto prazo | Elevar a execução operacional | Persistência real, filas, histórico e telemetria de jobs |
-| Médio prazo | Tornar a monetização auditável | Wallet, settlement, receipts e validação pública do fluxo econômico |
-| Longo prazo | Escalar para produto real | Reputação, roteamento, SLA e marketplace multi-device |
+## 🧭 Visão Geral por Horizonte
 
-## PT-BR
+| Horizonte | Objetivo Principal | Resultados Esperados |
+| :-------- | :----------------- | :------------------- |
+| **Presente** | Sustentar uma demonstração técnica e econômica sólida. | Gateway de pagamento funcional, PWA mobile, dashboard de monitoramento, microsserviços FastAPI, branding coeso e governança transparente. |
+| **Curto Prazo** | Elevar a maturidade operacional e a rastreabilidade. | Persistência de dados real, implementação de filas de mensagens, histórico detalhado de transações e telemetria de jobs. |
+| **Médio Prazo** | Tornar a monetização auditável e transparente. | Integração com carteiras digitais, sistema de micropagamentos, recibos verificáveis e validação pública do fluxo econômico. |
+| **Longo Prazo** | Escalar para um produto de mercado e plataforma. | Sistema de reputação para agentes e operadores, roteamento inteligente de tarefas, Acordos de Nível de Serviço (SLAs) e um marketplace multi-dispositivo. |
 
-### Estado atual
+## 🚀 Estado Atual e Próximos Passos
 
-O projeto já demonstra a tese central com clareza: o smartphone pode atuar como um **oráculo econômico verificável** para agentes de IA, fornecendo sinais de localização, OCR contextual e confirmação humana rápida dentro de uma lógica de cobrança por uso. A base atual já inclui monorepo estruturado, branding premium, documentação estratégica, esteira de segurança e uma narrativa executiva coerente com posicionamento de startup séria.
+O projeto já demonstra a tese central com clareza: o smartphone pode atuar como um **oráculo econômico verificável** para agentes de IA, fornecendo sinais de localização (GeoProof), reconhecimento óptico de caracteres contextual (SnapOCR) e confirmação humana rápida (HumanTap Verify), tudo dentro de um modelo de cobrança por uso. A base atual inclui um monorepo estruturado, branding premium, documentação estratégica, esteira de segurança e uma narrativa executiva coerente com o posicionamento de uma startup de alto impacto.
 
-| Frente atual | O que já existe |
-| --- | --- |
-| Produto | Gateway pago, endpoints do MVP e contratos compartilhados |
-| Experiência | Interface mobile-first e dashboard executivo |
-| Operação | Infra local com Docker, scripts e base de execução previsível |
-| Segurança | Workflow de scanning, política de segurança e governança no GitHub |
-| Marca | Logo, ícone, preview social, banner e sistema visual documentado |
+### Fase 1: Demonstração Operacional Sólida (Atual)
 
-### Fase 1 — Demo operacional sólida
+Nesta fase, a prioridade é consolidar a experiência ponta a ponta, minimizando ambiguidades. Isso envolve garantir que a PWA, o gateway, o dashboard e o orquestrador operem de forma previsível e com evidências públicas suficientes para demonstrações eficazes.
 
-A primeira prioridade é travar a experiência ponta a ponta com o menor número possível de áreas cinzentas. Isso significa garantir que a PWA, o gateway, o dashboard e o orquestrador operem juntos com boa previsibilidade e evidência pública suficiente para demonstração.
+| Entrega Chave | Impacto Estratégico |
+| :------------ | :------------------ |
+| Conexão real entre interfaces e serviços | Elimina a dependência de fluxos simulados, aumentando a credibilidade. |
+| Histórico de jobs e respostas | Melhora a legibilidade operacional e a capacidade de auditoria. |
+| Contador de requisições pagas | Reforça a narrativa econômica e o valor transacional do sistema. |
+| Aprimoramento visual da demonstração | Eleva a percepção executiva e a experiência do usuário. |
 
-| Entrega | Impacto |
-| --- | --- |
-| Conexão real entre interfaces e serviços | Remove dependência de fluxos simulados |
-| Histórico de jobs e respostas | Aumenta legibilidade operacional |
-| Contador de requests pagos | Reforça narrativa econômica |
-| Melhor acabamento visual do demo | Melhora percepção executiva |
+### Fase 2: Liquidação e Prova Econômica Real
 
-### Fase 2 — Liquidação e prova econômica real
+Após a estabilização da demonstração funcional, o foco se desloca para tornar a monetização mais concreta e auditável. O objetivo é substituir componentes de simulação por integrações reais de carteiras, sistemas de liquidação e recibos verificáveis.
 
-Depois da demo funcional, o próximo salto é tornar a monetização mais concreta e auditável. A meta é substituir componentes de simulação por integrações reais de wallet, settlement e receipts verificáveis.
+| Entrega Chave | Resultado Estratégico |
+| :------------ | :-------------------- |
+| Integração com carteiras controladas por desenvolvedores | Permite um fluxo econômico reproduzível e testável. |
+| Registro de liquidação | Fortalece a confiança na narrativa de micropagamentos. |
+| Recibos e hashes de transação | Melhora a auditabilidade e a transparência das operações. |
+| Evidência pública de transação | Aumenta a credibilidade junto a jurados, parceiros e investidores. |
 
-| Entrega | Resultado estratégico |
-| --- | --- |
-| Wallet dev-controlled | Permite fluxo econômico reproduzível |
-| Settlement registrado | Fortalece confiança na narrativa de micropagamentos |
-| Receipts e hashes | Melhora auditabilidade |
-| Evidência pública de transação | Aumenta credibilidade junto a jurados e parceiros |
+### Fase 3: Nível de Submissão e Narrativa Pública
 
-### Fase 3 — Submission-grade e narrativa pública
+Nesta etapa, o escopo se expande da engenharia para o **posicionamento público**. O produto deve ser facilmente compreendido por uma audiência externa em poucos minutos, comunicando seu valor e potencial de forma clara e concisa.
 
-Nesta etapa, o foco deixa de ser apenas engenharia e passa a incluir claramente **posicionamento público**. O produto precisa parecer pronto para ser entendido em poucos minutos por uma audiência externa.
+| Entrega Chave | Resultado Estratégico |
+| :------------ | :-------------------- |
+| Aplicação publicada | Demonstra maturidade operacional e prontidão para o mercado. |
+| Vídeo curto de demonstração | Facilita o entendimento imediato do conceito e funcionalidade. |
+| Slides e narrativa executiva | Aumenta a clareza para avaliação e captação de recursos. |
+| Repositório público impecável | Converte a primeira impressão em confiança e engajamento. |
 
-| Entrega | Resultado estratégico |
-| --- | --- |
-| Aplicação publicada | Demonstra maturidade operacional |
-| Vídeo curto de demonstração | Facilita entendimento imediato |
-| Slides e narrativa executiva | Aumenta clareza para avaliação e captação |
-| Repositório público impecável | Converte primeira impressão em confiança |
+### Fase 4: Plataforma e Escala
 
-### Fase 4 — Plataforma e escala
+O horizonte de produto é a evolução de uma demonstração econômica para uma camada real de coordenação entre agentes de IA, operadores humanos e sinais do mundo físico. Isso abre novos mercados e diferenciação operacional baseada em confiança e eficiência.
 
-O horizonte de produto é evoluir de uma demo econômica para uma camada real de coordenação entre agentes, operadores humanos e sinais do mundo físico. Isso abre espaço para novos mercados e para diferenciação operacional baseada em confiança.
+| Expansão | Valor Potencial |
+| :------- | :-------------- |
+| Marketplace multi-dispositivo | Otimização da coordenação por região e disponibilidade. |
+| Reputação por operador/dispositivo | Melhoria contínua da qualidade do serviço. |
+| Precificação dinâmica | Ajuste de custos com base em urgência, latência e confiabilidade. |
+| SLAs por serviço | Adequação a casos de uso empresariais e requisitos de missão crítica. |
+| Antifraude geográfica | Aumento da robustez e defensibilidade do sistema. |
 
-| Expansão | Valor potencial |
-| --- | --- |
-| Marketplace multi-device | Coordenação por região e disponibilidade |
-| Reputação por operador/dispositivo | Melhor qualidade de serviço |
-| Pricing dinâmico | Ajuste por urgência, latência e confiabilidade |
-| SLA por serviço | Adequação a casos de uso empresariais |
-| Antifraude geográfica | Aumento de robustez e defensibilidade |
-
-## EN
-
-### Current state
-
-The project already communicates its core thesis clearly: the smartphone can act as a **verifiable economic oracle** for AI agents, delivering location evidence, contextual OCR, and fast human confirmation inside a usage-based charging model. The current base already includes a structured monorepo, premium branding, strategic documentation, security workflows, and an executive narrative consistent with a serious startup posture.
-
-### Phase 1 — Solid operational demo
-
-The first priority is to lock the end-to-end experience with as little ambiguity as possible. That means ensuring the PWA, gateway, dashboard, and orchestrator work together with reliable behavior and enough public evidence for a strong demonstration.
-
-### Phase 2 — Real settlement and economic proof
-
-After the functional demo, the next jump is to make monetization more concrete and auditable. The goal is to replace simulation-heavy elements with real wallet, settlement, and verifiable receipt flows.
-
-### Phase 3 — Submission-grade public narrative
-
-At this stage, the focus expands beyond engineering into **public positioning**. The product must look understandable within minutes to external audiences.
-
-### Phase 4 — Platform and scale
-
-The long-term product direction is to evolve from an economic demo into a real coordination layer across AI agents, human operators, and physical-world signals.
-
-## Related material
+## 📚 Materiais Relacionados
 
 | Documento | Papel |
-| --- | --- |
-| [`README.md`](README.md) | Visão executiva principal em português |
-| [`README.en.md`](README.en.md) | Versão executiva em inglês |
-| [`SETUP.md`](SETUP.md) | Guia operacional passo a passo |
-| [`docs/roadmap.md`](docs/roadmap.md) | Roadmap técnico resumido |
-| [`docs/submission-checklist.md`](docs/submission-checklist.md) | Checklist para demo e submissão |
+| :-------- | :---- |
+| [`README.md`](README.md) | Visão executiva principal e introdução ao projeto em português. |
+| [`README.en.md`](README.en.md) | Versão executiva e introdução ao projeto em inglês. |
+| [`SETUP.md`](SETUP.md) | Guia operacional passo a passo para configuração e execução local. |
+| [`docs/architecture.md`](docs/architecture.md) | Detalhes da arquitetura técnica do sistema. |
+| [`docs/submission-checklist.md`](docs/submission-checklist.md) | Checklist para preparação de demonstrações e submissões. |
+
+---
+
+**Pocket Oracle © 2026**

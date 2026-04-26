@@ -1,72 +1,51 @@
-# Code of Conduct
+# Código de Conduta do Pocket Oracle
 
 **PT-BR** | **EN**
 
-O **Pocket Oracle** é um repositório público orientado a colaboração responsável, debate técnico de alto nível e construção disciplinada de produto. Este código de conduta existe para garantir que discussões sobre arquitetura, segurança, estratégia, bugs, documentação e operação aconteçam em um ambiente profissional, respeitoso e intelectualmente honesto.
+O **Pocket Oracle** é um projeto de código aberto que visa transformar smartphones em uma plataforma de marketplace para agentes de IA. Nosso objetivo é fomentar um ambiente colaborativo, inovador e respeitoso para todos os contribuidores. Este Código de Conduta estabelece as expectativas para o comportamento de todos os envolvidos com o projeto, garantindo um espaço seguro e produtivo para discussões técnicas, desenvolvimento e colaboração.
 
-| Princípio | Interpretação prática |
-| --- | --- |
-| Respeito profissional | Discordâncias devem focar ideias, decisões e evidências, nunca ataques pessoais |
-| Clareza | Comentários, issues e PRs devem buscar entendimento e melhoria concreta |
-| Responsabilidade | Segurança, privacidade e riscos operacionais devem ser tratados com seriedade |
-| Inclusão | Colaboradores devem ser recebidos com civilidade, independentemente de origem ou perfil |
-| Qualidade | O objetivo é elevar o projeto, não apenas reagir rapidamente |
+## 🎯 Nossos Valores
 
-## PT-BR
+Nós nos comprometemos a criar um ambiente onde todos se sintam bem-vindos e capacitados a contribuir. Isso inclui:
 
-### Comportamentos esperados
+*   **Profissionalismo:** Manter um tom respeitoso e construtivo em todas as interações.
+*   **Inclusão:** Valorizar a diversidade de ideias e perspectivas, independentemente de origem, experiência ou identidade.
+*   **Colaboração:** Trabalhar juntos de forma aberta e transparente para alcançar os objetivos do projeto.
+*   **Integridade:** Agir com honestidade e ética, especialmente em relação à segurança e privacidade.
+*   **Excelência Técnica:** Buscar a melhoria contínua e a qualidade em todas as contribuições.
 
-Espera-se que toda contribuição pública ou privada ligada ao projeto mantenha tom profissional, boa-fé interpretativa e foco em construção. Isso inclui relatar problemas com contexto suficiente, revisar mudanças com rigor e propor discordâncias de maneira clara e respeitosa. Também é esperado cuidado especial ao discutir segurança, dados sensíveis, credenciais, incidentes e dependências externas.
+## 🤝 Comportamentos Esperados
 
-| Esperado | Exemplo |
-| --- | --- |
-| Comunicação respeitosa | Criticar uma decisão técnica sem desqualificar pessoas |
-| Feedback útil | Explicar risco, impacto e caminho de correção |
-| Colaboração objetiva | Abrir issues e PRs com contexto, evidência e escopo claros |
-| Prudência com segurança | Reportar vulnerabilidades em canal privado sempre que possível |
+Esperamos que todos os participantes do projeto:
 
-### Comportamentos inaceitáveis
+*   Sejam respeitosos e atenciosos com os outros contribuidores, suas ideias e suas experiências.
+*   Comuniquem-se de forma clara, construtiva e profissional, focando em soluções e melhorias.
+*   Aceitem feedback construtivo e estejam abertos a diferentes pontos de vista.
+*   Reportem problemas, bugs e vulnerabilidades de forma responsável e com contexto suficiente.
+*   Contribuam para um ambiente positivo e inclusivo.
 
-Não serão tolerados assédio, intimidação, ataques pessoais, linguagem discriminatória, exposição intencional de segredos, publicação irresponsável de vulnerabilidades, spam, manipulação maliciosa do histórico do projeto ou qualquer comportamento que prejudique a segurança, a reputação ou a continuidade do trabalho.
+## 🚫 Comportamentos Inaceitáveis
 
-| Inaceitável | Motivo |
-| --- | --- |
-| Ataques pessoais ou humilhação pública | Destroem colaboração e confiança |
-| Discriminação ou assédio | Violam o padrão mínimo de convivência profissional |
-| Divulgação de segredos ou credenciais | Cria risco direto ao projeto e a terceiros |
-| Divulgação irresponsável de falhas | Amplia a superfície de exploração |
-| Conduta abusiva em reviews | Reduz qualidade e afasta colaboradores |
+Os seguintes comportamentos são considerados inaceitáveis e não serão tolerados:
 
-### Escopo
+*   Assédio, intimidação, discriminação ou ataques pessoais de qualquer tipo.
+*   Linguagem ofensiva, depreciativa ou desrespeitosa.
+*   Publicação ou divulgação não autorizada de informações privadas, segredos, credenciais ou dados sensíveis.
+*   Qualquer forma de conduta que possa ser razoavelmente considerada inadequada em um ambiente profissional.
+*   Spam, trollagem ou qualquer atividade que perturbe o fluxo de trabalho do projeto.
 
-Este código se aplica a issues, pull requests, discussões, documentação, comunicação relacionada ao repositório e qualquer interação pública ou semipública associada ao projeto. Quando houver dúvida, deve prevalecer a interpretação mais protetiva para o ambiente colaborativo.
+## 🌐 Escopo
 
-### Aplicação
+Este Código de Conduta se aplica a todos os espaços do projeto, incluindo, mas não se limitando a, issues, pull requests, discussões, documentação, canais de comunicação e eventos relacionados ao Pocket Oracle. Ele se aplica a todos os contribuidores, mantenedores e participantes do projeto.
 
-Os mantenedores podem remover, editar ou moderar contribuições incompatíveis com este código. Em situações mais graves, poderão restringir participação, bloquear colaboração futura ou encaminhar a discussão para um canal privado de resolução.
+## 🚨 Aplicação
 
-### Como reportar
+Os mantenedores do projeto são responsáveis por esclarecer e aplicar este Código de Conduta. Em caso de violação, os mantenedores podem tomar ações corretivas que incluem, mas não se limitam a, remoção de comentários, edição de conteúdo, bloqueio temporário ou permanente de participação no projeto.
 
-Se você observar comportamento inadequado, exposição de segredos, risco de segurança ou conduta que ameace a integridade do projeto, utilize um canal privado com o mantenedor antes de abrir discussão pública. Ao reportar, descreva contexto, evidências relevantes e impacto observado.
+## 📣 Como Reportar
 
-## EN
+Se você presenciar ou for alvo de algum comportamento que viole este Código de Conduta, por favor, reporte imediatamente aos mantenedores do projeto através de um canal privado (ex: e-mail direto). Todas as denúncias serão tratadas com confidencialidade e seriedade.
 
-### Expected behavior
+---
 
-All contributions, whether public or private, are expected to maintain a professional tone, good-faith interpretation, and a clear focus on building. That includes reporting problems with sufficient context, reviewing changes rigorously, and expressing disagreement in a respectful and precise way. Extra care is expected when discussing security, sensitive data, credentials, incidents, and external dependencies.
-
-### Unacceptable behavior
-
-Harassment, intimidation, personal attacks, discriminatory language, intentional secret exposure, irresponsible disclosure of vulnerabilities, spam, malicious history manipulation, or any behavior that harms the project’s security, reputation, or continuity will not be tolerated.
-
-### Scope
-
-This code applies to issues, pull requests, discussions, documentation, repository-related communication, and any public or semi-public interaction associated with the project.
-
-### Enforcement
-
-Maintainers may remove, edit, or moderate contributions that conflict with this code. In more serious situations, they may restrict participation, block future collaboration, or move the discussion to a private resolution channel.
-
-### Reporting
-
-If you observe misconduct, exposed secrets, security risk, or behavior that threatens the integrity of the project, use a private channel with the maintainer before opening a public discussion whenever possible.
+**Pocket Oracle © 2026**
