@@ -8,7 +8,7 @@ app = FastAPI(title="Pocket Oracle OS - Engine")
 # =========================
 # AUTH SYSTEM
 # =========================
-# Em produção, isso seria integrado a um DB/Vault
+# In production, this would be integrated with a DB/Vault
 USERS = {
     "demo-key": {"name": "demo-user"}
 }
@@ -29,7 +29,7 @@ class Task(BaseModel):
 # AGENTS (Core Execution Units)
 # =========================
 class CryptoAgent:
-    """Monitora tendências e oportunidades em cripto"""
+    """Monitors crypto trends and opportunities"""
     def run(self):
         try:
             url = "https://api.coingecko.com/api/v3/search/trending"
@@ -39,14 +39,14 @@ class CryptoAgent:
             return [f"Error fetching crypto data: {str(e)}"]
 
 class DecisionAgent:
-    """Analisa dados e toma decisões lógicas"""
+    """Analyzes data and makes logical decisions"""
     def run(self, data: List[str]):
         if any(coin in ["Bitcoin", "Ethereum", "Solana"] for coin in data):
             return "Market is heating up in major assets. Potential opportunity detected."
         return "No strong signals from major assets at the moment."
 
 class NotificationAgent:
-    """Gerencia a entrega de alertas e resultados"""
+    """Manages delivery of alerts and results"""
     def run(self, message: str):
         return {"notify": message, "channel": "push/api", "status": "sent"}
 
@@ -54,12 +54,12 @@ class NotificationAgent:
 # ORCHESTRATOR (The Brain)
 # =========================
 class Engine:
-    """Orquestra a execução de agentes baseada na intenção (goal)"""
+    """Orchestrates agent execution based on intent (goal)"""
     def execute(self, goal: str, context: dict):
         goal_lower = goal.lower()
         
         # Pipeline: Crypto Intelligence
-        if "crypto" in goal_lower or "moeda" in goal_lower:
+        if "crypto" in goal_lower or "coin" in goal_lower:
             data = CryptoAgent().run()
             decision = DecisionAgent().run(data)
             notification = NotificationAgent().run(decision)
@@ -87,7 +87,7 @@ engine = Engine()
 # =========================
 @app.post("/execute")
 def execute_task(task: Task, user=Depends(auth)):
-    """Ponto de entrada principal para execução de tarefas"""
+    """Main entry point for task execution"""
     result = engine.execute(task.goal, task.context)
     return {
         "execution_id": str(uuid.uuid4()),
@@ -98,7 +98,7 @@ def execute_task(task: Task, user=Depends(auth)):
 
 @app.get("/status")
 def status():
-    """Status do sistema"""
+    """System status"""
     return {
         "product": "Pocket Oracle OS",
         "version": "1.0.0-alpha",

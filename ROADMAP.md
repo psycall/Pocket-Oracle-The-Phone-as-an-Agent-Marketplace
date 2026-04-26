@@ -1,77 +1,76 @@
-# Roadmap Estratégico do Pocket Oracle
+# Strategic Roadmap: Pocket Oracle OS
 
-**PT-BR** | **EN**
+**EN** | [**PT-BR**](README.pt-br.md)
 
-Este roadmap delineia a evolução estratégica do **Pocket Oracle**, posicionando-o como um produto inovador, um repositório público de referência e um ativo demonstrável para parceiros, investidores e a comunidade. Nossa visão é transformar um MVP convincente, com um fluxo econômico claro, em uma infraestrutura robusta de **marketplace agentic, impulsionado por sinais do mundo real**.
+This roadmap outlines the strategic evolution of **Pocket Oracle OS**, positioning it as an innovative product, a reference public repository, and a demonstrable asset for partners, investors, and the community. Our vision is to transform a compelling MVP with a clear economic flow into a robust **agentic marketplace infrastructure driven by real-world signals**.
 
-## 🧭 Visão Geral por Horizonte
+## 🧭 Horizon Overview
 
-| Horizonte | Objetivo Principal | Resultados Esperados |
+| Horizon | Primary Objective | Expected Results |
 | :-------- | :----------------- | :------------------- |
-| **Presente** | Sustentar uma demonstração técnica e econômica sólida. | Gateway de pagamento funcional, PWA mobile, dashboard de monitoramento, microsserviços FastAPI, branding coeso e governança transparente. |
-| **Curto Prazo** | Elevar a maturidade operacional e a rastreabilidade. | Persistência de dados real, implementação de filas de mensagens, histórico detalhado de transações e telemetria de jobs. |
-| **Médio Prazo** | Tornar a monetização auditável e transparente. | Integração com carteiras digitais, sistema de micropagamentos, recibos verificáveis e validação pública do fluxo econômico. |
-| **Longo Prazo** | Escalar para um produto de mercado e plataforma. | Sistema de reputação para agentes e operadores, roteamento inteligente de tarefas, Acordos de Nível de Serviço (SLAs) e um marketplace multi-dispositivo. |
+| **Present** | Sustain a solid technical and economic demonstration. | Functional payment gateway, mobile PWA, monitoring dashboard, FastAPI microservices, cohesive branding, and transparent governance. |
+| **Short Term** | Elevate operational maturity and traceability. | Real data persistence, message queue implementation, detailed transaction history, and job telemetry. |
+| **Medium Term** | Make monetization auditable and transparent. | Integration with digital wallets, micropayment system, verifiable receipts, and public validation of economic flow. |
+| **Long Term** | Scale into a market product and platform. | Reputation system for agents and operators, intelligent task routing, Service Level Agreements (SLAs), and a multi-device marketplace. |
 
-## 🚀 Estado Atual e Próximos Passos
+## 🚀 Current State and Next Steps
 
-O projeto já demonstra a tese central com clareza: o smartphone pode atuar como um **oráculo econômico verificável** para agentes de IA, fornecendo sinais de localização (GeoProof), reconhecimento óptico de caracteres contextual (SnapOCR) e confirmação humana rápida (HumanTap Verify), tudo dentro de um modelo de cobrança por uso. A base atual inclui um monorepo estruturado, branding premium, documentação estratégica, esteira de segurança e uma narrativa executiva coerente com o posicionamento de uma startup de alto impacto.
+The project already clearly demonstrates the central thesis: the smartphone can act as a **verifiable economic oracle** for IA agents, providing location signals (GeoProof), contextual optical character recognition (SnapOCR), and fast human confirmation (HumanTap Verify), all within a pay-per-use model. The current base includes a structured monorepo, premium branding, strategic documentation, security pipeline, and an executive narrative consistent with a high-impact startup positioning.
 
-### Fase 1: Demonstração Operacional Sólida (Atual)
+### Phase 1: Solid Operational Demonstration (Current)
 
-Nesta fase, a prioridade é consolidar a experiência ponta a ponta, minimizando ambiguidades. Isso envolve garantir que a PWA, o gateway, o dashboard e o orquestrador operem de forma previsível e com evidências públicas suficientes para demonstrações eficazes.
+In this phase, the priority is to consolidate the end-to-end experience, minimizing ambiguities. This involves ensuring that the PWA, gateway, dashboard, and orchestrator operate predictably and with sufficient public evidence for effective demonstrations.
 
-| Entrega Chave | Impacto Estratégico |
+| Key Delivery | Strategic Impact |
 | :------------ | :------------------ |
-| Conexão real entre interfaces e serviços | Elimina a dependência de fluxos simulados, aumentando a credibilidade. |
-| Histórico de jobs e respostas | Melhora a legibilidade operacional e a capacidade de auditoria. |
-| Contador de requisições pagas | Reforça a narrativa econômica e o valor transacional do sistema. |
-| Aprimoramento visual da demonstração | Eleva a percepção executiva e a experiência do usuário. |
+| Real connection between interfaces and services | Eliminates dependence on simulated flows, increasing credibility. |
+| Job history and responses | Improves operational readability and auditability. |
+| Paid request counter | Reinforces the economic narrative and transactional value of the system. |
+| Visual demonstration enhancement | Elevates executive perception and user experience. |
 
-### Fase 2: Liquidação e Prova Econômica Real
+### Phase 2: Real Settlement and Economic Proof
 
-Após a estabilização da demonstração funcional, o foco se desloca para tornar a monetização mais concreta e auditável. O objetivo é substituir componentes de simulação por integrações reais de carteiras, sistemas de liquidação e recibos verificáveis.
+After stabilizing the functional demonstration, the focus shifts to making monetization more concrete and auditable. The goal is to replace simulation components with real wallet integrations, settlement systems, and verifiable receipts.
 
-| Entrega Chave | Resultado Estratégico |
+| Key Delivery | Strategic Result |
 | :------------ | :-------------------- |
-| Integração com carteiras controladas por desenvolvedores | Permite um fluxo econômico reproduzível e testável. |
-| Registro de liquidação | Fortalece a confiança na narrativa de micropagamentos. |
-| Recibos e hashes de transação | Melhora a auditabilidade e a transparência das operações. |
-| Evidência pública de transação | Aumenta a credibilidade junto a jurados, parceiros e investidores. |
+| Integration with developer-controlled wallets | Enables a reproducible and testable economic flow. |
+| Settlement logging | Strengthens trust in the micropayments narrative. |
+| Receipts and transaction hashes | Improves auditability and transparency of operations. |
+| Public transaction evidence | Increases credibility with judges, partners, and investors. |
 
-### Fase 3: Nível de Submissão e Narrativa Pública
+### Phase 3: Submission Grade and Public Narrative
 
-Nesta etapa, o escopo se expande da engenharia para o **posicionamento público**. O produto deve ser facilmente compreendido por uma audiência externa em poucos minutos, comunicando seu valor e potencial de forma clara e concisa.
+At this stage, the scope expands from engineering to **public positioning**. The product must be easily understood by an external audience in minutes, communicating its value and potential clearly and concisely.
 
-| Entrega Chave | Resultado Estratégico |
+| Key Delivery | Strategic Result |
 | :------------ | :-------------------- |
-| Aplicação publicada | Demonstra maturidade operacional e prontidão para o mercado. |
-| Vídeo curto de demonstração | Facilita o entendimento imediato do conceito e funcionalidade. |
-| Slides e narrativa executiva | Aumenta a clareza para avaliação e captação de recursos. |
-| Repositório público impecável | Converte a primeira impressão em confiança e engajamento. |
+| Published application | Demonstrates operational maturity and market readiness. |
+| Short demo video | Facilitates immediate understanding of the concept and functionality. |
+| Slides and executive narrative | Increases clarity for evaluation and fundraising. |
+| Impeccable public repository | Converts first impressions into trust and engagement. |
 
-### Fase 4: Plataforma e Escala
+### Phase 4: Platform and Scale
 
-O horizonte de produto é a evolução de uma demonstração econômica para uma camada real de coordenação entre agentes de IA, operadores humanos e sinais do mundo físico. Isso abre novos mercados e diferenciação operacional baseada em confiança e eficiência.
+The product horizon is the evolution from an economic demonstration to a real coordination layer between IA agents, human operators, and physical world signals. This opens new markets and operational differentiation based on trust and efficiency.
 
-| Expansão | Valor Potencial |
+| Expansion | Potential Value |
 | :------- | :-------------- |
-| Marketplace multi-dispositivo | Otimização da coordenação por região e disponibilidade. |
-| Reputação por operador/dispositivo | Melhoria contínua da qualidade do serviço. |
-| Precificação dinâmica | Ajuste de custos com base em urgência, latência e confiabilidade. |
-| SLAs por serviço | Adequação a casos de uso empresariais e requisitos de missão crítica. |
-| Antifraude geográfica | Aumento da robustez e defensibilidade do sistema. |
+| Multi-device marketplace | Optimization of coordination by region and availability. |
+| Reputation by operator/device | Continuous improvement of service quality. |
+| Dynamic pricing | Cost adjustments based on urgency, latency, and reliability. |
+| SLAs per service | Suitability for enterprise use cases and mission-critical requirements. |
+| Geographic anti-fraud | Increased robustness and defensibility of the system. |
 
-## 📚 Materiais Relacionados
+## 📚 Related Materials
 
-| Documento | Papel |
+| Document | Role |
 | :-------- | :---- |
-| [`README.md`](README.md) | Visão executiva principal e introdução ao projeto em português. |
-| [`README.en.md`](README.en.md) | Versão executiva e introdução ao projeto em inglês. |
-| [`SETUP.md`](SETUP.md) | Guia operacional passo a passo para configuração e execução local. |
-| [`docs/architecture.md`](docs/architecture.md) | Detalhes da arquitetura técnica do sistema. |
-| [`docs/submission-checklist.md`](docs/submission-checklist.md) | Checklist para preparação de demonstrações e submissões. |
+| [`README.md`](README.md) | Main executive vision and project introduction. |
+| [`SETUP.md`](SETUP.md) | Step-by-step operational guide for local configuration and execution. |
+| [`docs/architecture.md`](docs/architecture.md) | System technical architecture details. |
+| [`docs/submission-checklist.md`](docs/submission-checklist.md) | Checklist for demo preparation and submissions. |
 
 ---
 
-**Pocket Oracle © 2026**
+**Pocket Oracle OS © 2026**

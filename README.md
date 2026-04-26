@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Execution Layer for Autonomous Agents</strong><br>
-  <em>De intenção à execução: Transformando o smartphone na camada de ação definitiva para a economia de agentes de IA.</em>
+  <em>From Intent to Execution: Transforming the smartphone into the definitive action layer for the AI agent economy.</em>
 </p>
 
 <p align="center">
@@ -16,88 +16,88 @@
 </p>
 
 <p align="center">
-  <a href="#-visao-executiva">Visão Executiva</a> •
-  <a href="#-arquitetura-do-produto">Arquitetura</a> •
-  <a href="#-funcionalidades-de-execucao">Funcionalidades</a> •
-  <a href="#-roadmap-do-produto">Roadmap</a> •
-  <a href="README.en.md">English Version</a>
+  <a href="#-executive-vision">Executive Vision</a> •
+  <a href="#-product-architecture">Architecture</a> •
+  <a href="#-execution-features">Features</a> •
+  <a href="#-product-roadmap">Roadmap</a> •
+  <a href="README.pt-br.md">Versão em Português</a>
 </p>
 
 <img src="public/brand/new_banner.png" width="100%" alt="Pocket Oracle OS Banner">
 
 ---
 
-## 👁️ Visão Executiva
+## 👁️ Executive Vision
 
-O **Pocket Oracle OS** não é apenas um marketplace; é a **Execution Layer** que faltava para agentes autônomos. Enquanto outros sistemas apenas "pensam" ou "conversam", o Pocket Oracle **executa**. 
+**Pocket Oracle OS** is not just a marketplace; it is the missing **Execution Layer** for autonomous agents. While other systems only "think" or "chat", Pocket Oracle **executes**.
 
-Nossa tese resolve a maior dor do mercado de IA (como ARC e outros): a fricção entre a decisão do agente e a ação no mundo real. Nós transformamos smartphones em oráculos de execução que conectam APIs, processam intenções em linguagem natural e entregam resultados concretos, sem intervenção manual.
+Our thesis solves the biggest bottleneck in the AI market (as seen in ARC and others): the friction between an agent's decision and real-world action. We transform smartphones into execution oracles that connect APIs, process natural language intents, and deliver concrete results without manual intervention.
 
 ---
 
-## 🏗️ Arquitetura do Produto
+## 🏗️ Product Architecture
 
-O sistema é desenhado para escala industrial, focado em **autonomia e integridade**.
+The system is designed for industrial scale, focusing on **autonomy and integrity**.
 
-| Componente | Papel Estratégico |
+| Component | Strategic Role |
 | :--- | :--- |
-| **Agent Engine** | O cérebro que interpreta tarefas e orquestra a execução. |
-| **Orchestrator** | Encadeia múltiplos agentes para fluxos complexos de decisão. |
-| **Executors** | Camada de ação real: APIs, Scraping, Transações e Sensores Mobile. |
-| **User Layer** | Gestão de chaves de API, identidades e histórico de execução. |
-| **Interface OS** | Mobile PWA + Dashboard Web para monitoramento em tempo real. |
+| **Agent Engine** | The brain that interprets tasks and orchestrates execution. |
+| **Orchestrator** | Chains multiple agents for complex decision flows. |
+| **Executors** | Real action layer: APIs, Scraping, Transactions, and Mobile Sensors. |
+| **User Layer** | Management of API keys, identities, and execution history. |
+| **OS Interface** | Mobile PWA + Web Dashboard for real-time monitoring. |
 
 ---
 
-## 🚀 Funcionalidades de Execução
+## 🚀 Execution Features
 
-Diferente de automações simples, o Pocket Oracle opera como um motor de decisão ativa.
+Unlike simple automations, Pocket Oracle operates as an active decision engine.
 
-- **Intelligent Action Pipeline:** Transformação de linguagem natural em fluxos de trabalho multi-step.
-- **Real-World Oracles:** Uso de sensores de smartphones (GeoProof, SnapOCR) como prova de execução física.
-- **Monetização por Execução:** Modelo de `402 Payment Required` integrado para cada tarefa concluída com sucesso.
+- **Intelligent Action Pipeline:** Transformation of natural language into multi-step workflows.
+- **Real-World Oracles:** Use of smartphone sensors (GeoProof, SnapOCR) as physical execution proof.
+- **Execution-based Monetization:** Integrated `402 Payment Required` model for every successfully completed task.
 
 ---
 
-## 🗺️ Roadmap do Produto (CEO Vision)
+## 🗺️ Product Roadmap (CEO Vision)
 
-Estamos evoluindo de um protótipo técnico para uma infraestrutura de mercado global.
+We are evolving from a technical prototype to a global market infrastructure.
 
 <img src="public/brand/new_roadmap.png" width="100%" alt="Pocket Oracle OS Roadmap">
 
-### Fase 1: Intelligent Action Pipeline (Atual)
-- [x] Motor de execução base em FastAPI.
-- [x] Integração de agentes de decisão inicial.
-- [x] PWA para coleta de sinais físicos.
+### Phase 1: Intelligent Action Pipeline (Current)
+- [x] Base execution engine in FastAPI.
+- [x] Initial decision agent integration.
+- [x] PWA for physical signal collection.
 
-### Fase 2: Multi-Agent Orchestration
-- [ ] Orquestração complexa entre diferentes modelos de LLM.
-- [ ] Persistência de estado de execução distribuída.
-- [ ] Liquidação real via micropagamentos.
+### Phase 2: Multi-Agent Orchestration
+- [ ] Complex orchestration between different LLM models.
+- [ ] Distributed execution state persistence.
+- [ ] Real settlement via micropayments.
 
-### Fase 3: Enterprise Execution Layer
-- [ ] SDK para integração de terceiros.
-- [ ] Hardening de segurança e auditoria de jobs.
-- [ ] SLAs garantidos para execução crítica.
+### Phase 3: Enterprise Execution Layer
+- [ ] SDK for third-party integration.
+- [ ] Security hardening and job auditing.
+- [ ] Guaranteed SLAs for critical execution.
 
-### Fase 4: Global Agent Marketplace
-- [ ] Marketplace descentralizado de executores.
-- [ ] Sistema de reputação baseado em prova de trabalho (PoW).
-- [ ] Escala global de oráculos físicos.
+### Phase 4: Global Agent Marketplace
+- [ ] Decentralized marketplace of executors.
+- [ ] Reputation system based on Proof of Work (PoW).
+- [ ] Global scale of physical oracles.
 
 ---
 
-## 🛠️ Quick Start para Desenvolvedores
+## 🛠️ Developer Quick Start
 
 ```bash
-# 1. Clone o OS
+# 1. Clone the OS
 git clone https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace.git
 cd Pocket-Oracle-The-Phone-as-an-Agent-Marketplace
 
-# 2. Setup de Infra
+# 2. Infra Setup
 docker compose -f infra/docker/docker-compose.yml up -d
 
-# 3. Inicie o Engine
+# 3. Start the Engine
 npm install
 npm run dev:api
 ```
