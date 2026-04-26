@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Este guia explica como transformar o material de perfil preparado neste diretório em um **perfil GitHub profissional, consistente e pronto para causar boa impressão pública**. O objetivo não é apenas preencher a página do usuário, mas posicionar a conta como uma extensão natural da visão do **Pocket Oracle**.
+Este guia explica como transformar o material de perfil preparado neste diretório em um **perfil GitHub profissional, consistente e pronto para causar boa impressão pública**. O objetivo não é apenas preencher a página do usuário, mas posicionar a conta como uma extensão natural da visão do **Orvion**.
 
 ## Como funciona o README de perfil no GitHub
 
@@ -20,7 +20,7 @@ O GitHub exibe automaticamente um README especial quando existe um repositório 
 
 Primeiro, crie um novo repositório público chamado **`psycall`** na sua conta do GitHub. Em seguida, copie o conteúdo do arquivo `profile/README.md` deste projeto para o `README.md` do novo repositório de perfil. Se quiser manter o banner com carregamento mais confiável, adicione também uma cópia de `psycall-dev-banner.png` dentro do repositório de perfil e atualize o caminho da imagem para um arquivo local do próprio repositório.
 
-Depois disso, revise a renderização pública do perfil e confirme se o banner aparece corretamente, se os textos em português e inglês estão legíveis e se o link ou menção ao **Pocket Oracle** está coerente com o posicionamento atual do projeto.
+Depois disso, revise a renderização pública do perfil e confirme se o banner aparece corretamente, se os textos em português e inglês estão legíveis e se o link ou menção ao **Orvion** está coerente com o posicionamento atual do projeto.
 
 ## Ajustes visuais recomendados
 

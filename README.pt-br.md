@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="public/brand/logo.png" width="200" alt="Pocket Oracle Logo">
+  <img src="public/brand/orvion_logo.png" width="200" alt="Orvion Logo">
 </p>
 
-<h1 align="center">Pocket Oracle OS</h1>
+<h1 align="center">Orvion OS</h1>
 
 <p align="center">
   <strong>Execution Layer for Autonomous Agents</strong><br>
@@ -23,13 +23,13 @@
   <a href="README.md">English Version</a>
 </p>
 
-<img src="public/brand/new_banner.png" width="100%" alt="Pocket Oracle OS Banner">
+<img src="public/brand/orvion_banner.png" width="100%" alt="Orvion Banner">
 
 ---
 
 ## 👁️ Visão Executiva
 
-O **Pocket Oracle OS** não é apenas um marketplace; é a **Execution Layer** que faltava para agentes autônomos. Enquanto outros sistemas apenas "pensam" ou "conversam", o Pocket Oracle **executa**. 
+O **Orvion OS** não é apenas um marketplace; é a **Execution Layer** que faltava para agentes autônomos. Enquanto outros sistemas apenas "pensam" ou "conversam", o Orvion **executa**. 
 
 Nossa tese resolve a maior dor do mercado de IA (como ARC e outros): a fricção entre a decisão do agente e a ação no mundo real. Nós transformamos smartphones em oráculos de execução que conectam APIs, processam intenções em linguagem natural e entregam resultados concretos, sem intervenção manual.
 
@@ -51,7 +51,7 @@ O sistema é desenhado para escala industrial, focado em **autonomia e integrida
 
 ## 🚀 Funcionalidades de Execução
 
-Diferente de automações simples, o Pocket Oracle opera como um motor de decisão ativa.
+Diferente de automações simples, o Orvion opera como um motor de decisão ativa.
 
 - **Intelligent Action Pipeline:** Transformação de linguagem natural em fluxos de trabalho multi-step.
 - **Real-World Oracles:** Uso de sensores de smartphones (GeoProof, SnapOCR) como prova de execução física.
@@ -63,7 +63,7 @@ Diferente de automações simples, o Pocket Oracle opera como um motor de decis�
 
 Estamos evoluindo de um protótipo técnico para uma infraestrutura de mercado global.
 
-<img src="public/brand/new_roadmap.png" width="100%" alt="Pocket Oracle OS Roadmap">
+<img src="public/brand/orvion_roadmap.png" width="100%" alt="Orvion Roadmap">
 
 ### Fase 1: Intelligent Action Pipeline (Atual)
 - [x] Motor de execução base em FastAPI.
@@ -105,6 +105,6 @@ npm run dev:api
 ---
 
 <p align="center">
-  <strong>Pocket Oracle OS © 2026</strong><br>
+  <strong>Orvion OS © 2026</strong><br>
   <em>From Intent to Execution.</em>
 </p>

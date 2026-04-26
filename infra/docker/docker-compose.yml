@@ -3,7 +3,7 @@ version: "3.9"
 services:
   postgres:
     image: postgres:16
-    container_name: pocket-oracle-postgres
+    container_name: orvion-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: pocket_oracle
@@ -16,7 +16,7 @@ services:
 
   redis:
     image: redis:7
-    container_name: pocket-oracle-redis
+    container_name: orvion-redis
     restart: unless-stopped
     ports:
       - "6379:6379"

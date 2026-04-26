@@ -1,8 +1,8 @@
-# Pocket Oracle Setup Guide
+# Orvion Setup Guide
 
 **PT-BR** | **EN**
 
-Este guia concentra o passo a passo operacional do **Pocket Oracle** para quem precisa sair de um repositório recém-clonado até uma execução local organizada, segura e pronta para demonstração. O objetivo é reduzir ambiguidade, acelerar onboarding e garantir que a experiência pública do projeto continue coerente com um padrão de startup premium.
+Este guia concentra o passo a passo operacional do **Orvion** para quem precisa sair de um repositório recém-clonado até uma execução local organizada, segura e pronta para demonstração. O objetivo é reduzir ambiguidade, acelerar onboarding e garantir que a experiência pública do projeto continue coerente com um padrão de startup premium.
 
 | Seção | Finalidade |
 | --- | --- |

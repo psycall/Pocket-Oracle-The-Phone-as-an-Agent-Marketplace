@@ -8,12 +8,12 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:api": "npm run dev -w @pocket-oracle/api-gateway",
-    "dev:mobile": "npm run dev -w @pocket-oracle/mobile-pwa",
-    "dev:admin": "npm run dev -w @pocket-oracle/admin-dashboard",
-    "build:api": "npm run build -w @pocket-oracle/api-gateway",
-    "build:mobile": "npm run build -w @pocket-oracle/mobile-pwa",
-    "build:admin": "npm run build -w @pocket-oracle/admin-dashboard",
+    "dev:api": "npm run dev -w @orvion/api-gateway",
+    "dev:mobile": "npm run dev -w @orvion/mobile-pwa",
+    "dev:admin": "npm run dev -w @orvion/admin-dashboard",
+    "build:api": "npm run build -w @orvion/api-gateway",
+    "build:mobile": "npm run build -w @orvion/mobile-pwa",
+    "build:admin": "npm run build -w @orvion/admin-dashboard",
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present"
   },

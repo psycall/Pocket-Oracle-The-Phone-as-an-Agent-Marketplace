@@ -1,8 +1,8 @@
-# Política de Segurança do Pocket Oracle
+# Política de Segurança do Orvion
 
 **PT-BR** | **EN**
 
-No **Pocket Oracle**, a segurança é uma prioridade fundamental e um pilar estratégico do nosso desenvolvimento. Como um projeto que lida com micropagamentos, orquestração de agentes e dados do mundo real, a integridade, confidencialidade e disponibilidade do sistema são cruciais. Esta política descreve como abordamos a segurança, como relatar vulnerabilidades e as expectativas para todos os envolvidos no projeto.
+No **Orvion**, a segurança é uma prioridade fundamental e um pilar estratégico do nosso desenvolvimento. Como um projeto que lida com micropagamentos, orquestração de agentes e dados do mundo real, a integridade, confidencialidade e disponibilidade do sistema são cruciais. Esta política descreve como abordamos a segurança, como relatar vulnerabilidades e as expectativas para todos os envolvidos no projeto.
 
 ## 🛡️ Nossas Prioridades de Segurança
 
@@ -15,7 +15,7 @@ Nós nos comprometemos a:
 
 ## 🚨 Relatando uma Vulnerabilidade
 
-Se você descobrir uma vulnerabilidade de segurança no **Pocket Oracle**, pedimos que a reporte de forma responsável e privada. **Por favor, NÃO divulgue vulnerabilidades publicamente (em issues, pull requests ou redes sociais) antes de nos dar a chance de corrigi-las.**
+Se você descobrir uma vulnerabilidade de segurança no **Orvion**, pedimos que a reporte de forma responsável e privada. **Por favor, NÃO divulgue vulnerabilidades publicamente (em issues, pull requests ou redes sociais) antes de nos dar a chance de corrigi-las.**
 
 ### Como Reportar:
 
@@ -50,4 +50,4 @@ Este projeto é licenciado sob a [MIT License](LICENSE). Ao contribuir, você co
 
 ---
 
-**Pocket Oracle © 2026**
+**Orvion © 2026**

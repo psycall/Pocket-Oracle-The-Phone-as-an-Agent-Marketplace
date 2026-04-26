@@ -93,5 +93,5 @@ jobs:
     steps:
       - name: Report completion
         run: |
-          echo "Security workflow completed for Pocket Oracle."
+          echo "Security workflow completed for Orvion."
           echo "Review failures immediately before merge or release."

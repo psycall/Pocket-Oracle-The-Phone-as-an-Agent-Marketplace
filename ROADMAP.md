@@ -1,8 +1,8 @@
-# Strategic Roadmap: Pocket Oracle OS
+# Strategic Roadmap: Orvion OS
 
 **EN** | [**PT-BR**](README.pt-br.md)
 
-This roadmap outlines the strategic evolution of **Pocket Oracle OS**, positioning it as an innovative product, a reference public repository, and a demonstrable asset for partners, investors, and the community. Our vision is to transform a compelling MVP with a clear economic flow into a robust **agentic marketplace infrastructure driven by real-world signals**.
+This roadmap outlines the strategic evolution of **Orvion OS**, positioning it as an innovative product, a reference public repository, and a demonstrable asset for partners, investors, and the community. Our vision is to transform a compelling MVP with a clear economic flow into a robust **agentic marketplace infrastructure driven by real-world signals**.
 
 ## 🧭 Horizon Overview
 
@@ -73,4 +73,4 @@ The product horizon is the evolution from an economic demonstration to a real co
 
 ---
 
-**Pocket Oracle OS © 2026**
+**Orvion OS © 2026**

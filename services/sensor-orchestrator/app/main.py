@@ -4,7 +4,7 @@ import requests
 import time
 import uuid
 
-app = FastAPI(title="Pocket Oracle GOD MODE 🚀")
+app = FastAPI(title="Orvion GOD MODE 🚀")
 
 # =========================
 # CONFIG
@@ -141,7 +141,7 @@ orchestrator = Orchestrator()
 @app.get("/")
 def root():
     return {
-        "name": "Pocket Oracle",
+        "name": "Orvion",
         "status": "running",
         "mode": "GOD"
     }

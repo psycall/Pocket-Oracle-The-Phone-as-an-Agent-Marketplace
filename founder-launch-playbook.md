@@ -1,11 +1,11 @@
-# Pocket Oracle — Founder Launch Playbook
+# Orvion — Founder Launch Playbook
 
 **Autor:** Manus AI  
 **Idioma principal:** Português do Brasil, com termos operacionais em inglês quando necessário.
 
 ## Propósito
 
-Este playbook foi criado para orientar a evolução do **Pocket Oracle** como se o projeto já estivesse entrando em uma fase de exposição pública séria. O foco não é apenas publicar código. O foco é construir **confiança**, elevar a **percepção de produto**, reduzir riscos operacionais e fazer com que parceiros, recrutadores, jurados, investidores e desenvolvedores enxerguem um projeto com **potencial real de startup**.
+Este playbook foi criado para orientar a evolução do **Orvion** como se o projeto já estivesse entrando em uma fase de exposição pública séria. O foco não é apenas publicar código. O foco é construir **confiança**, elevar a **percepção de produto**, reduzir riscos operacionais e fazer com que parceiros, recrutadores, jurados, investidores e desenvolvedores enxerguem um projeto com **potencial real de startup**.
 
 > Um repositório forte não convence apenas pela ideia. Ele convence pela combinação entre narrativa clara, disciplina de execução, segurança visível, design consistente e sinais de continuidade.
 
@@ -29,9 +29,9 @@ O primeiro movimento deve ser consolidar o que qualquer visitante vê nos primei
 | --- | --- | --- |
 | Definir descrição do repositório | No GitHub, editar a descrição curta do projeto | Frase clara, objetiva e de alto valor percebido |
 | Definir website, se houver | Apontar para landing page futura ou demo pública | Link funcional e coerente com o README |
-| Ativar social preview | Usar `public/brand/pocket-oracle-social-preview.png` | Capa legível e premium |
+| Ativar social preview | Usar `public/brand/orvion-social-preview.png` | Capa legível e premium |
 | Fixar tópicos | Usar tags como `ai`, `agents`, `mobile`, `marketplace`, `oracles`, `payments` | Ajuda descoberta e posicionamento |
-| Ajustar repositórios em destaque no perfil | Fixar Pocket Oracle no topo do perfil | Dá prioridade estratégica ao projeto |
+| Ajustar repositórios em destaque no perfil | Fixar Orvion no topo do perfil | Dá prioridade estratégica ao projeto |
 
 ## Etapa 2 — Elevar a segurança do GitHub
 
@@ -49,7 +49,7 @@ Sempre que uma credencial aparecer em conversa, arquivo ou commit, ela deve ser 
 
 ## Etapa 3 — Refinar a narrativa do produto
 
-A narrativa do Pocket Oracle precisa deixar claro que a proposta não é “um app qualquer com IA”. O projeto deve ser entendido como infraestrutura de **verificação do mundo físico para agentes econômicos de software**.
+A narrativa do Orvion precisa deixar claro que a proposta não é “um app qualquer com IA”. O projeto deve ser entendido como infraestrutura de **verificação do mundo físico para agentes econômicos de software**.
 
 | Mensagem | Como expressar no repositório |
 | --- | --- |
@@ -98,13 +98,13 @@ Mesmo antes do primeiro usuário real, vale tratar o projeto como software de al
 
 ## Etapa 7 — Transformar o perfil do fundador em extensão do produto
 
-O perfil de `psycall` deve funcionar como continuação natural do Pocket Oracle. Ele não pode parecer genérico. Precisa comunicar construção de produto, ambição técnica e clareza de execução.
+O perfil de `psycall` deve funcionar como continuação natural do Orvion. Ele não pode parecer genérico. Precisa comunicar construção de produto, ambição técnica e clareza de execução.
 
 | Elemento do perfil | Direção recomendada |
 | --- | --- |
 | Headline | Builder of AI products, systems, and execution layers |
 | Bio curta | Foco em IA aplicada, automação, arquitetura e produto mobile-first |
-| Repositório em destaque | Pocket Oracle como flagship |
+| Repositório em destaque | Orvion como flagship |
 | Banner | Usar `public/brand/psycall-dev-banner.png` como referência visual |
 | README de perfil | Narrativa curta, técnica e madura |
 
@@ -137,4 +137,4 @@ Antes de divulgar o projeto com força, a revisão final deve ser objetiva e rig
 
 ## Conclusão
 
-Se este playbook for seguido com consistência, o Pocket Oracle deixa de parecer apenas um experimento criativo e passa a se apresentar como **uma startup técnica com narrativa forte, identidade visual própria, disciplina operacional e caminho claro de evolução**. Esse é exatamente o tipo de percepção que abre portas para colaboração, contratação, investimento e atenção qualificada.
+Se este playbook for seguido com consistência, o Orvion deixa de parecer apenas um experimento criativo e passa a se apresentar como **uma startup técnica com narrativa forte, identidade visual própria, disciplina operacional e caminho claro de evolução**. Esse é exatamente o tipo de percepção que abre portas para colaboração, contratação, investimento e atenção qualificada.

@@ -1,6 +1,6 @@
 # Release Readiness Report
 
-Este relatório consolida o estado atual do repositório Pocket Oracle após a montagem profissional da base, a validação local dos serviços e a configuração inicial de governança, segurança e integração contínua.
+Este relatório consolida o estado atual do repositório Orvion após a montagem profissional da base, a validação local dos serviços e a configuração inicial de governança, segurança e integração contínua.
 
 ## Resumo executivo
 

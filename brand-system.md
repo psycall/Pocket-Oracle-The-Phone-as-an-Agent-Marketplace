@@ -1,12 +1,12 @@
-# Pocket Oracle — Brand System
+# Orvion — Brand System
 
 ## Objetivo
 
-Este documento consolida a identidade visual do **Pocket Oracle** para que o projeto mantenha uma apresentação coerente em README, perfil do fundador, demos, pitches, releases e futuras superfícies de produto. Em projetos de alto potencial, branding não é ornamento; branding é uma camada de **confiança, lembrança e clareza estratégica**.
+Este documento consolida a identidade visual do **Orvion** para que o projeto mantenha uma apresentação coerente em README, perfil do fundador, demos, pitches, releases e futuras superfícies de produto. Em projetos de alto potencial, branding não é ornamento; branding é uma camada de **confiança, lembrança e clareza estratégica**.
 
 ## Princípio de marca
 
-A identidade do Pocket Oracle deve transmitir quatro ideias ao mesmo tempo: **inteligência agentic**, **presença mobile**, **prova do mundo físico** e **credibilidade técnica premium**. Toda aplicação visual deve reforçar essa combinação. Se a peça parecer genérica, futurista demais sem utilidade, ou bonita sem comunicar produto, ela está fora do padrão.
+A identidade do Orvion deve transmitir quatro ideias ao mesmo tempo: **inteligência agentic**, **presença mobile**, **prova do mundo físico** e **credibilidade técnica premium**. Toda aplicação visual deve reforçar essa combinação. Se a peça parecer genérica, futurista demais sem utilidade, ou bonita sem comunicar produto, ela está fora do padrão.
 
 | Pilar visual | Significado estratégico | Sinal percebido |
 | --- | --- | --- |
@@ -24,8 +24,8 @@ Os arquivos abaixo formam a base oficial da identidade visual atual do repositó
 | Logo principal | `public/brand/logo.svg` | README, documentos, futuras landing pages |
 | Ícone | `public/brand/icon.svg` | Favicons, apps e superfícies compactas |
 | Tokens de marca | `public/brand/brand-tokens.json` | Padronização de cor, tipografia e UI |
-| Social preview | `public/brand/pocket-oracle-social-preview.png` | Capa pública do repositório e compartilhamento |
-| Social preview source | `public/brand/pocket-oracle-social-preview_original.png` | Base de revisão e nova geração |
+| Social preview | `public/brand/orvion-social-preview.png` | Capa pública do repositório e compartilhamento |
+| Social preview source | `public/brand/orvion-social-preview_original.png` | Base de revisão e nova geração |
 | Founder/dev banner | `public/brand/psycall-dev-banner.png` | Referência visual para perfil e materiais pessoais |
 | Founder/dev banner source | `public/brand/psycall-dev-banner_original.png` | Base de refinamento visual futuro |
 
@@ -80,4 +80,4 @@ A próxima camada de branding deve expandir a identidade atual sem romper o sist
 
 ## Conclusão
 
-Um branding forte não substitui produto, mas acelera compreensão, aumenta confiança e faz o projeto parecer maior, mais organizado e mais memorável. No caso do **Pocket Oracle**, a marca precisa sempre comunicar a mesma ideia: **IA que consegue ver, confirmar e operar no mundo real por meio do smartphone, com lógica econômica clara e apresentação de nível profissional**.
+Um branding forte não substitui produto, mas acelera compreensão, aumenta confiança e faz o projeto parecer maior, mais organizado e mais memorável. No caso do **Orvion**, a marca precisa sempre comunicar a mesma ideia: **IA que consegue ver, confirmar e operar no mundo real por meio do smartphone, com lógica econômica clara e apresentação de nível profissional**.

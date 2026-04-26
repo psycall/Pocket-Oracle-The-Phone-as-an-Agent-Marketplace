@@ -1,6 +1,6 @@
 # GitHub Hardening Guide
 
-Este guia resume a configuração recomendada para transformar o repositório do Pocket Oracle em um ativo público com padrão profissional, governança clara e menor risco operacional.
+Este guia resume a configuração recomendada para transformar o repositório do Orvion em um ativo público com padrão profissional, governança clara e menor risco operacional.
 
 ## Objetivo
 
@@ -28,7 +28,7 @@ Por fim, confirme a seção de **General** para ativar exclusão automática de 
 
 ## Descrição pública sugerida
 
-> Pocket Oracle turns any smartphone into a monetizable real-world oracle for AI agents, powered by paid requests, mobile execution and micropayment-ready architecture.
+> Orvion turns any smartphone into a monetizable real-world oracle for AI agents, powered by paid requests, mobile execution and micropayment-ready architecture.
 
 ## Tópicos sugeridos
 

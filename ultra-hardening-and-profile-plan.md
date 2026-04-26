@@ -1,8 +1,8 @@
-# Pocket Oracle — Ultra Hardening, Advanced Branding and Developer Profile Plan
+# Orvion — Ultra Hardening, Advanced Branding and Developer Profile Plan
 
 ## Objective
 
-This document defines the next upgrade wave for **Pocket Oracle** so the repository reaches a stronger executive standard across **security, supply chain integrity, visual presentation, operating guidance, and founder profile positioning**.
+This document defines the next upgrade wave for **Orvion** so the repository reaches a stronger executive standard across **security, supply chain integrity, visual presentation, operating guidance, and founder profile positioning**.
 
 ## Strategic direction
 
@@ -51,7 +51,7 @@ The GitHub presence for `psycall` should be upgraded through a public profile re
 | --- | --- |
 | Headline | Builder of agentic products and real-world AI interfaces |
 | Short bio | Product, systems, automation, and execution focus |
-| Featured work | Pocket Oracle as flagship repository |
+| Featured work | Orvion as flagship repository |
 | Technical stack | AI, APIs, orchestration, mobile-first product systems |
 | Operating values | Security, clarity, speed, resilience, and product taste |
 | Contact/collaboration | Clear collaboration and partnership pathway |

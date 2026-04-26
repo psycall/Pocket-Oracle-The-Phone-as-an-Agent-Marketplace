@@ -1,8 +1,8 @@
-# Código de Conduta do Pocket Oracle
+# Código de Conduta do Orvion
 
 **PT-BR** | **EN**
 
-O **Pocket Oracle** é um projeto de código aberto que visa transformar smartphones em uma plataforma de marketplace para agentes de IA. Nosso objetivo é fomentar um ambiente colaborativo, inovador e respeitoso para todos os contribuidores. Este Código de Conduta estabelece as expectativas para o comportamento de todos os envolvidos com o projeto, garantindo um espaço seguro e produtivo para discussões técnicas, desenvolvimento e colaboração.
+O **Orvion** é um projeto de código aberto que visa transformar smartphones em uma plataforma de marketplace para agentes de IA. Nosso objetivo é fomentar um ambiente colaborativo, inovador e respeitoso para todos os contribuidores. Este Código de Conduta estabelece as expectativas para o comportamento de todos os envolvidos com o projeto, garantindo um espaço seguro e produtivo para discussões técnicas, desenvolvimento e colaboração.
 
 ## 🎯 Nossos Valores
 
@@ -36,7 +36,7 @@ Os seguintes comportamentos são considerados inaceitáveis e não serão tolera
 
 ## 🌐 Escopo
 
-Este Código de Conduta se aplica a todos os espaços do projeto, incluindo, mas não se limitando a, issues, pull requests, discussões, documentação, canais de comunicação e eventos relacionados ao Pocket Oracle. Ele se aplica a todos os contribuidores, mantenedores e participantes do projeto.
+Este Código de Conduta se aplica a todos os espaços do projeto, incluindo, mas não se limitando a, issues, pull requests, discussões, documentação, canais de comunicação e eventos relacionados ao Orvion. Ele se aplica a todos os contribuidores, mantenedores e participantes do projeto.
 
 ## 🚨 Aplicação
 
@@ -48,4 +48,4 @@ Se você presenciar ou for alvo de algum comportamento que viole este Código de
 
 ---
 
-**Pocket Oracle © 2026**
+**Orvion © 2026**

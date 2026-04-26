@@ -1,6 +1,6 @@
-# Contribuindo para o Pocket Oracle
+# Contribuindo para o Orvion
 
-Bem-vindo ao **Pocket Oracle**! Agradecemos seu interesse em contribuir para este projeto inovador. Este guia detalha como você pode participar de forma eficaz, mantendo a qualidade, a segurança e a visão estratégica do nosso produto.
+Bem-vindo ao **Orvion**! Agradecemos seu interesse em contribuir para este projeto inovador. Este guia detalha como você pode participar de forma eficaz, mantendo a qualidade, a segurança e a visão estratégica do nosso produto.
 
 Nosso projeto é um monorepo de nível industrial, focado em **micropagamentos agentic e inteligência do mundo real**. Valorizamos contribuições que agreguem valor, sejam bem documentadas e sigam nossas diretrizes de engenharia e comunicação.
 
@@ -70,7 +70,7 @@ Para que seu PR seja aprovado e mergeado, ele deve atender aos seguintes critér
 
 *   **Testes:** Novas funcionalidades devem vir acompanhadas de testes unitários e/ou de integração. Correções de bugs devem incluir testes de regressão.
 *   **Documentação:** Atualize a documentação relevante (README, arquivos `docs/`, comentários no código) para refletir suas mudanças.
-*   **Coerência:** A mudança deve ser coerente com a narrativa do produto e a visão estratégica do Pocket Oracle.
+*   **Coerência:** A mudança deve ser coerente com a narrativa do produto e a visão estratégica do Orvion.
 *   **Segurança:** Garanta que nenhuma credencial, chave de API ou informação sensível seja incluída no código ou nos commits. Siga as diretrizes de [Segurança e Governança](README.md#%EF%B8%8F-segurança-e-governança).
 *   **Monetização:** Se a mudança afeta o fluxo de pagamento, verifique se ele permanece funcional e seguro.
 *   **Revisão de Código:** Esteja preparado para receber feedback e iterar sobre suas mudanças. Nosso objetivo é a excelência técnica.
@@ -85,4 +85,4 @@ Se tiver alguma dúvida sobre como contribuir, sinta-se à vontade para abrir um
 
 ---
 
-**Pocket Oracle © 2026**
+**Orvion © 2026**

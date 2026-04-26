@@ -1,6 +1,6 @@
 # Arquitetura
 
-A arquitetura do Pocket Oracle foi desenhada para demonstrar, de forma executiva e técnica, como um smartphone pode operar como camada de coleta contextual para agentes de IA com monetização por requisição.
+A arquitetura do Orvion foi desenhada para demonstrar, de forma executiva e técnica, como um smartphone pode operar como camada de coleta contextual para agentes de IA com monetização por requisição.
 
 ```mermaid
 flowchart LR

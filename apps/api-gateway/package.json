@@ -1,5 +1,5 @@
 {
-  "name": "@pocket-oracle/api-gateway",
+  "name": "@orvion/api-gateway",
   "version": "0.1.0",
   "private": true,
   "type": "module",
