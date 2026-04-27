@@ -14,7 +14,7 @@ jobs:
     needs: []           # CI must pass first — add ci job name here
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install Railway CLI
         run: npm install -g @railway/cli
