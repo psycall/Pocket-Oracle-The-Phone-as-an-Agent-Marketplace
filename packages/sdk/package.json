@@ -1,6 +1,7 @@
 {
   "name": "@orvion/sdk",
   "version": "2.0.0",
+  "type": "module",
   "description": "Official TypeScript SDK for the Orvion Execution Layer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
