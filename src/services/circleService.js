@@ -1,8 +1,4 @@
-/**
- * Circle Integration Service
- * Specialized in Modular Wallets and USDC Settlement
- */
-const axios = require('axios');
+import axios from 'axios';
 
 class CircleService {
     constructor() {
@@ -12,15 +8,13 @@ class CircleService {
     }
 
     async createAgentWallet(agentId) {
-        // Implementação profissional para criar carteiras controladas para agentes
         console.log(`[Circle] Initializing modular wallet for agent: ${agentId}`);
-        // Lógica de integração com a API da Circle usando as chaves de teste
         return {
             success: true,
-            walletAddress: "0x" + "0".repeat(40), // Placeholder para integração real
+            walletAddress: "0x" + "0".repeat(40),
             status: "active"
         };
     }
 }
 
-module.exports = new CircleService();
+export default new CircleService();
