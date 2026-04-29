@@ -1,126 +1,99 @@
-<p align="center">
-  <img src="public/brand/orvion_logo_4k.png" width="220" alt="Orvion logo">
-</p>
+# 🧠 Pocket Oracle
 
-<h1 align="center">Orvion · Pocket Oracle</h1>
+> **Phone as an Agent Marketplace** — a decentralized network that turns smartphones into autonomous agents executing real-world tasks and earning USDC.
 
-<p align="center">
-  <strong>The phone as an agent marketplace.</strong><br/>
-  An investor-ready monorepo: landing page, mobile operator PWA, admin
-  dashboard, paid API gateway, FastAPI execution layer and TypeScript SDK.
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/status-investor--ready-7af3cf" alt="status">
-  <img src="https://img.shields.io/badge/stack-monorepo-56b7ff" alt="stack">
-  <img src="https://img.shields.io/badge/payments-mock%20%E2%86%92%20x402-FF5733" alt="payments">
-  <img src="https://img.shields.io/badge/license-MIT-9db4c8" alt="license">
-</p>
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![Solidity](https://img.shields.io/badge/solidity-0.8.20-363636)
+![Stack](https://img.shields.io/badge/stack-Express%20%7C%20Ethers%20v6%20%7C%20Circle-blueviolet)
 
 ---
 
-## What is in this repo
+## 🚀 Problem
+Accessing real-world data and execution is expensive, centralized, and slow.
 
-| Surface | Path | Port (dev) | Purpose |
-| --- | --- | --- | --- |
-| Investor landing | `apps/web` | 3002 | Premium narrative, economics, roadmap |
-| Mobile operator PWA | `apps/mobile-pwa` | 3000 | Phone-native job queue and escalation |
-| Admin dashboard | `apps/admin-dashboard` | 3001 | Executive metrics and readiness checklist |
-| Paid API gateway | `apps/api-gateway` | 8080 | 402-style paid endpoints with mock auth |
-| Execution layer (FastAPI) | `apps/api` | 8000 | JWT-auth, agents, marketplace, history |
-| Sensor orchestrator | `services/sensor-orchestrator` | 8100 | Deterministic GeoProof / OCR / HumanTap |
-| TypeScript SDK | `packages/sdk` | – | Official client (`@orvion/sdk`) |
-
-Everything is designed to keep working in **DEMO MODE** — Redis, Anthropic and
- the orchestrator are all optional thanks to graceful in-process fallbacks.
+## 💡 Solution
+A trustless marketplace where:
+- Users create paid tasks
+- Mobile devices act as agents
+- Payments settle in USDC via **Circle**
+- A **Solidity escrow** contract guarantees fairness
 
 ---
 
-## Quick start (60 seconds)
+## ⚙️ Stack
+- **Backend:** Node.js + Express
+- **Blockchain:** Solidity 0.8.20, Hardhat, Ethers v6
+- **Payments:** Circle USDC API (sandbox)
+- **Networks:** Sepolia / Arbitrum Sepolia (Arc-ready)
+
+---
+
+## 🔄 Flow
+
+```
+ ┌──────────┐   USDC    ┌─────────┐   webhook   ┌─────────┐   tx     ┌──────────────┐
+ │  User    │ ────────► │ Circle  │ ──────────► │ Backend │ ───────► │ PocketOracle │
+ │          │           │  API    │             │ Express │          │  Contract    │
+ └──────────┘           └─────────┘             └─────────┘          └──────────────┘
+                                                                            │
+                                                                       releasePayment
+                                                                            ▼
+                                                                       ┌─────────┐
+                                                                       │ Agent   │
+                                                                       │ (phone) │
+                                                                       └─────────┘
+```
+
+1. User pays in USDC (Circle)
+2. Circle webhook → backend creates an on-chain task
+3. Mobile agent executes the task
+4. Smart contract releases the escrowed payment
+
+---
+
+## 📦 Setup
 
 ```bash
-# 1. Setup
-cp .env.example .env
+git clone https://github.com/psycall/Pocket-Oracle-The-Phone-as-an-Agent-Marketplace.git
+cd Pocket-Oracle-The-Phone-as-an-Agent-Marketplace
 npm install
-
-# 2. Build everything
-npm run build
-
-# 3. Start the surfaces (each in its own terminal)
-npm run dev:api          # FastAPI on :8000
-npm run dev:gateway      # Paid gateway on :8080
-npm run dev:web          # Investor landing on :3002
-npm run dev:mobile       # Mobile PWA on :3000
-npm run dev:admin        # Admin dashboard on :3001
-npm run dev:orchestrator # (optional) sensors on :8100
-
-# 4. Tests
-npm run test:py          # pytest for the FastAPI layer
-npm run test:js          # vitest for the SDK
-```
-
-Optional infrastructure (Redis + Postgres + sensor orchestrator container):
-
-```bash
-docker compose -f infra/docker/docker-compose.yml up -d
+cp .env.example .env   # fill in your keys
+npm run compile
+npm run deploy:sepolia # deploy escrow
+npm start              # start backend
 ```
 
 ---
 
-## Why this is investable
+## 🔌 API Endpoints
 
-| Market friction | Legacy workaround | Orvion answer |
-| --- | --- | --- |
-| Agents struggle to pay for tiny tasks | Cards / invoices / human billing loops | HTTP-native paid calls, sub-cent pricing |
-| Automation fails at the messy edge of reality | Manual back-office interventions | Phone-native operators step in only when needed |
-| Buyers need proof, not black-box promises | Loose logs, vendor trust | Execution records, routing trace, verification metadata |
-
----
-
-## Paid Oracle services (demo pricing)
-
-| Service | Price | Latency | Outcome |
-| --- | --- | --- | --- |
-| GeoProof | $0.0015 | < 2s | Signed-style location attestation with confidence |
-| SnapOCR | $0.0040 | < 3s | Structured text extraction from receipts/labels |
-| HumanTap Verify | $0.0060 | < 20s | Human approve/reject decision with operator trace |
+| Method | Path             | Description                    |
+| ------ | ---------------- | ------------------------------ |
+| GET    | `/`              | Health check                   |
+| POST   | `/create-wallet` | Create a Circle wallet         |
+| POST   | `/transfer`      | Transfer USDC between wallets  |
+| POST   | `/webhook`       | Circle event receiver (HMAC)   |
+| POST   | `/complete-task` | Release on-chain payment       |
+| GET    | `/tasks`         | List all on-chain tasks        |
 
 ---
 
-## Architecture (simplified)
-
-```
-                     ┌──────────────┐
- Operator phone ───► │ Mobile PWA   │ ── job queue, escalation
-                     └─────┬────────┘
-                           │
-                     ┌─────▼────────┐    402 challenge → retry with auth
- Investor / buyer ─► │ Web landing  │◄── shows economics & roadmap
-                     └─────┬────────┘
-                           │
-                     ┌─────▼────────┐    pricing, catalog, stats
-                     │ API Gateway  │────────────────────────────┐
-                     │  (Express)   │                            │
-                     └─────┬────────┘                            ▼
-                           │                            ┌────────────────────┐
-                           ▼                            │ Sensor Orchestrator│
-                     ┌──────────────┐                   │     (FastAPI)      │
-                     │  Exec API    │ JWT, agents,      └────────────────────┘
-                     │ (FastAPI)    │ history, registry
-                     └──────────────┘
-```
+## 🔐 Security Notes
+- **Never commit `.env`.** Use `.env.example` as the template.
+- **Never share private keys or API tokens** in code, chat, screenshots, or commits.
+- If a token is ever exposed, **revoke it immediately** at https://github.com/settings/tokens
+- The webhook validates the `X-Circle-Signature` header (HMAC-SHA256) when `CIRCLE_WEBHOOK_SECRET` is set.
 
 ---
 
-## Roadmap
-
-1. **Now** — polished demo stack (this repo).
-2. **Next** — replace mock authorisation with real Circle / x402 settlement.
-3. **Then** — open marketplace: external agent registration, partner distribution, usage-based billing across operator networks.
+## 🗺️ Roadmap
+- [ ] Mobile agent SDK (Android / iOS)
+- [ ] Reputation & staking layer
+- [ ] Arc Network deployment
+- [ ] Multi-asset escrow (USDC, EURC, native)
 
 ---
 
-<p align="center">
-  <strong>Orvion · Pocket Oracle © 2026</strong><br/>
-  <em>The phone as an agent marketplace.</em>
-</p>
+## 📄 License
+MIT © psycall

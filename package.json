@@ -1,34 +1,35 @@
 {
-  "name": "orvion",
-  "version": "2.1.0",
-  "private": true,
-  "description": "Pocket Oracle / Orvion — investor-ready agent commerce layer (web, mobile, dashboard, gateway, SDK).",
-  "workspaces": [
-    "apps/web",
-    "apps/mobile-pwa",
-    "apps/admin-dashboard",
-    "apps/api-gateway",
-    "packages/sdk",
-    "packages/agent-sdk",
-    "packages/shared-types"
-  ],
+  "name": "pocket-oracle",
+  "version": "1.0.0",
+  "description": "Decentralized agent marketplace powered by mobile devices.",
+  "main": "src/server.js",
+  "type": "module",
   "scripts": {
-    "setup": "cp .env.example .env && echo '✅ .env created — review values before running services'",
-    "dev:web": "npm run dev --workspace @orvion/web",
-    "dev:mobile": "npm run dev --workspace @orvion/mobile-pwa",
-    "dev:admin": "npm run dev --workspace @orvion/admin-dashboard",
-    "dev:gateway": "npm run dev --workspace @orvion/api-gateway",
-    "dev:api": "cd apps/api && uvicorn main:app --reload --port 8000",
-    "dev:orchestrator": "cd services/sensor-orchestrator && uvicorn app.main:app --reload --port 8100",
-    "build": "npm run build --workspace @orvion/sdk && npm run build --workspace @orvion/api-gateway && npm run build --workspace @orvion/web && npm run build --workspace @orvion/mobile-pwa && npm run build --workspace @orvion/admin-dashboard",
-    "lint": "npm run lint --workspaces --if-present",
-    "test:py": "cd apps/api && pytest -q",
-    "test:js": "npm run test --workspace @orvion/sdk --if-present"
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:arb": "hardhat run scripts/deploy.js --network arbitrumSepolia"
   },
-  "engines": {
-    "node": ">=20.0.0"
+  "keywords": [
+    "web3",
+    "usdc",
+    "circle",
+    "agents",
+    "marketplace",
+    "ethereum"
+  ],
+  "author": "psycall",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.2",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
-    "typescript": "^5.5.4"
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.0"
   }
 }
