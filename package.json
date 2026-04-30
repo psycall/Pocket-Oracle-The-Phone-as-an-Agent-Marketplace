@@ -1,5 +1,5 @@
 {
-  "name": "pocket-oracle",
+  "name": "orvion-settlement-layer",
   "version": "1.0.0",
   "description": "Decentralized agent marketplace powered by mobile devices.",
   "main": "src/server.js",

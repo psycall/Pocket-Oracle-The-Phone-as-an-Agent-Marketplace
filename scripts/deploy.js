@@ -13,12 +13,12 @@ async function main() {
     "ETH"
   );
 
-  const Factory = await ethers.getContractFactory("PocketOracle");
+  const Factory = await ethers.getContractFactory("Orvion");
   const contract = await Factory.deploy();
   await contract.waitForDeployment();
 
   const address = await contract.getAddress();
-  console.log("PocketOracle deployed at:", address);
+  console.log("Orvion deployed at:", address);
 
   const out = path.resolve("deployments.json");
   let store = {};

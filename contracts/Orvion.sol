@@ -4,11 +4,11 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 /**
- * @title PocketOracle (Turbo Arc Edition)
+ * @title Orvion (Turbo Arc Edition)
  * @notice Full ERC-8183 Compliance with Unified USDC Settlement.
  * @dev Optimized for Nanopayments batching and Arc Builders Fund.
  */
-contract PocketOracle {
+contract Orvion {
     IERC20 public immutable usdc;
     
     enum JobStatus { Pending, Funded, Completed, Settled, Disputed }

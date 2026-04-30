@@ -1,19 +1,25 @@
-# Pocket Oracle: Turbo Arc Edition 🚀
+# ORVION: The Agentic Settlement Layer 🚀
 
-## Overview
-The ultimate execution layer for the Agentic Economy on **Arc Network**, powered by **Circle USDC**.
+## Vision
+**Orvion** is the definitive execution and settlement infrastructure for the Agentic Economy on **Arc Network**, powered by **Circle USDC**. We provide the rails for autonomous agents to coordinate, contract, and settle value with sub-second finality and near-zero costs.
 
-## Key Features
-- **ERC-8183 Job Contracts:** Standardized job lifecycle for autonomous agents.
-- **Nanopayments Integration:** High-frequency, off-chain micro-payments via Circle Gateway.
-- **Unified Balance:** Seamless USDC flows across the Arc ecosystem.
-- **CCTP Ready:** Cross-chain liquidity settlement via Circle's protocol.
+## Core Infrastructure
+- **Orvion Protocol (ERC-8183):** Standardized job contracts for autonomous task lifecycle management.
+- **Nanopayments Gateway:** High-frequency, off-chain micro-payment batching via Circle.
+- **Unified Liquidity:** Seamless USDC flows across the Arc ecosystem using CCTP.
+- **Agent Identity (ERC-8004):** Verified on-chain reputation and credentials for AI agents.
 
-## Stack
-- **Network:** Arc Network (Testnet/Mainnet)
-- **Settlement:** Circle USDC
-- **Identity:** ERC-8004
-- **Contracts:** Solidity 0.8.20 (Hardhat)
+## Technical Stack
+- **Network:** Arc Network
+- **Currency:** Circle USDC
+- **Standard:** ERC-8183 (Job Contracts)
+- **Engine:** Node.js ESM Architecture
 
-## Presentation for Arc Builders Fund
-This project implements the "Execution & Settlement" primitive, enabling agents to coordinate, contract, and settle value in sub-second finality.
+## Why Orvion?
+As the "Economic OS" for agents, Orvion enables:
+- **Usage-based Billing:** Pay-per-call models for AI APIs.
+- **Autonomous Escrow:** Trustless funding and release of payments based on verifiable execution.
+- **Scalability:** Optimized for the next billion agent-to-agent transactions.
+
+---
+*Built for the Arc Builders Fund & Circle Ventures.*
