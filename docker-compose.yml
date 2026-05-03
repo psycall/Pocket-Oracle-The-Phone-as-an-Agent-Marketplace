@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: orvion
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  orvion:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: orvion
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      ARC_RPC_URL: https://testnet-rpc.arc.network
+      ARC_CHAIN_ID: 2602
+      CIRCLE_API_KEY: ${CIRCLE_API_KEY}
+      CIRCLE_ENTITY_SECRET: ${CIRCLE_ENTITY_SECRET}
+    depends_on:
+      - postgres
+      - redis
+
+volumes:
+  postgres_data:
