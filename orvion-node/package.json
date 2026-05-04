@@ -1,0 +1,40 @@
+{
+  "name": "orvion-settlement-layer",
+  "version": "2.0.0",
+  "description": "ORVION - Agentic Settlement Layer for Arc Network & Circle USDC",
+  "main": "gateway/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node gateway/index.js",
+    "start:auth": "node services/auth.js",
+    "start:billing": "node services/billing.js",
+    "start:usage": "node services/usage.js",
+    "start:circle": "node services/circle-payments.js",
+    "demo": "node demo/app.js",
+    "test": "node tests/integration.test.js",
+    "test:unit": "node tests/unit.test.js",
+    "docker:up": "docker-compose up --build",
+    "docker:down": "docker-compose down -v",
+    "docker:logs": "docker-compose logs -f"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.6.0",
+    "jsonwebtoken": "^9.0.0",
+    "prom-client": "^14.2.0",
+    "redis": "^4.6.10",
+    "pg": "^8.11.3",
+    "ethers": "^6.9.0",
+    "web3": "^4.4.0",
+    "uuid": "^9.0.1",
+    "dotenv": "^16.3.1",
+    "helmet": "^7.1.0",
+    "cors": "^2.8.5",
+    "express-rate-limit": "^7.1.5",
+    "winston": "^3.11.0",
+    "joi": "^17.11.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,179 @@
+version: "3.9"
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: orvion-gateway
+    command: node gateway/index.js
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgres://orvion:orvion@postgres:5432/orvion
+      - AUTH_URL=http://auth:3001
+      - BILLING_URL=http://billing:3002
+      - USAGE_URL=http://usage:3003
+      - CIRCLE_URL=http://circle-payments:3004
+      - JWT_SECRET=orvion-dev-secret-change-in-production
+      - LOG_LEVEL=info
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - orvion-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  auth:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: orvion-auth
+    command: node services/auth.js
+    environment:
+      - JWT_SECRET=orvion-dev-secret-change-in-production
+      - POSTGRES_URL=postgres://orvion:orvion@postgres:5432/orvion
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - orvion-network
+
+  billing:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: orvion-billing
+    command: node services/billing.js
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgres://orvion:orvion@postgres:5432/orvion
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - orvion-network
+
+  usage:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: orvion-usage
+    command: node services/usage.js
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgres://orvion:orvion@postgres:5432/orvion
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - orvion-network
+
+  circle-payments:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: orvion-circle
+    command: node services/circle-payments.js
+    environment:
+      - CIRCLE_API_KEY=TEST_API_KEY
+      - CIRCLE_ENV=sandbox
+      - ARC_RPC_URL=https://rpc.testnet.arc.network
+      - ARC_CHAIN_ID=7777
+      - USDC_CONTRACT=0x0000000000000000000000000000000000000000
+      - POSTGRES_URL=postgres://orvion:orvion@postgres:5432/orvion
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - orvion-network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: orvion-postgres
+    environment:
+      POSTGRES_USER: orvion
+      POSTGRES_PASSWORD: orvion
+      POSTGRES_DB: orvion
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - orvion-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orvion"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: orvion-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - orvion-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: orvion-prometheus
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    restart: unless-stopped
+    networks:
+      - orvion-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: orvion-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+    restart: unless-stopped
+    networks:
+      - orvion-network
+
+volumes:
+  pgdata:
+  grafana-data:
+  prometheus-data:
+
+networks:
+  orvion-network:
+    driver: bridge
