@@ -272,3 +272,11 @@ MIT License - see LICENSE file for details
 **Building the future of decentralized value exchange for autonomous agents.**
 
 ORVION Protocol © 2025. All rights reserved.
+
+## 🎬 Demo Video
+
+[![ORVION Demo](https://img.youtube.com/vi/PLACEHOLDER/maxresdefault.jpg)](https://youtu.be/PLACEHOLDER)
+
+**Watch ORVION in action**: Real-time USDC settlement on Arc Network (60 seconds)
+
+---
