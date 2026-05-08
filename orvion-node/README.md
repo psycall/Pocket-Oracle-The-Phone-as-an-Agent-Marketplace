@@ -271,7 +271,7 @@ MIT License - see LICENSE file for details
 
 **Building the future of decentralized value exchange for autonomous agents.**
 
-ORVION Protocol © 2025. All rights reserved.
+ORVION Protocol © 2026. All rights reserved.
 
 ## 🎬 Demo Video
 

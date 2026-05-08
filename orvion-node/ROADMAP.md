@@ -1,6 +1,6 @@
-# ORVION Roadmap 2025-2026
+# ORVION Roadmap 2026-2026
 
-## Q2 2025 (Current)
+## Q2 2026 (Current)
 - [x] Core Gateway & Microservices
 - [x] Auth & Billing Services
 - [x] Circle USDC Integration
@@ -9,7 +9,7 @@
 - [ ] **Testnet Deployment** (In Progress)
 - [ ] **Demo Video & Marketing** (In Progress)
 
-## Q3 2025
+## Q3 2026
 - [ ] **PR-001**: Implement ERC-8183 Smart Contracts
 - [ ] **PR-002**: Add WebSocket Real-time Settlements
 - [ ] **PR-003**: Implement Agent Registry Contract
@@ -17,7 +17,7 @@
 - [ ] **PR-005**: Create Admin Dashboard UI
 - [ ] **PR-006**: Implement Rate Limiting v2
 
-## Q4 2025
+## Q4 2026
 - [ ] **PR-007**: Add Multi-chain Support (Polygon, Ethereum)
 - [ ] **PR-008**: Implement Advanced Analytics
 - [ ] **PR-009**: Add Webhook Notifications
@@ -35,7 +35,7 @@
 - **Phase**: Public Beta
 - **Network**: Arc Testnet
 - **Status**: Production Ready
-- **Last Update**: May 2025
+- **Last Update**: May 2026
 
 ---
 

@@ -34,4 +34,4 @@
 
 ---
 
-**Help us reach 500 stars by Q4 2025!**
+**Help us reach 500 stars by Q4 2026!**
