@@ -1,14 +1,40 @@
-version: '3.9'
+
+version: '3.8'
 
 services:
+  orvion-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      - NEO4J_URI=${NEO4J_URI}
+      - NEO4J_USER=${NEO4J_USER}
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD}
+      - ARC_RPC_URL=${ARC_RPC_URL}
+      - USDC_CONTRACT=${USDC_CONTRACT}
+      - ARC_CHAIN_ID=${ARC_CHAIN_ID}
+      - SECRET_KEY=${SECRET_KEY}
+      - CIRCLE_TEST_API_KEY=${CIRCLE_TEST_API_KEY}
+      - CIRCLE_KIT_KEY=${CIRCLE_KIT_KEY}
+      - POCKET_ORACLE_ADDRESS=${POCKET_ORACLE_ADDRESS}
+      - PRIVATE_KEY=${PRIVATE_KEY}
+
+    volumes:
+      - .:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8080 --reload
+
   postgres:
     image: postgres:15-alpine
-    environment:
-      POSTGRES_DB: orvion
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+    environment:
+      - POSTGRES_USER=orvion
+      - POSTGRES_PASSWORD=orvion
+      - POSTGRES_DB=orvion
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -16,26 +42,40 @@ services:
     image: redis:7-alpine
     ports:
       - "6379:6379"
+    command: redis-server --requirepass orvion_redis_password
+    volumes:
+      - redis_data:/data
 
-  orvion:
-    build: .
+  neo4j:
+    image: neo4j:5.10.0
     ports:
-      - "8080:8080"
+      - "7474:7474"
+      - "7687:7687"
     environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: orvion
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      ARC_RPC_URL: https://testnet-rpc.arc.network
-      ARC_CHAIN_ID: 2602
-      CIRCLE_API_KEY: ${CIRCLE_API_KEY}
-      CIRCLE_ENTITY_SECRET: ${CIRCLE_ENTITY_SECRET}
+      - NEO4J_AUTH=neo4j/orvion_secure_password
+      - NEO4J_dbms_memory_heap_max__size=512M
+      - NEO4J_dbms_memory_pagecache_size=256M
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@orvion.local
+      - PGADMIN_DEFAULT_PASSWORD=admin_password
     depends_on:
       - postgres
-      - redis
+
+
+
+
 
 volumes:
   postgres_data:
+  redis_data:
+  neo4j_data:
+  neo4j_logs:
+
