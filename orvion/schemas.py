@@ -1,6 +1,7 @@
 
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, field_serializer
+from datetime import datetime
 
 class AgentBase(BaseModel):
     agent_address: str
@@ -23,11 +24,16 @@ class AgentUpdate(AgentBase):
 
 class Agent(AgentBase):
     id: str
-    created_at: str
-    updated_at: str
+    created_at: Optional[str] = None
+    updated_at: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+    
+    @field_serializer('created_at', 'updated_at')
+    def serialize_dt(self, value: Optional[datetime]) -> Optional[str]:
+        if value is None:
+            return None
+        return value.isoformat() if isinstance(value, datetime) else value
 
 class JobBase(BaseModel):
     agent_id: str
@@ -39,11 +45,16 @@ class JobCreate(JobBase):
 class Job(JobBase):
     id: str
     status: str
-    created_at: str
-    updated_at: str
+    created_at: Optional[str] = None
+    updated_at: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+    
+    @field_serializer('created_at', 'updated_at')
+    def serialize_dt(self, value: Optional[datetime]) -> Optional[str]:
+        if value is None:
+            return None
+        return value.isoformat() if isinstance(value, datetime) else value
 
 class SettlementBase(BaseModel):
     agent_id: str
@@ -58,11 +69,16 @@ class Settlement(SettlementBase):
     id: str
     status: str
     transaction_hash: Optional[str] = None
-    created_at: str
-    updated_at: str
+    created_at: Optional[str] = None
+    updated_at: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+    
+    @field_serializer('created_at', 'updated_at')
+    def serialize_dt(self, value: Optional[datetime]) -> Optional[str]:
+        if value is None:
+            return None
+        return value.isoformat() if isinstance(value, datetime) else value
 
 class ExecutionReceiptBase(BaseModel):
     job_id: str
@@ -74,7 +90,12 @@ class ExecutionReceiptCreate(ExecutionReceiptBase):
 class ExecutionReceipt(ExecutionReceiptBase):
     id: str
     verified: bool
-    created_at: str
+    created_at: Optional[str] = None
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+    
+    @field_serializer('created_at')
+    def serialize_dt(self, value: Optional[datetime]) -> Optional[str]:
+        if value is None:
+            return None
+        return value.isoformat() if isinstance(value, datetime) else value
