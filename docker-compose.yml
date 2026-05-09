@@ -18,8 +18,8 @@ services:
       - USDC_CONTRACT=${USDC_CONTRACT}
       - ARC_CHAIN_ID=${ARC_CHAIN_ID}
       - SECRET_KEY=${SECRET_KEY}
-      - CIRCLE_TEST_API_KEY=${CIRCLE_TEST_API_KEY}
-      - CIRCLE_KIT_KEY=${CIRCLE_KIT_KEY}
+      - CIRCLE_API_KEY=${CIRCLE_API_KEY}
+      - CIRCLE_ENTITY_SECRET=${CIRCLE_ENTITY_SECRET}
       - POCKET_ORACLE_ADDRESS=${POCKET_ORACLE_ADDRESS}
       - PRIVATE_KEY=${PRIVATE_KEY}
 
@@ -33,7 +33,7 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_USER=orvion
-      - POSTGRES_PASSWORD=orvion
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=orvion
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -42,7 +42,7 @@ services:
     image: redis:7-alpine
     ports:
       - "6379:6379"
-    command: redis-server --requirepass orvion_redis_password
+    command: redis-server --requirepass ${REDIS_PASSWORD}
     volumes:
       - redis_data:/data
 
@@ -52,7 +52,7 @@ services:
       - "7474:7474"
       - "7687:7687"
     environment:
-      - NEO4J_AUTH=neo4j/orvion_secure_password
+      - NEO4J_AUTH=${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD}
       - NEO4J_dbms_memory_heap_max__size=512M
       - NEO4J_dbms_memory_pagecache_size=256M
     volumes:
@@ -65,7 +65,7 @@ services:
       - "5050:80"
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@orvion.local
-      - PGADMIN_DEFAULT_PASSWORD=admin_password
+      - PGADMIN_DEFAULT_PASSWORD=${POSTGRES_PASSWORD}
     depends_on:
       - postgres
 
