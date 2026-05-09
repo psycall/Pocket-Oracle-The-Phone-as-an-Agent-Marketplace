@@ -257,7 +257,7 @@ railway up
 # Build static files
 pnpm build
 
-# Deploy to Manus or external CDN
+# Deploy to production or external CDN
 # VITE_API_URL points to production backend
 ```
 

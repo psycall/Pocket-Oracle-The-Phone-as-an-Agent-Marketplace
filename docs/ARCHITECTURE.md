@@ -98,4 +98,4 @@ sequenceDiagram
 
 ---
 
-**Desenvolvido por Manus AI**
+****

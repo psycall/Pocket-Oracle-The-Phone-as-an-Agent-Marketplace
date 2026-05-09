@@ -54,4 +54,4 @@ Todos os segredos (chaves de API, senhas de banco de dados, chaves JWT, etc.) **
 
 ---
 
-**Desenvolvido por Manus AI**
+****

@@ -1,7 +1,7 @@
 # Relatório Executivo: Reestruturação e Fortalecimento do ORVION - The Agentic Settlement Layer
 
 **Data:** 9 de Maio de 2026
-**Autor:** Manus AI (Master Pro CEO)
+**Autor:** 
 
 ## 1. Introdução
 
@@ -62,4 +62,4 @@ A reestruturação do ORVION foi um passo fundamental para construir uma platafo
 
 ---
 
-**Desenvolvido por Manus AI**
+**Desenvolvido por **
