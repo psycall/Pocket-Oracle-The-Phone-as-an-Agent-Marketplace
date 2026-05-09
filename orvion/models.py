@@ -3,10 +3,9 @@
 # Proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
 
 from sqlalchemy import Column, String, Integer, Float, DateTime, Boolean, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from .auth import User # Import User model
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
@@ -49,18 +48,18 @@ class Settlement(Base):
     id = Column(String, primary_key=True, index=True)
     agent_id = Column(String, ForeignKey("agents.id"), nullable=False)
     job_id = Column(String, ForeignKey("jobs.id"), nullable=False)
-    user_id = Column(String, ForeignKey("users.id"), nullable=True) # Added for user-specific settlement history
+    user_id = Column(String, ForeignKey("users.id"), nullable=True)
     amount = Column(Float, nullable=False)
     to_address = Column(String, nullable=False)
     status = Column(String, default="pending") # pending, confirmed, failed
     transaction_hash = Column(String)
-    on_chain_job_id = Column(Integer, nullable=True)  # ID do job no contrato Orvion on-chain
+    on_chain_job_id = Column(Integer, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
     agent = relationship("Agent", back_populates="settlements")
     job = relationship("Job")
-    user = relationship("User")
+    user = relationship("User", primaryjoin="Settlement.user_id == User.id", foreign_keys="Settlement.user_id")
 
 class ExecutionReceipt(Base):
     __tablename__ = "execution_receipts"
@@ -72,5 +71,3 @@ class ExecutionReceipt(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     job = relationship("Job", back_populates="execution_receipts")
-
-# Additional models (Reputation, Orchestration, etc.) can be added here as needed
