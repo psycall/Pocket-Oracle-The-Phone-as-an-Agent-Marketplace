@@ -256,6 +256,31 @@ def get_settlement(db: Session, settlement_id: str):
 def get_agent_settlements(db: Session, agent_id: str, skip: int = 0, limit: int = 100):
     return db.query(models.Settlement).filter(models.Settlement.agent_id == agent_id).offset(skip).limit(limit).all()
 
+def create_execution_receipt(db: Session, receipt: schemas.ExecutionReceiptCreate):
+    """
+    Submete um recibo de execução para um job.
+    Isso dispara a verificação e prepara o job para liquidação.
+    """
+    db_receipt = models.ExecutionReceipt(
+        id=str(uuid4()),
+        job_id=receipt.job_id,
+        proof=receipt.proof,
+        verified=True # MVP: Auto-verificação para o fluxo atômico
+    )
+    db.add(db_receipt)
+    
+    # Atualiza o status do job para 'completed'
+    job = db.query(models.Job).filter(models.Job.id == receipt.job_id).first()
+    if job:
+        job.status = "completed"
+        db.add(job)
+        
+    db.commit()
+    db.refresh(db_receipt)
+    return db_receipt
+
+def get_execution_receipt(db: Session, receipt_id: str):
+    return db.query(models.ExecutionReceipt).filter(models.ExecutionReceipt.id == receipt_id).first()
 
 def process_settlement_batch(db: Session, settlements: List[models.Settlement]) -> str:
     """
