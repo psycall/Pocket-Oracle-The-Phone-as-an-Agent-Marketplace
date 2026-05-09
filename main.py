@@ -6,6 +6,7 @@ from uuid import uuid4
 
 from orvion import models, schemas, agent_registry, settlement_engine, database
 from orvion.config import settings
+from auth_routes import router as auth_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -93,3 +94,6 @@ async def process_settlement_batch_mock(settlement_ids: List[str], db: Session =
     
     tx_hash = settlement_engine.process_settlement_batch(db, settlements_to_process)
     return {"message": "Batch processed successfully", "transaction_hash": tx_hash, "processed_count": len(settlements_to_process)}
+
+# Include auth router
+app.include_router(auth_router)
