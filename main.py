@@ -4,8 +4,9 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from uuid import uuid4
 
-from orvion import models, schemas, agent_registry, settlement_engine, database, auth
+from orvion import models, schemas, agent_registry, settlement_engine, database, auth, notifications
 from auth_routes import get_current_user
+from fastapi import WebSocket, WebSocketDisconnect
 from orvion.config import settings
 from auth_routes import router as auth_router
 from user_management_routes import router as user_router
@@ -33,6 +34,17 @@ def on_startup():
 @app.get("/health", response_model=dict)
 async def health_check():
     return {"status": "healthy", "service": "ORVION", "version": settings.PROJECT_VERSION}
+
+@app.websocket("/ws/{user_id}")
+async def websocket_endpoint(websocket: WebSocket, user_id: str):
+    await notifications.manager.connect(websocket, user_id)
+    try:
+        while True:
+            # Keep connection alive
+            data = await websocket.receive_text()
+            # Echo or handle incoming WS messages if needed
+    except WebSocketDisconnect:
+        notifications.manager.disconnect(websocket, user_id)
 
 # Agent Registry Endpoints
 @app.post(f"{settings.API_V1_STR}/discovery/agents", response_model=schemas.Agent, status_code=status.HTTP_201_CREATED)

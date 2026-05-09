@@ -4,7 +4,7 @@ from uuid import uuid4
 from sqlalchemy.orm import Session
 from web3 import Web3
 
-from . import models, schemas
+from . import models, schemas, notifications, graph_engine
 from .config import settings
 
 # Initialize Web3 provider
@@ -22,6 +22,19 @@ def create_settlement(db: Session, settlement: schemas.SettlementCreate):
     db.add(db_settlement)
     db.commit()
     db.refresh(db_settlement)
+    
+    # Real-time notification via WebSocket
+    import asyncio
+    try:
+        loop = asyncio.get_event_loop()
+        if loop.is_running():
+            loop.create_task(notifications.manager.send_personal_message(
+                {"type": "settlement_created", "data": schemas.Settlement.model_validate(db_settlement).model_dump()},
+                db_settlement.user_id if hasattr(db_settlement, 'user_id') else "system"
+            ))
+    except Exception:
+        pass
+        
     return db_settlement
 
 def get_settlement(db: Session, settlement_id: str):
@@ -38,6 +51,27 @@ def process_settlement_batch(db: Session, settlements: List[models.Settlement]):
         settlement.status = "confirmed"
         settlement.transaction_hash = transaction_hash
         db.add(settlement)
+        
+        # Update Reputation Graph (Neo4j)
+        graph_engine.graph_engine.update_agent_reputation(
+            agent_address=settlement.to_address,
+            job_id=settlement.job_id,
+            amount=float(settlement.amount),
+            status="confirmed"
+        )
+        
+        # Real-time notification via WebSocket
+        import asyncio
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                loop.create_task(notifications.manager.send_personal_message(
+                    {"type": "settlement_confirmed", "settlement_id": settlement.id, "tx_hash": transaction_hash},
+                    settlement.user_id if hasattr(settlement, 'user_id') else "system"
+                ))
+        except Exception:
+            pass
+            
     db.commit()
     return transaction_hash
 
