@@ -158,20 +158,34 @@ def _send_transaction(fn_call) -> str:
     return tx_hash.hex()
 
 
-def _ensure_usdc_approval(amount_wei: int):
-    """Garante que o contrato Orvion tenha permissão para gastar USDC."""
+def _get_usdc_contract_for_network(chain_id: int = None):
+    """Retorna o contrato USDC correto baseado no Chain ID."""
+    if chain_id is None or chain_id == settings.ARC_CHAIN_ID:
+        return usdc_contract
+    
+    # Busca no registry multichain
+    for domain, info in settings.MULTICHAIN_REGISTRY.items():
+        if info["chain_id"] == chain_id:
+            return w3.eth.contract(
+                address=Web3.to_checksum_address(info["usdc"]),
+                abi=_USDC_ABI
+            )
+    return usdc_contract
+
+def _ensure_usdc_approval(amount_wei: int, chain_id: int = None):
+    """Garante que o contrato Orvion tenha permissão para gastar USDC na rede especificada."""
     if not _has_signer():
         return
 
     account = w3.eth.account.from_key(settings.PRIVATE_KEY)
     spender = Web3.to_checksum_address(settings.SETTLEMENT_CONTRACT_ADDRESS)
     
-    allowance = usdc_contract.functions.allowance(account.address, spender).call()
+    target_usdc = _get_usdc_contract_for_network(chain_id)
+    allowance = target_usdc.functions.allowance(account.address, spender).call()
     
     if allowance < amount_wei:
-        logger.info("Aprovando USDC para o contrato Orvion...")
-        # Aprova um valor alto para evitar múltiplas transações de aprovação
-        fn_call = usdc_contract.functions.approve(spender, 2**256 - 1)
+        logger.info(f"Aprovando USDC na rede {chain_id or 'Arc'} para o contrato Orvion...")
+        fn_call = target_usdc.functions.approve(spender, 2**256 - 1)
         _send_transaction(fn_call)
 
 

@@ -50,6 +50,23 @@ class Settings(BaseSettings):
     CIRCLE_FORWARDING_SERVICE_URL: str = os.getenv("CIRCLE_FORWARDING_SERVICE_URL", "https://api-sandbox.circle.com/v1/forwarding")
     CIRCLE_GATEWAY_URL: str = os.getenv("CIRCLE_GATEWAY_URL", "https://api-sandbox.circle.com/v1/gateway")
 
+    # Multichain Registry (CCTP Domains & USDC Addresses)
+    # Mapping: Domain ID -> {name, chain_id, usdc_address}
+    MULTICHAIN_REGISTRY: dict = {
+        0: {"name": "Ethereum", "chain_id": 1, "usdc": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eb48"},
+        1: {"name": "Avalanche", "chain_id": 43114, "usdc": "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E"},
+        2: {"name": "Optimism", "chain_id": 10, "usdc": "0x0b2C639c533813f4Aa9D7837CAf62653d097ff85"},
+        3: {"name": "Arbitrum", "chain_id": 42161, "usdc": "0xaf88d065e77c8cC2239327C5EDb3A432268e5831"},
+        5: {"name": "Solana", "chain_id": None, "usdc": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"},
+        6: {"name": "Base", "chain_id": 8453, "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"},
+        7: {"name": "Polygon", "chain_id": 137, "usdc": "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359"},
+        10: {"name": "Unichain", "chain_id": 130, "usdc": "0x..."},
+        13: {"name": "Sonic", "chain_id": 146, "usdc": "0x..."},
+        16: {"name": "Sei", "chain_id": 1329, "usdc": "0x..."},
+        26: {"name": "Arc", "chain_id": 5042002, "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"},
+        31: {"name": "Pharos", "chain_id": 808080, "usdc": "0x..."},
+    }
+
     class Config:
         case_sensitive = True
         env_file = ".env"
