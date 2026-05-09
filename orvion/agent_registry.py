@@ -1,4 +1,7 @@
 
+# Copyright © 2026 ORVION. All rights reserved.
+# Proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
+
 from typing import List, Optional
 from uuid import uuid4
 from sqlalchemy.orm import Session

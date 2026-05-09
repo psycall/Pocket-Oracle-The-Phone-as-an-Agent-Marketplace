@@ -1,80 +1,139 @@
-# ORVION — The Agentic Settlement Layer
+# ORVION: The Agentic Settlement Layer
 
-ORVION is a decentralized settlement infrastructure designed for autonomous AI agents on the Arc Network (chainId 2602). It enables trustless job creation, escrow, and settlement using Circle USDC nanopayments, achieving high efficiency and low costs for agent-to-agent transactions.
+## Overview
 
-## Core Features
+ORVION is a cutting-edge **Agentic Settlement Layer** designed to facilitate secure, efficient, and auditable on-chain settlements for AI agents and decentralized applications. Built on the Arc Network and leveraging Circle's robust infrastructure, ORVION enables seamless value transfer across multiple blockchain networks, supporting micro-transactions and complex financial workflows with unparalleled transparency and resilience.
 
-- **AI Agent Settlement:** Trustless job creation and payment release for autonomous agents.
-- **Nanopayment Batching:** Optimized on-chain settlement by batching multiple payments into single transactions.
-- **Circle Integration:** Leveraging Circle Developer Controlled Wallets for secure agent fund management.
-- **Arc Network Native:** Built on Arc Network using ERC-8183 (Jobs/Escrow) and ERC-8004 (AI Agent Identity).
-- **Agent Reputation Graph:** Integrated Neo4j support for tracking agent performance and trust relationships.
+This project aims to provide a robust backend for managing agent registrations, job settlements, and execution receipts, ensuring that economic interactions within the agentic economy are fair, verifiable, and economically viable.
 
-## Tech Stack
+## Key Features
 
-- **Backend:** Python 3.11 + FastAPI
-- **Blockchain:** Web3.py + Solidity (Hardhat)
-- **Payments:** Circle USDC API
-- **Database:** PostgreSQL 15 + Redis 7 + Neo4j 5
-- **Infrastructure:** Docker & Docker Compose
+*   **Multichain Settlement**: Natively supports USDC settlements across 12+ major blockchain networks (Ethereum, Avalanche, Optimism, Arbitrum, Base, Polygon, Solana, Arc, Pharos, etc.) via Circle's CCTP (Cross-Chain Transfer Protocol).
+*   **On-Chain Job Lifecycle**: Automates the full on-chain lifecycle of jobs: `createJob`, `completeJob`, and `settleJob` on the Orvion smart contract.
+*   **Gasless Nanopayments (Planned Integration)**: Designed to integrate with Circle Gateway and Nanopayments (x402 protocol) for gas-free, sub-cent USDC transactions, making micro-economic interactions for AI agents economically viable.
+*   **Automated USDC Approval**: Intelligently manages USDC approvals for the Orvion contract across supported networks, ensuring smooth transaction execution.
+*   **Graceful Fallback**: Provides a resilient system that defaults to local processing if on-chain operations (due to missing private keys or network issues) are not possible, ensuring continuous service availability.
+*   **Real-time Notifications**: Integrates WebSocket-based notifications for real-time updates on settlement statuses.
+*   **Agent Registry**: Manages the registration and discovery of AI agents within the ecosystem.
 
-## Project Structure
+## Architecture
 
-```text
-├── orvion/             # Core Python package (models, schemas, logic)
-├── contracts/          # Solidity smart contracts
-├── scripts/            # Deployment and utility scripts
-├── tests/              # Unit and integration tests
-├── main.py             # FastAPI entry point
-├── docker-compose.yml  # Infrastructure orchestration
-└── requirements.txt    # Python dependencies
+ORVION is built as a FastAPI application, leveraging SQLAlchemy for database interactions (PostgreSQL), Redis for caching/messaging, and Neo4j for graph-based reputation/relationship management. Web3.py is used for direct interaction with EVM-compatible blockchains and smart contracts.
+
+```mermaid
+graph TD
+    User[User/AI Agent] -- API Requests --> FastAPI(ORVION Backend API)
+    FastAPI -- Data Storage --> PostgreSQL(PostgreSQL DB)
+    FastAPI -- Caching/Messaging --> Redis(Redis)
+    FastAPI -- Graph Data --> Neo4j(Neo4j Graph DB)
+    FastAPI -- On-Chain Interactions --> Web3.py(Web3.py Library)
+    Web3.py -- Smart Contract Calls --> OrvionContract(Orvion Smart Contract)
+    Web3.py -- Token Transfers --> USDCContract(USDC Smart Contract)
+    Web3.py -- Cross-Chain Bridging (CCTP) --> CircleCCTP(Circle CCTP Infrastructure)
+    OrvionContract -- Arc Network --> Blockchain(Arc Network / Other EVM Chains)
+    USDCContract -- Arc Network --> Blockchain
+    CircleCCTP -- Multiple Chains --> Blockchain
+    FastAPI -- Real-time Updates --> WebSockets(WebSocket Clients)
 ```
 
 ## Getting Started
 
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
 ### Prerequisites
 
-- Docker and Docker Compose
-- Node.js (for contract deployment)
-- Python 3.11+
+Before you begin, ensure you have the following installed:
+
+*   Python 3.11+
+*   Docker and Docker Compose (for local database setup)
+*   Git
+*   Node.js (for frontend components, if applicable)
 
 ### Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/psycall/ORVION-The-Agentic-Settlement-Layer.git
-   cd ORVION-The-Agentic-Settlement-Layer
-   ```
+1.  **Clone the repository:**
 
-2. **Configure environment:**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your specific API keys and credentials
-   ```
+    ```bash
+    git clone https://github.com/psycall/ORVION-The-Agentic-Settlement-Layer.git
+    cd ORVION-The-Agentic-Settlement-Layer
+    ```
 
-3. **Deploy Smart Contracts:**
-   ```bash
-   npm install
-   npx hardhat run scripts/deploy.js --network arcTestnet
-   ```
+2.  **Set up environment variables:**
 
-4. **Start Services:**
-   ```bash
-   docker-compose up -d
-   ```
+    Copy the example environment file and fill in your details. **Crucially, never commit your `.env` file to version control.**
 
-## API Documentation
+    ```bash
+    cp .env.example .env
+    ```
 
-Once the services are running, you can access the interactive API documentation at:
-- Swagger UI: `http://localhost:8080/docs`
-- ReDoc: `http://localhost:8080/redoc`
+    Edit the `.env` file:
 
-## Security
+    *   `PRIVATE_KEY`: **IMPORTANT**: For security, generate a new private key for testing purposes. **DO NOT use your main wallet's private key.** This key will be used by the `settlement_engine` to sign on-chain transactions. For local development, you can use a test key. For production, ensure this is managed securely (e.g., KMS).
+    *   `CIRCLE_API_KEY`, `CIRCLE_ENTITY_SECRET`, `CIRCLE_WALLET_SET_ID`: Obtain these from your [Circle Developer Console](https://console.circle.com/). These are essential for interacting with Circle's APIs (Programmable Wallets, Nanopayments, CCTP).
+    *   `SETTLEMENT_CONTRACT_ADDRESS`: The address of the deployed Orvion smart contract on your target network (e.g., Arc Testnet).
+    *   `USDC_ADDRESS` / `USDC_CONTRACT`: The USDC contract address for your primary network.
+    *   `ARC_RPC_URL`, `ARC_CHAIN_ID`: RPC endpoint and Chain ID for the Arc Network.
+    *   `PHAROS_RPC_URL`, `PHAROS_CHAIN_ID`: RPC endpoint and Chain ID for the Pharos Network (if using CCTP v2 bridging).
+    *   Other database and service URLs (PostgreSQL, Redis, Neo4j).
 
-- Never commit your `.env` file.
-- Ensure all API keys are rotated regularly.
-- Use the provided `.env.example` as a template for your local configuration.
+3.  **Start local services with Docker Compose:**
+
+    ```bash
+    docker-compose up -d postgres redis neo4j
+    ```
+
+4.  **Install Python dependencies:**
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+5.  **Run database migrations:**
+
+    ```bash
+    alembic upgrade head
+    ```
+
+6.  **Start the FastAPI application:**
+
+    ```bash
+    uvicorn main:app --reload
+    ```
+
+    The API will be available at `http://localhost:8000` (or your configured `API_PORT`).
+
+## Running Tests
+
+To ensure the integrity and functionality of the ORVION project, comprehensive tests are provided. It is highly recommended to run these tests after any changes or before deployment.
+
+```bash
+python -m unittest discover tests
+```
+
+This command will execute all tests located in the `tests/` directory. Ensure all necessary environment variables are set for the tests to run correctly.
+
+## Security Guidelines & Intellectual Property
+
+**ORVION is a proprietary project. All rights reserved to ORVION 2026.**
+
+### Protecting Your Credentials
+
+*   **Private Keys**: **NEVER** use private keys from your main cryptocurrency wallets for development or testing. Always generate new, dedicated test keys. For production environments, utilize secure key management solutions (e.g., Hardware Security Modules, AWS KMS, Google Cloud KMS) and environment variables.
+*   **API Keys**: Treat all API keys (e.g., `CIRCLE_API_KEY`, `OPENAI_API_KEY`) as sensitive information. Store them securely in environment variables and never hardcode them or commit them to version control.
+*   **Individual User Credentials**: Each user interacting with ORVION (e.g., AI agents, developers) must generate and manage their own unique API keys and, if applicable, blockchain wallet keys. The system is designed to prevent the sharing or exposure of sensitive credentials.
+
+### Intellectual Property
+
+This codebase, its architecture, and all associated documentation are the exclusive intellectual property of ORVION. Unauthorized copying, distribution, or use of this material is strictly prohibited. Any testing or development must adhere to the provided guidelines, ensuring that no proprietary information or operational keys are compromised.
+
+## Contributing
+
+(To be defined)
 
 ## License
 
-This project is licensed under the MIT License.
+This project is proprietary. All rights reserved to ORVION 2026.
+
+---
+
+*Copyright © 2026 ORVION. All rights reserved.*

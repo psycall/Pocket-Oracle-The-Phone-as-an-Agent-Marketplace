@@ -1,4 +1,7 @@
 
+# Copyright © 2026 ORVION. All rights reserved.
+# Proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
+
 from sqlalchemy import Column, String, Integer, Float, DateTime, Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship

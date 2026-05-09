@@ -1,3 +1,6 @@
+# Copyright © 2026 ORVION. All rights reserved.
+# Proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
+
 from typing import List, Optional
 from pydantic import BaseModel, ConfigDict, field_serializer, EmailStr
 from datetime import datetime

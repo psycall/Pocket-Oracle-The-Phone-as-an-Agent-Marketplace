@@ -1,4 +1,7 @@
 
+# Copyright © 2026 ORVION. All rights reserved.
+# Proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from .config import settings
