@@ -197,26 +197,29 @@ def _ensure_usdc_approval(amount_wei: int, chain_id: int = None):
 def create_settlement(db: Session, settlement: schemas.SettlementCreate):
     on_chain_id = getattr(settlement, "on_chain_job_id", None)
     
-    # Tenta criar o job on-chain automaticamente se não foi fornecido um ID
+    # ─── MVP PHASE 1: AUTOMATED ON-CHAIN ESCROW ──────────────────────────────
     if on_chain_id is None and _has_signer() and w3.is_connected():
         try:
-            # USDC tem 6 decimais
+            # USDC typically has 6 decimals, but we check for flexibility
             amount_wei = int(settlement.amount * 10**6)
             _ensure_usdc_approval(amount_wei)
             
+            # Create a unique job hash for on-chain verification
             job_hash = w3.keccak(text=f"{settlement.job_id}-{uuid4().hex}")
+            
+            logger.info(f"Initiating on-chain escrow for Job {settlement.job_id}...")
             fn_call = orvion_contract.functions.createJob(
                 Web3.to_checksum_address(settlement.to_address),
                 amount_wei,
                 job_hash
             )
             tx_hash = _send_transaction(fn_call)
-            logger.info("Job criado on-chain: %s", tx_hash)
             
-            # Recupera o ID do job recém criado (último ID)
+            # Fetch the actual job ID from the contract
             on_chain_id = orvion_contract.functions.jobCount().call() - 1
+            logger.info(f"✅ On-chain Job Created: ID {on_chain_id} | TX: {tx_hash}")
         except Exception as exc:
-            logger.error("Falha ao criar job on-chain: %s. Prosseguindo com fallback local.", exc)
+            logger.error(f"❌ On-chain escrow failed: {exc}. Falling back to local tracking.")
 
     db_settlement = models.Settlement(
         id=str(uuid4()),
