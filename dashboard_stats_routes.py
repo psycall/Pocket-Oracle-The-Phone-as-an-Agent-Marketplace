@@ -1,23 +1,19 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
+
 from orvion import database, auth
 from orvion.models import Agent, Settlement
+from main import get_db # Import centralized get_db
+from auth_routes import get_current_user # Import centralized get_current_user
 
 router = APIRouter(prefix="/api/v1/dashboard", tags=["dashboard"])
 
 
-def get_db():
-    db = database.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
 @router.get("/stats")
 async def get_dashboard_stats(
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: auth.User = Depends(get_current_user) # Ensure user is authenticated
 ):
     """Get comprehensive dashboard statistics"""
     
@@ -62,7 +58,8 @@ async def get_dashboard_stats(
 
 @router.get("/agents-overview")
 async def get_agents_overview(
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: auth.User = Depends(get_current_user) # Ensure user is authenticated
 ):
     """Get agents overview for dashboard"""
     agents = db.query(Agent).limit(10).all()
@@ -86,7 +83,8 @@ async def get_agents_overview(
 @router.get("/top-agents")
 async def get_top_agents(
     limit: int = 5,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: auth.User = Depends(get_current_user) # Ensure user is authenticated
 ):
     """Get top agents by reputation"""
     top_agents = db.query(Agent).order_by(
@@ -110,7 +108,8 @@ async def get_top_agents(
 @router.get("/settlement-trends")
 async def get_settlement_trends(
     days: int = 7,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: auth.User = Depends(get_current_user) # Ensure user is authenticated
 ):
     """Get settlement trends over time"""
     start_date = datetime.utcnow() - timedelta(days=days)
@@ -135,7 +134,7 @@ async def get_settlement_trends(
             {
                 "date": date,
                 "settlements": stats["count"],
-                "volume": f"${stats['volume']:.2f}",
+                "volume": f"${stats["volume"]:.2f}",
             }
             for date, stats in sorted(daily_data.items())
         ],
@@ -144,7 +143,8 @@ async def get_settlement_trends(
 
 @router.get("/network-health")
 async def get_network_health(
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: auth.User = Depends(get_current_user) # Ensure user is authenticated
 ):
     """Get network health metrics"""
     all_agents = db.query(Agent).all()
@@ -172,7 +172,8 @@ async def get_network_health(
 @router.get("/recent-activity")
 async def get_recent_activity(
     limit: int = 10,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: auth.User = Depends(get_current_user) # Ensure user is authenticated
 ):
     """Get recent settlement activity"""
     recent_settlements = db.query(Settlement).order_by(
@@ -184,6 +185,7 @@ async def get_recent_activity(
             {
                 "id": s.id,
                 "agentId": s.agent_id,
+                "jobId": s.job_id,
                 "amount": str(s.amount),
                 "status": s.status,
                 "timestamp": s.created_at.isoformat(),
@@ -195,13 +197,14 @@ async def get_recent_activity(
 
 @router.get("/metrics")
 async def get_dashboard_metrics(
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: auth.User = Depends(get_current_user) # Ensure user is authenticated
 ):
     """Get all dashboard metrics in one call"""
-    stats = await get_dashboard_stats(db)
-    health = await get_network_health(db)
-    agents = await get_agents_overview(db)
-    activity = await get_recent_activity(db=db)
+    stats = await get_dashboard_stats(db, current_user)
+    health = await get_network_health(db, current_user)
+    agents = await get_agents_overview(db, current_user)
+    activity = await get_recent_activity(db=db, current_user=current_user)
     
     return {
         "stats": stats,

@@ -4,16 +4,20 @@ from sqlalchemy.orm import Session
 from sqlalchemy import Column, String, DateTime, Boolean
 from passlib.context import CryptContext
 import jwt
+from fastapi.security import OAuth2PasswordBearer
 from . import models, schemas
+from orvion.config import settings
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # JWT Configuration
-SECRET_KEY = "your-secret-key-change-in-production"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+SECRET_KEY = settings.SECRET_KEY
+ALGORITHM = settings.ALGORITHM
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
 REFRESH_TOKEN_EXPIRE_DAYS = 7
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token") # Use token endpoint from auth_routes
 
 
 class User(models.Base):

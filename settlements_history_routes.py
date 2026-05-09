@@ -2,38 +2,35 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import Optional, List
 from datetime import datetime, timedelta
+
 from orvion import database, auth
 from orvion.models import Settlement
 from orvion.auth import get_user_by_id
+from main import get_db # Import centralized get_db
 
 router = APIRouter(prefix="/api/v1/settlements-history", tags=["settlements-history"])
 
-
-def get_db():
-    db = database.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-def get_current_user(token: str = None, db: Session = Depends(get_db)):
+# Centralized get_current_user from main.py or auth.py should be used
+# For now, we'll keep a placeholder, but ideally, this would be imported or handled globally
+def get_current_user(token: str = Depends(auth.oauth2_scheme), db: Session = Depends(get_db)):
     """Get current authenticated user"""
-    if not token:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    
-    payload = auth.verify_token(token)
-    if not payload:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
-    
-    user_id = payload.get("sub")
-    if not user_id:
-        raise HTTPException(status_code=401, detail="Invalid token")
-    
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = auth.verify_token(token)
+        if payload is None:
+            raise credentials_exception
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            raise credentials_exception
+    except Exception:
+        raise credentials_exception
     user = get_user_by_id(db, user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    
+    if user is None:
+        raise credentials_exception
     return user
 
 
@@ -43,9 +40,13 @@ async def get_user_settlements(
     skip: int = 0,
     limit: int = 50,
     status_filter: Optional[str] = None,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: auth.User = Depends(get_current_user) # Ensure user is authenticated
 ):
     """Get user's settlement history with pagination and filtering"""
+    if current_user.id != user_id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to view this user's settlements")
+
     user = get_user_by_id(db, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -86,9 +87,13 @@ async def get_user_settlements(
 @router.get("/user/{user_id}/stats")
 async def get_user_settlement_stats(
     user_id: str,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: auth.User = Depends(get_current_user) # Ensure user is authenticated
 ):
     """Get user settlement statistics"""
+    if current_user.id != user_id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to view this user's stats")
+
     user = get_user_by_id(db, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -120,9 +125,13 @@ async def get_user_settlement_stats(
 async def get_user_daily_stats(
     user_id: str,
     days: int = 30,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: auth.User = Depends(get_current_user) # Ensure user is authenticated
 ):
     """Get user daily settlement statistics"""
+    if current_user.id != user_id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to view this user's daily stats")
+
     user = get_user_by_id(db, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -151,7 +160,7 @@ async def get_user_daily_stats(
             {
                 "date": date,
                 "count": stats["count"],
-                "volume": f"${stats['volume']:.2f}",
+                "volume": f"${stats["volume"]:.2f}",
             }
             for date, stats in sorted(daily_data.items())
         ],
@@ -221,7 +230,7 @@ async def get_network_daily_stats(
                 "date": date,
                 "count": stats["count"],
                 "completed": stats["completed"],
-                "volume": f"${stats['volume']:.2f}",
+                "volume": f"${stats["volume"]:.2f}",
             }
             for date, stats in sorted(daily_data.items())
         ],

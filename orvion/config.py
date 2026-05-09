@@ -7,27 +7,33 @@ class Settings(BaseSettings):
     PROJECT_VERSION: str = "2.0.0"
 
     # Database settings
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://orvion:orvion@localhost:5432/orvion")
-    REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379/0")
-    NEO4J_URI: str = os.getenv("NEO4J_URI", "bolt://localhost:7687")
-    NEO4J_USER: str = os.getenv("NEO4J_USER", "neo4j")
-    NEO4J_PASSWORD: str = os.getenv("NEO4J_PASSWORD", "orvion_secure_password")
+    DATABASE_URL: str = os.getenv("DATABASE_URL")
+    REDIS_URL: str = os.getenv("REDIS_URL")
+    NEO4J_URI: str = os.getenv("NEO4J_URI")
+    NEO4J_USER: str = os.getenv("NEO4J_USER")
+    NEO4J_PASSWORD: str = os.getenv("NEO4J_PASSWORD")
 
     # Arc Network settings
-    ARC_RPC_URL: str = os.getenv("ARC_RPC_URL", "https://testnet-rpc.arc.network")
-    USDC_CONTRACT: str = os.getenv("USDC_CONTRACT", "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913")
-    ARC_CHAIN_ID: int = int(os.getenv("ARC_CHAIN_ID", "2602"))
+    ARC_RPC_URL: str = os.getenv("ARC_RPC_URL")
+    USDC_CONTRACT: str = os.getenv("USDC_CONTRACT")
+    ARC_CHAIN_ID: int = int(os.getenv("ARC_CHAIN_ID"))
 
     # Security settings
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "supersecretkey")
-    ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    SECRET_KEY: str = os.getenv("SECRET_KEY")
+    ALGORITHM: str = os.getenv("ALGORITHM", "HS256")
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
 
     # API settings
     API_V1_STR: str = "/api/v1"
 
+    # Circle API settings
+    CIRCLE_API_KEY: str = os.getenv("CIRCLE_API_KEY")
+    CIRCLE_ENTITY_SECRET: str = os.getenv("CIRCLE_ENTITY_SECRET")
+    CIRCLE_ENV: str = os.getenv("CIRCLE_ENV", "sandbox")
+
     class Config:
         case_sensitive = True
         env_file = ".env"
+        extra = "ignore" # Allow extra fields in .env without error
 
 settings = Settings()

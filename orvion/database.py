@@ -3,6 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from .config import settings
 from .models import Base
+from .auth import User # Import User model to ensure it's registered with Base.metadata
 import os
 
 # Use SQLite for development/testing, PostgreSQL for production

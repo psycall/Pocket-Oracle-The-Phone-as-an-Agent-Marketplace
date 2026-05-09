@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from typing import Optional
+
 from orvion import auth, database, schemas
 from orvion.auth import (
     create_user,
@@ -11,99 +13,90 @@ from orvion.auth import (
     create_refresh_token,
     verify_token,
     user_to_dict,
+    oauth2_scheme # Import the centralized OAuth2 scheme
 )
+from main import get_db # Import centralized get_db
 
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 
-
-def get_db():
-    db = database.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-def get_current_user(token: str = None, db: Session = Depends(get_db)):
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     """Get current authenticated user"""
-    if not token:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    
-    payload = verify_token(token)
-    if not payload:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
-    
-    user_id = payload.get("sub")
-    if not user_id:
-        raise HTTPException(status_code=401, detail="Invalid token")
-    
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = verify_token(token)
+        if payload is None:
+            raise credentials_exception
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            raise credentials_exception
+    except Exception:
+        raise credentials_exception
     user = get_user_by_id(db, user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    
+    if user is None:
+        raise credentials_exception
     return user
 
 
-@router.post("/signup")
+@router.post("/signup", response_model=schemas.Token)
 async def signup(
-    email: str,
-    password: str,
-    name: str,
-    wallet_address: Optional[str] = None,
+    user_in: schemas.UserCreate,
     db: Session = Depends(get_db)
 ):
     """Sign up new user"""
     # Check if user already exists
-    existing_user = get_user_by_email(db, email)
+    existing_user = get_user_by_email(db, user_in.email)
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
     
     # Create new user
-    user = create_user(db, email, password, name, wallet_address)
+    user = create_user(db, user_in.email, user_in.password, user_in.name, user_in.wallet_address)
     
     # Create tokens
     access_token = create_access_token({"sub": user.id})
     refresh_token = create_refresh_token({"sub": user.id})
     
     return {
-        "user": user_to_dict(user),
         "accessToken": access_token,
         "refreshToken": refresh_token,
-        "expiresIn": 1800,
+        "expiresIn": auth.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        "token_type": "bearer"
     }
 
 
-@router.post("/login")
+@router.post("/login", response_model=schemas.Token)
 async def login(
-    email: str,
-    password: str,
+    form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
 ):
     """Login with email and password"""
-    user = get_user_by_email(db, email)
+    user = get_user_by_email(db, form_data.username)
     
-    if not user or not verify_password(password, user.password_hash):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+    if not user or not verify_password(form_data.password, user.password_hash):
+        raise HTTPException(status_code=401, detail="Incorrect email or password")
     
     # Create tokens
     access_token = create_access_token({"sub": user.id})
     refresh_token = create_refresh_token({"sub": user.id})
     
     return {
-        "user": user_to_dict(user),
         "accessToken": access_token,
         "refreshToken": refresh_token,
-        "expiresIn": 1800,
+        "expiresIn": auth.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        "token_type": "bearer"
     }
 
 
-@router.post("/wallet-login")
+@router.post("/wallet-login", response_model=schemas.Token)
 async def wallet_login(
     wallet_address: str,
     signature: str,
     db: Session = Depends(get_db)
 ):
-    """Login with wallet signature"""
+    """Login with wallet signature (Development Only - Signature not verified)"""
     # In production, verify the signature against the wallet address
     # For now, we'll create/get user by wallet
     
@@ -115,7 +108,7 @@ async def wallet_login(
         user = auth.create_user(
             db,
             email=f"{wallet_address}@wallet.local",
-            password="",
+            password=str(uuid4()), # Generate a random password for wallet-created users
             name=f"User-{wallet_address[:6]}",
             wallet_address=wallet_address
         )
@@ -125,14 +118,14 @@ async def wallet_login(
     refresh_token = create_refresh_token({"sub": user.id})
     
     return {
-        "user": user_to_dict(user),
         "accessToken": access_token,
         "refreshToken": refresh_token,
-        "expiresIn": 1800,
+        "expiresIn": auth.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        "token_type": "bearer"
     }
 
 
-@router.post("/refresh")
+@router.post("/refresh", response_model=schemas.Token)
 async def refresh_token(
     refresh_token: str,
     db: Session = Depends(get_db)
@@ -156,42 +149,35 @@ async def refresh_token(
     return {
         "accessToken": access_token,
         "refreshToken": new_refresh_token,
-        "expiresIn": 1800,
+        "expiresIn": auth.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        "token_type": "bearer"
     }
 
 
-@router.get("/me")
+@router.get("/me", response_model=schemas.User)
 async def get_me(
-    token: str = None,
-    db: Session = Depends(get_db)
+    current_user: auth.User = Depends(get_current_user)
 ):
     """Get current user profile"""
-    user = get_current_user(token, db)
-    return user_to_dict(user)
+    return current_user
 
 
-@router.put("/profile")
+@router.put("/profile", response_model=schemas.User)
 async def update_profile(
-    name: Optional[str] = None,
-    wallet_address: Optional[str] = None,
-    token: str = None,
+    user_update: schemas.UserUpdate,
+    current_user: auth.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     """Update user profile"""
-    user = get_current_user(token, db)
-    
-    update_data = {}
-    if name:
-        update_data["name"] = name
-    if wallet_address:
-        update_data["wallet_address"] = wallet_address
-    
-    updated_user = auth.update_user(db, user.id, **update_data)
-    return user_to_dict(updated_user)
+    update_data = user_update.model_dump(exclude_unset=True)
+    updated_user = auth.update_user(db, current_user.id, **update_data)
+    if not updated_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return updated_user
 
 
 @router.post("/logout")
-async def logout(token: str = None):
+async def logout(current_user: auth.User = Depends(get_current_user)):
     """Logout user"""
     # In production, you might want to blacklist the token
     return {"message": "Logged out successfully"}

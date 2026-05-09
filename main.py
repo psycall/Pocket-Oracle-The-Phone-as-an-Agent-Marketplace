@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from uuid import uuid4
 
-from orvion import models, schemas, agent_registry, settlement_engine, database
+from orvion import models, schemas, agent_registry, settlement_engine, database, auth
+from auth_routes import get_current_user
 from orvion.config import settings
 from auth_routes import router as auth_router
 from user_management_routes import router as user_router
@@ -35,7 +36,7 @@ async def health_check():
 
 # Agent Registry Endpoints
 @app.post(f"{settings.API_V1_STR}/discovery/agents", response_model=schemas.Agent, status_code=status.HTTP_201_CREATED)
-async def register_agent(agent: schemas.AgentCreate, db: Session = Depends(get_db)):
+async def register_agent(agent: schemas.AgentCreate, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
     db_agent = agent_registry.get_agent(db, agent.agent_address) # Assuming agent_address is unique for simplicity
     if db_agent:
         raise HTTPException(status_code=400, detail="Agent already registered")
@@ -47,14 +48,15 @@ async def discover_agents(
     limit: int = 100,
     agent_type: Optional[str] = None,
     capabilities: Optional[str] = None,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: auth.User = Depends(get_current_user) # Require authentication
 ):
     caps_list = capabilities.split(',') if capabilities else None
     agents = agent_registry.get_agents(db, skip=skip, limit=limit, agent_type=agent_type, capabilities=caps_list)
     return agents
 
 @app.get(f"{settings.API_V1_STR}/discovery/agents/{{agent_id}}", response_model=schemas.Agent)
-async def get_agent_details(agent_id: str, db: Session = Depends(get_db)):
+async def get_agent_details(agent_id: str, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
     agent = agent_registry.get_agent(db, agent_id)
     if agent is None:
         raise HTTPException(status_code=404, detail="Agent not found")
@@ -62,22 +64,23 @@ async def get_agent_details(agent_id: str, db: Session = Depends(get_db)):
 
 # Settlement Endpoints
 @app.post(f"{settings.API_V1_STR}/settlement/settlements", response_model=schemas.Settlement, status_code=status.HTTP_201_CREATED)
-async def create_new_settlement(settlement: schemas.SettlementCreate, db: Session = Depends(get_db)):
+async def create_new_settlement(settlement: schemas.SettlementCreate, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
+    settlement.user_id = current_user.id
     return settlement_engine.create_settlement(db=db, settlement=settlement)
 
 @app.get(f"{settings.API_V1_STR}/settlement/settlements/{{settlement_id}}", response_model=schemas.Settlement)
-async def get_settlement_status(settlement_id: str, db: Session = Depends(get_db)):
+async def get_settlement_status(settlement_id: str, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
     settlement = settlement_engine.get_settlement(db, settlement_id)
     if settlement is None:
         raise HTTPException(status_code=404, detail="Settlement not found")
     return settlement
 
 @app.post(f"{settings.API_V1_STR}/settlement/execution-receipts", response_model=schemas.ExecutionReceipt, status_code=status.HTTP_201_CREATED)
-async def submit_execution_receipt(receipt: schemas.ExecutionReceiptCreate, db: Session = Depends(get_db)):
+async def submit_execution_receipt(receipt: schemas.ExecutionReceiptCreate, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
     return settlement_engine.create_execution_receipt(db=db, receipt=receipt)
 
 @app.get(f"{settings.API_V1_STR}/settlement/execution-receipts/{{receipt_id}}", response_model=schemas.ExecutionReceipt)
-async def get_execution_receipt_details(receipt_id: str, db: Session = Depends(get_db)):
+async def get_execution_receipt_details(receipt_id: str, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
     receipt = settlement_engine.get_execution_receipt(db, receipt_id)
     if receipt is None:
         raise HTTPException(status_code=404, detail="Execution Receipt not found")
@@ -85,7 +88,7 @@ async def get_execution_receipt_details(receipt_id: str, db: Session = Depends(g
 
 # Mock endpoint for batch settlement processing
 @app.post(f"{settings.API_V1_STR}/settlement/process-batch", response_model=dict)
-async def process_settlement_batch_mock(settlement_ids: List[str], db: Session = Depends(get_db)):
+async def process_settlement_batch_mock(settlement_ids: List[str], db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
     settlements_to_process = []
     for s_id in settlement_ids:
         settlement = settlement_engine.get_settlement(db, s_id)
