@@ -15,8 +15,15 @@ class Settings(BaseSettings):
 
     # Arc Network settings
     ARC_RPC_URL: str = os.getenv("ARC_RPC_URL")
-    USDC_CONTRACT: str = os.getenv("USDC_CONTRACT")
-    ARC_CHAIN_ID: int = int(os.getenv("ARC_CHAIN_ID"))
+    USDC_CONTRACT: str = os.getenv("USDC_CONTRACT", os.getenv("USDC_ADDRESS", "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"))
+    ARC_CHAIN_ID: int = int(os.getenv("ARC_CHAIN_ID", "5042002"))
+
+    # Smart Contract settings
+    SETTLEMENT_CONTRACT_ADDRESS: str = os.getenv(
+        "SETTLEMENT_CONTRACT_ADDRESS",
+        "0x34B7d77bEEB84dD86E0f0e6cc54651D5bbB4264D"
+    )
+    PRIVATE_KEY: str = os.getenv("PRIVATE_KEY", "")
 
     # Security settings
     SECRET_KEY: str = os.getenv("SECRET_KEY")

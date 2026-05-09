@@ -51,6 +51,7 @@ class Settlement(Base):
     to_address = Column(String, nullable=False)
     status = Column(String, default="pending") # pending, confirmed, failed
     transaction_hash = Column(String)
+    on_chain_job_id = Column(Integer, nullable=True)  # ID do job no contrato Orvion on-chain
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 

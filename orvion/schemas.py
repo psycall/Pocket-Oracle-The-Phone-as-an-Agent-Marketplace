@@ -132,12 +132,13 @@ class SettlementBase(BaseModel):
     to_address: str
 
 class SettlementCreate(SettlementBase):
-    pass
+    on_chain_job_id: Optional[int] = None  # ID do job no contrato Orvion on-chain
 
 class Settlement(SettlementBase):
     id: str
     status: str
     transaction_hash: Optional[str] = None
+    on_chain_job_id: Optional[int] = None  # ID do job no contrato Orvion on-chain
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
