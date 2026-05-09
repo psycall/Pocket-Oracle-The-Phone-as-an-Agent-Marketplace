@@ -109,6 +109,12 @@ usdc_contract = w3.eth.contract(
     abi=_USDC_ABI,
 )
 
+# Suporte ao novo token cirBTC na Arc Testnet
+cirbtc_contract = w3.eth.contract(
+    address=Web3.to_checksum_address(settings.CIRBTC_CONTRACT),
+    abi=_USDC_ABI, # cirBTC segue o padrão ERC20
+)
+
 # ─── Helpers ─────────────────────────────────────────────────────────────────
 
 def _has_signer() -> bool:
@@ -144,7 +150,10 @@ def _send_transaction(fn_call) -> str:
     receipt = w3.eth.wait_for_transaction_receipt(tx_hash, timeout=120)
 
     if receipt.status != 1:
-        raise RuntimeError(f"Transação revertida on-chain: {tx_hash.hex()}")
+        # Categorização de erro inspirada no Bridge Kit 1.9.0
+        error_msg = f"Transação revertida on-chain: {tx_hash.hex()}"
+        logger.error(f"[ONCHAIN_FAILURE] {error_msg}")
+        raise RuntimeError(error_msg)
 
     return tx_hash.hex()
 

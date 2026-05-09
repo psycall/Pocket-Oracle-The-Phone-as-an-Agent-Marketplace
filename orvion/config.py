@@ -16,7 +16,13 @@ class Settings(BaseSettings):
     # Arc Network settings
     ARC_RPC_URL: str = os.getenv("ARC_RPC_URL")
     USDC_CONTRACT: str = os.getenv("USDC_CONTRACT", os.getenv("USDC_ADDRESS", "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"))
+    CIRBTC_CONTRACT: str = os.getenv("CIRBTC_CONTRACT", "0x5412177bEEB84dD86E0f0e6cc54651D5bbB4264D") # Endereço fictício para cirBTC
     ARC_CHAIN_ID: int = int(os.getenv("ARC_CHAIN_ID", "5042002"))
+
+    # Pharos Network settings (CCTP v2)
+    PHAROS_RPC_URL: str = os.getenv("PHAROS_RPC_URL", "https://rpc.testnet.pharos.network")
+    PHAROS_CHAIN_ID: int = int(os.getenv("PHAROS_CHAIN_ID", "808080")) # Exemplo de Chain ID para Pharos
+    PHAROS_USDC_CONTRACT: str = os.getenv("PHAROS_USDC_CONTRACT", "")
 
     # Smart Contract settings
     SETTLEMENT_CONTRACT_ADDRESS: str = os.getenv(
@@ -39,6 +45,10 @@ class Settings(BaseSettings):
     CIRCLE_WALLET_SET_ID: str = os.getenv("CIRCLE_WALLET_SET_ID")
     CIRCLE_ENV: str = os.getenv("CIRCLE_ENV", "sandbox")
     CIRCLE_BASE_URL: str = os.getenv("CIRCLE_BASE_URL", "https://api-sandbox.circle.com")
+    
+    # Circle Forwarding Service & Nanopayments
+    CIRCLE_FORWARDING_SERVICE_URL: str = os.getenv("CIRCLE_FORWARDING_SERVICE_URL", "https://api-sandbox.circle.com/v1/forwarding")
+    CIRCLE_GATEWAY_URL: str = os.getenv("CIRCLE_GATEWAY_URL", "https://api-sandbox.circle.com/v1/gateway")
 
     class Config:
         case_sensitive = True
