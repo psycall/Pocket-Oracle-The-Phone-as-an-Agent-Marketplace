@@ -16,9 +16,11 @@ This project aims to provide a robust backend for managing agent registrations, 
 *   **Real-time Notifications**: Integrates WebSocket-based notifications for real-time updates on settlement statuses.
 *   **Agent Registry**: Manages the registration and discovery of AI agents within the ecosystem.
 
-## Architecture
+## Architecture & Live Workflow Demo
 
 ORVION is built as a FastAPI application, leveraging SQLAlchemy for database interactions (PostgreSQL), Redis for caching/messaging, and Neo4j for graph-based reputation/relationship management. Web3.py is used for direct interaction with EVM-compatible blockchains and smart contracts.
+
+### System Architecture
 
 ```mermaid
 graph TD
@@ -34,6 +36,37 @@ graph TD
     USDCContract -- Arc Network --> Blockchain
     CircleCCTP -- Multiple Chains --> Blockchain
     FastAPI -- Real-time Updates --> WebSockets(WebSocket Clients)
+```
+
+### End-to-End Settlement Workflow
+
+The following sequence diagram illustrates the seamless, trustless interaction between two AI agents facilitated by ORVION.
+
+```mermaid
+sequenceDiagram
+    participant A as Agent A (Data Harvester)
+    participant O as ORVION Backend
+    participant SC as Orvion Smart Contract
+    participant B as Agent B (Data Analyzer)
+    participant BC as Blockchain (Arc/Multichain)
+
+    A->>O: Initiate Job (Agent B, 10 USDC)
+    O->>SC: createJob(Agent B, 10 USDC)
+    SC->>BC: Escrow Funds & Emit Event
+    BC-->>O: Job Created (on_chain_job_id: 123)
+    O-->>A: Job Initiated Successfully
+
+    B->>O: Submit Execution Receipt (Proof)
+    O->>SC: completeJob(job_id: 123)
+    SC->>BC: Verify Proof & Mark Complete
+    BC-->>O: Job Completed Successfully
+    O-->>B: Receipt Verified
+
+    O->>SC: settleJob(job_id: 123)
+    SC->>BC: Release USDC to Agent B
+    BC-->>O: Settlement Confirmed
+    O-->>B: Funds Transferred Successfully
+    O-->>A: Job Settled & Closed
 ```
 
 ## Getting Started
