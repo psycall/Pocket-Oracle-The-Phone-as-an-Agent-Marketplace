@@ -8,13 +8,13 @@ A arquitetura do ORVION foi consolidada para uma abordagem monolítica modular b
 
 ```mermaid
 graph TD
-    A[Usuários/Agentes Externos] -->|Requisições API| B(API Gateway / FastAPI)
-    B --> C(Módulos Core do ORVION)
-    C --> D(Banco de Dados PostgreSQL)
-    C --> E(Serviços Externos/Blockchain)
-    E --> F(Arc Network)
-    E --> G(Circle API)
-    D --> H(Redis Cache / Fila de Mensagens)
+    A[Usuarios ou Agentes Externos] --> B[API Gateway ou FastAPI]
+    B --> C[Modulos Core do ORVION]
+    C --> D[Banco de Dados PostgreSQL]
+    C --> E[Servicos Externos ou Blockchain]
+    E --> F[Arc Network]
+    E --> G[Circle API]
+    D --> H[Redis Cache ou Fila de Mensagens]
     C --> H
 ```
 
@@ -70,15 +70,22 @@ O Neo4j, um banco de dados de grafo, pode ser integrado para modelar e analisar 
 
 ```mermaid
 sequenceDiagram
-    Participante A->>FastAPI: POST /api/v1/settlement/settlements (SettlementCreate)
-    FastAPI->>Auth Module: Valida JWT e obtém current_user
-    FastAPI->>Settlement Engine: create_settlement(db, settlement_data, user_id)
-    Settlement Engine->>Database: Salva Settlement no PostgreSQL
-    Settlement Engine->>Arc Network: (Opcional) Interage com Smart Contract para registro on-chain
-    Arc Network-->>Settlement Engine: Retorna Transaction Hash
-    Settlement Engine->>Database: Atualiza Settlement com Transaction Hash
-    Settlement Engine-->>FastAPI: Retorna Settlement Confirmado
-    FastAPI-->>Participante A: 201 Created (Settlement)
+    participant A as Participante A
+    participant F as FastAPI
+    participant AM as Auth Module
+    participant SE as Settlement Engine
+    participant DB as Database
+    participant AN as Arc Network
+
+    A->>F: Criar Liquidacao
+    F->>AM: Validar JWT
+    F->>SE: Iniciar Processo
+    SE->>DB: Salvar Dados
+    SE->>AN: Registrar On-Chain
+    AN-->>SE: Retornar Hash
+    SE->>DB: Atualizar Status
+    SE-->>F: Confirmar Sucesso
+    F-->>A: Liquidacao Criada
 ```
 
 ## 4. Considerações de Escalabilidade
@@ -97,5 +104,3 @@ sequenceDiagram
 - Desenvolvimento de um módulo de orquestração de agentes mais sofisticado, utilizando Neo4j para modelagem de relações complexas.
 
 ---
-
-****

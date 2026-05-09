@@ -23,19 +23,31 @@ ORVION is built as a FastAPI application, leveraging SQLAlchemy for database int
 ### System Architecture
 
 ```mermaid
-graph TD
-    User[User/AI Agent] -- API Requests --> FastAPI(ORVION Backend API)
-    FastAPI -- Data Storage --> PostgreSQL(PostgreSQL DB)
-    FastAPI -- Caching/Messaging --> Redis(Redis)
-    FastAPI -- Graph Data --> Neo4j(Neo4j Graph DB)
-    FastAPI -- On-Chain Interactions --> Web3.py(Web3.py Library)
-    Web3.py -- Smart Contract Calls --> OrvionContract(Orvion Smart Contract)
-    Web3.py -- Token Transfers --> USDCContract(USDC Smart Contract)
-    Web3.py -- Cross-Chain Bridging (CCTP) --> CircleCCTP(Circle CCTP Infrastructure)
-    OrvionContract -- Arc Network --> Blockchain(Arc Network / Other EVM Chains)
-    USDCContract -- Arc Network --> Blockchain
-    CircleCCTP -- Multiple Chains --> Blockchain
-    FastAPI -- Real-time Updates --> WebSockets(WebSocket Clients)
+flowchart TD
+    User --> FastAPI
+    FastAPI --> PostgreSQL
+    FastAPI --> Redis
+    FastAPI --> Neo4j
+    FastAPI --> Web3
+    Web3 --> OrvionContract
+    Web3 --> USDCContract
+    Web3 --> CircleCCTP
+    OrvionContract --> Blockchain
+    USDCContract --> Blockchain
+    CircleCCTP --> Blockchain
+    FastAPI --> WebSockets
+
+    User[User or AI Agent]
+    FastAPI[ORVION Backend API]
+    PostgreSQL[PostgreSQL DB]
+    Redis[Redis]
+    Neo4j[Neo4j Graph DB]
+    Web3[Web3.py Library]
+    OrvionContract[Orvion Smart Contract]
+    USDCContract[USDC Smart Contract]
+    CircleCCTP[Circle CCTP Infrastructure]
+    Blockchain[Blockchain Networks]
+    WebSockets[WebSocket Clients]
 ```
 
 ### End-to-End Settlement Workflow
@@ -44,29 +56,29 @@ The following sequence diagram illustrates the seamless, trustless interaction b
 
 ```mermaid
 sequenceDiagram
-    participant A as Agent A (Data Harvester)
+    participant A as Agent A
     participant O as ORVION Backend
     participant SC as Orvion Smart Contract
-    participant B as Agent B (Data Analyzer)
-    participant BC as Blockchain (Arc/Multichain)
+    participant B as Agent B
+    participant BC as Blockchain
 
-    A->>O: Initiate Job (Agent B, 10 USDC)
-    O->>SC: createJob(Agent B, 10 USDC)
-    SC->>BC: Escrow Funds & Emit Event
-    BC-->>O: Job Created (on_chain_job_id: 123)
-    O-->>A: Job Initiated Successfully
+    A->>O: Initiate Job
+    O->>SC: createJob
+    SC->>BC: Escrow Funds
+    BC-->>O: Job Created
+    O-->>A: Job Initiated
 
-    B->>O: Submit Execution Receipt (Proof)
-    O->>SC: completeJob(job_id: 123)
-    SC->>BC: Verify Proof & Mark Complete
-    BC-->>O: Job Completed Successfully
+    B->>O: Submit Execution Receipt
+    O->>SC: completeJob
+    SC->>BC: Verify Proof
+    BC-->>O: Job Completed
     O-->>B: Receipt Verified
 
-    O->>SC: settleJob(job_id: 123)
-    SC->>BC: Release USDC to Agent B
+    O->>SC: settleJob
+    SC->>BC: Release USDC
     BC-->>O: Settlement Confirmed
-    O-->>B: Funds Transferred Successfully
-    O-->>A: Job Settled & Closed
+    O-->>B: Funds Transferred
+    O-->>A: Job Settled
 ```
 
 ## Getting Started
