@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 w3 = Web3(Web3.HTTPProvider(settings.ARC_RPC_URL))
 
-# ABI mínimo necessário: apenas as funções que o backend invoca
+# ABI mínimo necessário para o contrato Orvion
 _ORVION_ABI = [
     {
         "inputs": [{"internalType": "uint256", "name": "_id", "type": "uint256"}],
@@ -68,9 +68,45 @@ _ORVION_ABI = [
     },
 ]
 
+# ABI mínimo para o token USDC (ERC20)
+_USDC_ABI = [
+    {
+        "constant": False,
+        "inputs": [
+            {"name": "_spender", "type": "address"},
+            {"name": "_value", "type": "uint256"},
+        ],
+        "name": "approve",
+        "outputs": [{"name": "", "type": "bool"}],
+        "type": "function",
+    },
+    {
+        "constant": True,
+        "inputs": [{"name": "_owner", "type": "address"}],
+        "name": "balanceOf",
+        "outputs": [{"name": "balance", "type": "uint256"}],
+        "type": "function",
+    },
+    {
+        "constant": True,
+        "inputs": [
+            {"name": "_owner", "type": "address"},
+            {"name": "_spender", "type": "address"},
+        ],
+        "name": "allowance",
+        "outputs": [{"name": "remaining", "type": "uint256"}],
+        "type": "function",
+    },
+]
+
 orvion_contract = w3.eth.contract(
     address=Web3.to_checksum_address(settings.SETTLEMENT_CONTRACT_ADDRESS),
     abi=_ORVION_ABI,
+)
+
+usdc_contract = w3.eth.contract(
+    address=Web3.to_checksum_address(settings.USDC_CONTRACT),
+    abi=_USDC_ABI,
 )
 
 # ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -113,9 +149,49 @@ def _send_transaction(fn_call) -> str:
     return tx_hash.hex()
 
 
+def _ensure_usdc_approval(amount_wei: int):
+    """Garante que o contrato Orvion tenha permissão para gastar USDC."""
+    if not _has_signer():
+        return
+
+    account = w3.eth.account.from_key(settings.PRIVATE_KEY)
+    spender = Web3.to_checksum_address(settings.SETTLEMENT_CONTRACT_ADDRESS)
+    
+    allowance = usdc_contract.functions.allowance(account.address, spender).call()
+    
+    if allowance < amount_wei:
+        logger.info("Aprovando USDC para o contrato Orvion...")
+        # Aprova um valor alto para evitar múltiplas transações de aprovação
+        fn_call = usdc_contract.functions.approve(spender, 2**256 - 1)
+        _send_transaction(fn_call)
+
+
 # ─── CRUD ─────────────────────────────────────────────────────────────────────
 
 def create_settlement(db: Session, settlement: schemas.SettlementCreate):
+    on_chain_id = getattr(settlement, "on_chain_job_id", None)
+    
+    # Tenta criar o job on-chain automaticamente se não foi fornecido um ID
+    if on_chain_id is None and _has_signer() and w3.is_connected():
+        try:
+            # USDC tem 6 decimais
+            amount_wei = int(settlement.amount * 10**6)
+            _ensure_usdc_approval(amount_wei)
+            
+            job_hash = w3.keccak(text=f"{settlement.job_id}-{uuid4().hex}")
+            fn_call = orvion_contract.functions.createJob(
+                Web3.to_checksum_address(settlement.to_address),
+                amount_wei,
+                job_hash
+            )
+            tx_hash = _send_transaction(fn_call)
+            logger.info("Job criado on-chain: %s", tx_hash)
+            
+            # Recupera o ID do job recém criado (último ID)
+            on_chain_id = orvion_contract.functions.jobCount().call() - 1
+        except Exception as exc:
+            logger.error("Falha ao criar job on-chain: %s. Prosseguindo com fallback local.", exc)
+
     db_settlement = models.Settlement(
         id=str(uuid4()),
         agent_id=settlement.agent_id,
@@ -123,7 +199,7 @@ def create_settlement(db: Session, settlement: schemas.SettlementCreate):
         amount=settlement.amount,
         to_address=settlement.to_address,
         status="pending",
-        on_chain_job_id=getattr(settlement, "on_chain_job_id", None),
+        on_chain_job_id=on_chain_id,
     )
     db.add(db_settlement)
     db.commit()
@@ -253,11 +329,24 @@ def process_settlement_batch(db: Session, settlements: List[models.Settlement]) 
 # ─── Execution Receipts ───────────────────────────────────────────────────────
 
 def create_execution_receipt(db: Session, receipt: schemas.ExecutionReceiptCreate):
+    # Tenta marcar o job como completo on-chain se houver um settlement associado
+    settlement = db.query(models.Settlement).filter(models.Settlement.job_id == receipt.job_id).first()
+    on_chain_success = False
+    
+    if settlement and settlement.on_chain_job_id is not None and _has_signer() and w3.is_connected():
+        try:
+            fn_call = orvion_contract.functions.completeJob(int(settlement.on_chain_job_id))
+            tx_hash = _send_transaction(fn_call)
+            logger.info("Job %s marcado como completo on-chain: %s", settlement.on_chain_job_id, tx_hash)
+            on_chain_success = True
+        except Exception as exc:
+            logger.error("Falha ao completar job on-chain: %s", exc)
+
     db_receipt = models.ExecutionReceipt(
         id=str(uuid4()),
         job_id=receipt.job_id,
         proof=receipt.proof,
-        verified=False,
+        verified=on_chain_success, # Marcado como verificado se a transação on-chain teve sucesso
     )
     db.add(db_receipt)
     db.commit()
