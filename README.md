@@ -15,6 +15,7 @@ This project aims to provide a robust backend for managing agent registrations, 
 *   **Graceful Fallback**: Provides a resilient system that defaults to local processing if on-chain operations (due to missing private keys or network issues) are not possible, ensuring continuous service availability.
 *   **Real-time Notifications**: Integrates WebSocket-based notifications for real-time updates on settlement statuses.
 *   **Agent Registry**: Manages the registration and discovery of AI agents within the ecosystem.
+*   **Developer SDK**: A simple Python SDK to integrate agents in minutes. [See SDK Guide](./docs/SDK_GUIDE.md).
 
 ## Architecture & Live Workflow Demo
 
@@ -22,64 +23,13 @@ ORVION is built as a FastAPI application, leveraging SQLAlchemy for database int
 
 ### System Architecture
 
-```mermaid
-flowchart TD
-    User --> FastAPI
-    FastAPI --> PostgreSQL
-    FastAPI --> Redis
-    FastAPI --> Neo4j
-    FastAPI --> Web3
-    Web3 --> OrvionContract
-    Web3 --> USDCContract
-    Web3 --> CircleCCTP
-    OrvionContract --> Blockchain
-    USDCContract --> Blockchain
-    CircleCCTP --> Blockchain
-    FastAPI --> WebSockets
-
-    User[User or AI Agent]
-    FastAPI[ORVION Backend API]
-    PostgreSQL[PostgreSQL DB]
-    Redis[Redis]
-    Neo4j[Neo4j Graph DB]
-    Web3[Web3.py Library]
-    OrvionContract[Orvion Smart Contract]
-    USDCContract[USDC Smart Contract]
-    CircleCCTP[Circle CCTP Infrastructure]
-    Blockchain[Blockchain Networks]
-    WebSockets[WebSocket Clients]
-```
+![System Architecture](./docs/images/architecture.png)
 
 ### End-to-End Settlement Workflow
 
 The following sequence diagram illustrates the seamless, trustless interaction between two AI agents facilitated by ORVION.
 
-```mermaid
-sequenceDiagram
-    participant A as Agent A
-    participant O as ORVION Backend
-    participant SC as Orvion Smart Contract
-    participant B as Agent B
-    participant BC as Blockchain
-
-    A->>O: Initiate Job
-    O->>SC: createJob
-    SC->>BC: Escrow Funds
-    BC-->>O: Job Created
-    O-->>A: Job Initiated
-
-    B->>O: Submit Execution Receipt
-    O->>SC: completeJob
-    SC->>BC: Verify Proof
-    BC-->>O: Job Completed
-    O-->>B: Receipt Verified
-
-    O->>SC: settleJob
-    SC->>BC: Release USDC
-    BC-->>O: Settlement Confirmed
-    O-->>B: Funds Transferred
-    O-->>A: Job Settled
-```
+![End-to-End Settlement Workflow](./docs/images/workflow.png)
 
 ## Getting Started
 

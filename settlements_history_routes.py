@@ -160,7 +160,7 @@ async def get_user_daily_stats(
             {
                 "date": date,
                 "count": stats["count"],
-                "volume": f"${stats["volume"]:.2f}",
+                "volume": f"${stats['volume']:.2f}",
             }
             for date, stats in sorted(daily_data.items())
         ],
@@ -230,7 +230,7 @@ async def get_network_daily_stats(
                 "date": date,
                 "count": stats["count"],
                 "completed": stats["completed"],
-                "volume": f"${stats["volume"]:.2f}",
+                "volume": f"${stats['volume']:.2f}",
             }
             for date, stats in sorted(daily_data.items())
         ],

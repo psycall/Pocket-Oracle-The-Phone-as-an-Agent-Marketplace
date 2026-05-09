@@ -134,7 +134,7 @@ async def get_settlement_trends(
             {
                 "date": date,
                 "settlements": stats["count"],
-                "volume": f"${stats["volume"]:.2f}",
+                "volume": f"${stats['volume']:.2f}",
             }
             for date, stats in sorted(daily_data.items())
         ],
