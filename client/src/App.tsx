@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Jobs from "./pages/Jobs";
 import Agents from "./pages/Agents";
 import Settlements from "./pages/Settlements";
+import Analytics from "./pages/Analytics";
 
 function Router() {
   return (
@@ -18,6 +19,7 @@ function Router() {
       <Route path={"/jobs"} component={Jobs} />
       <Route path={"/agents"} component={Agents} />
       <Route path={"/settlements"} component={Settlements} />
+      <Route path={"/analytics"} component={Analytics} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
