@@ -15,6 +15,10 @@ from auth_routes import router as auth_router
 from user_management_routes import router as user_router
 from settlements_history_routes import router as settlements_history_router
 from dashboard_stats_routes import router as dashboard_router
+from jobs_routes import router as jobs_router
+from webhooks_routes import router as webhooks_router
+from reputation_routes import router as reputation_router
+from disputes_routes import router as disputes_router
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -121,3 +125,7 @@ app.include_router(auth_router)
 app.include_router(user_router)
 app.include_router(settlements_history_router)
 app.include_router(dashboard_router)
+app.include_router(jobs_router)
+app.include_router(webhooks_router)
+app.include_router(reputation_router)
+app.include_router(disputes_router)
