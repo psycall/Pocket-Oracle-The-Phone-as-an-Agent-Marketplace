@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, agents, InsertAgent, jobs, InsertJob, settlements, InsertSettlement, metrics, InsertMetric } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,80 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// ============ AGENTS QUERIES ============
+
+export async function getAgents() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(agents).orderBy((a) => a.createdAt);
+}
+
+export async function getAgentById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(agents).where(eq(agents.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createAgent(data: InsertAgent) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(agents).values(data);
+}
+
+// ============ JOBS QUERIES ============
+
+export async function getJobs() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(jobs).orderBy((j) => j.createdAt);
+}
+
+export async function getJobById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(jobs).where(eq(jobs.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createJob(data: InsertJob) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(jobs).values(data);
+}
+
+// ============ SETTLEMENTS QUERIES ============
+
+export async function getSettlements() {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(settlements).orderBy((s) => s.createdAt);
+}
+
+export async function getSettlementById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(settlements).where(eq(settlements.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createSettlement(data: InsertSettlement) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(settlements).values(data);
+}
+
+// ============ METRICS QUERIES ============
+
+export async function getLatestMetrics() {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(metrics).orderBy((m) => m.timestamp).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function updateMetrics(data: InsertMetric) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(metrics).values(data);
+}
