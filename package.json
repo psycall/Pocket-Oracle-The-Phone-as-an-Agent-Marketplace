@@ -19,7 +19,7 @@
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "dotenv": "^17.4.2",
     "hardhat": "^2.22.17",
-    "turbo": "^1.10.0"
+    "turbo": "^2.9.12"
   },
   "type": "module",
   "dependencies": {
