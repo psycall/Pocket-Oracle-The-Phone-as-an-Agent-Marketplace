@@ -4,22 +4,19 @@
   "description": "ORVION - Agentic Settlement Layer",
   "private": true,
   "workspaces": [
-    "apps/web",
-    "apps/api",
-    "orvion-node"
+    "packages/sdk"
   ],
   "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "start": "turbo run start",
-    "test": "turbo run test",
-    "lint": "turbo run lint"
+    "dev": "cd packages/sdk && npm run dev",
+    "build": "cd packages/sdk && npm run build",
+    "test": "cd packages/sdk && npm test",
+    "lint": "cd packages/sdk && npm run lint",
+    "format": "cd packages/sdk && npm run format"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "dotenv": "^17.4.2",
-    "hardhat": "^2.22.17",
-    "turbo": "^1.10.0"
+    "hardhat": "^2.22.17"
   },
   "type": "module",
   "dependencies": {

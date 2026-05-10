@@ -1,41 +1,73 @@
-# Dependencies
-node_modules/
-.pnp
-.pnp.js
-
-# Testing
-coverage/
-
-# Next.js
-.next/
-out/
-
-# Production
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
 build/
+develop-eggs/
 dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
 
-# Misc
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 .DS_Store
-*.pem
+
+# Environment
 .env
 .env.local
 .env.*.local
 
-# Debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+.next/
+out/
 
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
+# Build artifacts
+artifacts/
+cache/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Database
 pgdata/
 .sqlite
-
-# Cache
-.turbo/
-.cache/
