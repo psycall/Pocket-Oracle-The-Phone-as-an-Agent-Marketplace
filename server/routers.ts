@@ -18,6 +18,7 @@ import {
 } from "./db";
 import { invokeLLM } from "./_core/llm";
 import { notifyOwner } from "./_core/notification";
+import { sendSettlement as arcPaySendSettlement, getWalletBalance, estimateGasCost } from "./_core/arcpay";
 
 export const appRouter = router({
   system: systemRouter,
@@ -163,6 +164,83 @@ export const appRouter = router({
           if (input.status && s.status !== input.status) return false;
           return true;
         });
+      }),
+
+    // Real USDC settlement via ArcPay
+    createReal: protectedProcedure
+      .input(
+        z.object({
+          jobId: z.number(),
+          agentId: z.number(),
+          amount: z.string(),
+          recipientAddress: z.string(),
+          blockchainNetwork: z.string().default("arc"),
+        })
+      )
+      .mutation(async ({ input }) => {
+        try {
+          // Send real USDC via ArcPay
+          const result = await arcPaySendSettlement({
+            recipientAddress: input.recipientAddress,
+            amount: input.amount,
+            jobId: input.jobId,
+            agentId: input.agentId,
+          });
+
+          // Record settlement in database
+          await createSettlement({
+            jobId: input.jobId,
+            agentId: input.agentId,
+            amount: input.amount,
+            currency: "USDC",
+            blockchainNetwork: input.blockchainNetwork,
+            transactionHash: result.transactionHash,
+            status: result.status === 'confirmed' ? 'settled' : 'pending',
+          });
+
+          // Notify owner
+          await notifyOwner({
+            title: `Settlement Confirmed: ${input.amount} USDC`,
+            content: `Real USDC settlement completed.\nTx: ${result.transactionHash}\nRecipient: ${input.recipientAddress}\nJob #${input.jobId} | Agent #${input.agentId}`,
+          });
+
+          return {
+            success: true,
+            transactionHash: result.transactionHash,
+            status: result.status,
+            blockNumber: result.blockNumber,
+          };
+        } catch (error) {
+          // Notify owner about failure
+          await notifyOwner({
+            title: `Settlement Failed: ${input.amount} USDC`,
+            content: `Settlement failed for Job #${input.jobId}.\nError: ${error instanceof Error ? error.message : 'Unknown error'}\nRecipient: ${input.recipientAddress}`,
+          });
+
+          throw error;
+        }
+      }),
+
+    // Get wallet balance
+    getWalletBalance: protectedProcedure.query(async () => {
+      try {
+        const balance = await getWalletBalance();
+        return { balance, currency: 'USDC' };
+      } catch {
+        return { balance: '0', currency: 'USDC' };
+      }
+    }),
+
+    // Estimate gas cost
+    estimateGas: protectedProcedure
+      .input(z.object({ amount: z.string() }))
+      .query(async ({ input }) => {
+        try {
+          const gasCost = await estimateGasCost(input.amount);
+          return { gasCost, currency: 'ETH' };
+        } catch {
+          return { gasCost: '0.001', currency: 'ETH' };
+        }
       }),
   }),
 
