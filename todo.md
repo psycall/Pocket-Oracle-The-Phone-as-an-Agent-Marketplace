@@ -37,13 +37,13 @@
 - [x] Aplicar design system em todos os componentes
 
 ## Testes & Refinamentos
-- [ ] Escrever testes vitest para procedures tRPC
-- [ ] Testar fluxos de autenticação
-- [ ] Testar notificações ao owner
-- [ ] Refinamentos visuais e UX
-- [ ] Otimização de performance
+- [x] Escrever testes vitest para procedures tRPC
+- [x] Testar fluxos de autenticação
+- [x] Testar notificações ao owner
+- [x] Refinamentos visuais e UX
+- [x] Otimização de performance
 
 ## Entrega
-- [ ] Criar checkpoint final
-- [ ] Documentar arquitetura e guia de uso
-- [ ] Preparar para publicação
+- [x] Criar checkpoint final
+- [x] Documentar arquitetura e guia de uso
+- [x] Preparar para publicação
