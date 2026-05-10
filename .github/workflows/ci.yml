@@ -1,0 +1,89 @@
+# Orvion — CI Pipeline
+# Runs on every PR and push to main
+# Tests, lints, and validates the full stack
+
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  # ── Python API Tests ──────────────────────────────────────
+  api-test:
+    name: API Tests (Python)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+
+    services:
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        env:
+          SECRET_KEY: test-secret-key-for-ci
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          REDIS_URL: redis://localhost:6379
+          ENVIRONMENT: test
+        run: pytest tests/ -v --tb=short
+
+      - name: Lint (ruff)
+        run: |
+          pip install ruff
+          ruff check .
+
+  # ── TypeScript SDK Tests ──────────────────────────────────
+  sdk-test:
+    name: SDK Tests (TypeScript)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/sdk
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+  # ── Docker Build Check ────────────────────────────────────
+  docker-build:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: [api-test]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build API image
+        run: docker build -t orvion-api:ci apps/api/
+
+      - name: Build Web image
+        run: docker build -t orvion-web:ci apps/web/

@@ -1,0 +1,30 @@
+name: Bug report
+description: Reportar um problema técnico ou de produto
+title: "bug: "
+labels: [bug]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto
+      description: Descreva o cenário, ambiente e impacto.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para reproduzir
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Resultado esperado
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Resultado atual
+    validations:
+      required: true
