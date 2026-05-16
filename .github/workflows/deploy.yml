@@ -1,0 +1,39 @@
+# Orvion — Deploy Pipeline
+# Deploys to Railway on every push to main (after CI passes)
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy to Railway
+    runs-on: ubuntu-latest
+    # Requires RAILWAY_TOKEN secret to be configured in repository settings
+    if: ${{ secrets.RAILWAY_TOKEN != '' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Railway token
+        run: |
+          if [ -z "${{ secrets.RAILWAY_TOKEN }}" ]; then
+            echo "RAILWAY_TOKEN secret is not configured. Skipping deploy."
+            echo "Set RAILWAY_TOKEN in Settings > Secrets and variables > Actions"
+            exit 0
+          fi
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy API
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --service orvion-api
+
+      - name: Deploy Web
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up --service orvion-web
