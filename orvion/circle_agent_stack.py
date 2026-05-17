@@ -53,3 +53,25 @@ class CircleAgentStack:
         return response.json()
 
 agent_stack_service = CircleAgentStack()
+
+def get_circle_stack():
+    return agent_stack_service
+
+class Chain:
+    MATIC_AMOY = "MATIC-AMOY"
+    ARC_TESTNET = "ARC-TESTNET"
+    ETHEREUM = "ETH"
+    POLYGON = "MATIC"
+
+class Token:
+    USDC = "USDC"
+    EURC = "EURC"
+    ETH = "ETH"
+    BTC = "BTC"
+
+class ErrorCategory:
+    VALIDATION = "validation"
+    AUTHENTICATION = "authentication"
+    AUTHORIZATION = "authorization"
+    NOT_FOUND = "not_found"
+    INTERNAL = "internal"

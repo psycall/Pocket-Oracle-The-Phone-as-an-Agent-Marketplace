@@ -135,3 +135,7 @@ app.include_router(reputation_router)
 app.include_router(disputes_router)
 app.include_router(circle_agent_router)
 app.include_router(agent_stack_router)
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
