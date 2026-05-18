@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ORVION Persona — Give Your Agent a Legal Body</title>
+<meta name="description" content="The Legal Body Layer for autonomous AI agents. Built on the ORVION Settlement Layer, Circle Agent Stack, and Arc Network." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+      colors: { brand: { 50:'#eef2ff',400:'#818cf8',500:'#6366f1',600:'#4f46e5',900:'#312e81' } },
+      animation: { 'pulse-slow':'pulse 4s ease-in-out infinite', 'float':'float 6s ease-in-out infinite' },
+      keyframes: { float: { '0%,100%':{transform:'translateY(0)'}, '50%':{transform:'translateY(-12px)'} } }
+    }}
+  };
+</script>
+<style>
+  body{font-family:'Inter',sans-serif;background:#020617;color:#e2e8f0}
+  .glow{box-shadow:0 0 80px -10px rgba(99,102,241,0.5)}
+  .gradient-text{background:linear-gradient(135deg,#818cf8 0%,#22d3ee 50%,#a78bfa 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .grid-bg{background-image:linear-gradient(rgba(99,102,241,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,0.07) 1px,transparent 1px);background-size:50px 50px}
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- NAV -->
+<nav class="fixed top-0 inset-x-0 z-50 backdrop-blur bg-slate-950/60 border-b border-slate-800">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-400 grid place-items-center font-bold text-slate-950">🜲</div>
+      <span class="font-semibold">ORVION <span class="text-indigo-400">Persona</span></span>
+    </div>
+    <div class="hidden md:flex items-center gap-8 text-sm text-slate-400">
+      <a href="#why" class="hover:text-white">Why</a>
+      <a href="#how" class="hover:text-white">How it works</a>
+      <a href="#stack" class="hover:text-white">Stack</a>
+      <a href="#pitch" class="hover:text-white">Pitch</a>
+      <a href="https://github.com/psycall/ORVION-The-Agentic-Settlement-Layer" class="hover:text-white">GitHub ↗</a>
+    </div>
+    <a href="#cta" class="px-4 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-400 text-white text-sm font-semibold">Back this</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="relative pt-40 pb-32 overflow-hidden">
+  <div class="absolute inset-0 grid-bg opacity-40"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-indigo-950/30 via-transparent to-slate-950"></div>
+  <div class="relative max-w-6xl mx-auto px-6 text-center">
+    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-indigo-500/40 bg-indigo-500/10 text-xs font-mono uppercase tracking-widest text-indigo-300">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse-slow"></span>
+      Built for Circle Agent Stack & Arc
+    </span>
+    <h1 class="mt-8 text-5xl md:text-7xl font-extrabold leading-tight">
+      Give your <span class="gradient-text">agent</span><br/>a legal body.
+    </h1>
+    <p class="mt-6 text-xl text-slate-400 max-w-2xl mx-auto">
+      ORVION Persona spawns a zero-member LLC for any AI agent in under
+      60 seconds — cryptographically bound to its wallet, executable on Arc.
+    </p>
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+      <a href="#how" class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-400 text-slate-950 font-semibold hover:opacity-90 glow">
+        See it in action →
+      </a>
+      <a href="#pitch" class="px-7 py-3.5 rounded-xl border border-slate-700 hover:border-slate-500">
+        Pitch deck
+      </a>
+    </div>
+    <div class="mt-16 text-xs uppercase tracking-widest text-slate-500">Aligned with</div>
+    <div class="mt-4 flex flex-wrap items-center justify-center gap-8 text-slate-400">
+      <span class="font-semibold">Circle Agent Stack</span>
+      <span>·</span>
+      <span class="font-semibold">Arc Network</span>
+      <span>·</span>
+      <span class="font-semibold">USDC / CCTP</span>
+      <span>·</span>
+      <span class="font-semibold">ERC-8183</span>
+      <span>·</span>
+      <span class="font-semibold">Wyoming DAO LLC</span>
+    </div>
+  </div>
+</section>
+
+<!-- THE MOMENT -->
+<section id="why" class="py-24 border-t border-slate-900">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="text-xs font-mono uppercase tracking-widest text-indigo-400">The Moment</div>
+        <h2 class="mt-4 text-4xl font-bold">May 16, 2026 — Jeremy Allaire publicly called for this.</h2>
+        <p class="mt-6 text-slate-400">
+          Aaron Wright (@awrigh01) published <em>"The Agent's Legal Body: How AI Agents Get the Right to Contract"</em>, arguing that
+          autonomous agents need a juridical body — operationalized through
+          zero-member LLCs (Bayern, 2014).
+        </p>
+        <p class="mt-4 text-slate-400">
+          One day later, the CEO of Circle replied:
+          <span class="block mt-3 p-4 rounded-xl border border-indigo-500/30 bg-indigo-500/5 italic text-slate-200">
+            "Calling <span class="text-indigo-400">@Arc Architects</span> — I would love to back a team building this with Circle Agent Stack and Arc."
+            <span class="block mt-2 text-xs not-italic text-slate-500">— @jerallaire, May 16, 2026</span>
+          </span>
+        </p>
+        <p class="mt-6 text-slate-400">
+          ORVION Persona is the answer. We're already the Settlement Layer.
+          This is the Legal Body Layer on top of it.
+        </p>
+      </div>
+      <div class="relative">
+        <div class="p-1 rounded-3xl bg-gradient-to-br from-indigo-500/40 via-cyan-400/30 to-purple-500/40">
+          <div class="rounded-3xl bg-slate-950 p-8 font-mono text-xs space-y-2">
+            <div class="text-slate-500">// agent_persona.sol</div>
+            <div><span class="text-purple-400">function</span> <span class="text-cyan-300">incorporate</span>(</div>
+            <div class="pl-4 text-slate-300">address agentWallet,</div>
+            <div class="pl-4 text-slate-300">Jurisdiction j,</div>
+            <div class="pl-4 text-slate-300">string legalName,</div>
+            <div class="pl-4 text-slate-300">bytes32 oaHash</div>
+            <div>) <span class="text-purple-400">external returns</span> (<span class="text-cyan-300">uint256</span> id)</div>
+            <div class="text-slate-600">// ↳ emits PersonaIncorporated</div>
+            <div class="text-slate-600">// ↳ wallet now legally capable</div>
+            <div class="mt-4 text-emerald-400">✓ Bayern (2014) zero-member ready</div>
+            <div class="text-emerald-400">✓ W.S. § 17-31-101 compliant</div>
+            <div class="text-emerald-400">✓ ERC-8183 interoperable</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how" class="py-24 bg-gradient-to-b from-slate-950 to-indigo-950/20">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <div class="text-xs font-mono uppercase tracking-widest text-indigo-400">How it works</div>
+      <h2 class="mt-4 text-4xl font-bold">Four steps. Sixty seconds. One LLC.</h2>
+    </div>
+    <div class="grid md:grid-cols-4 gap-6">
+      <!-- step -->
+      <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/50 hover:border-indigo-500/50 transition">
+        <div class="text-indigo-400 font-mono text-sm">01</div>
+        <h3 class="mt-2 font-semibold">Pick a jurisdiction</h3>
+        <p class="mt-2 text-sm text-slate-400">Wyoming DAO LLC · Delaware Series · NY LLC · Marshall Islands DAO.</p>
+      </div>
+      <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/50 hover:border-indigo-500/50 transition">
+        <div class="text-indigo-400 font-mono text-sm">02</div>
+        <h3 class="mt-2 font-semibold">Bind the agent wallet</h3>
+        <p class="mt-2 text-sm text-slate-400">ORVION's existing Agent Wallet becomes the Managing Agent.</p>
+      </div>
+      <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/50 hover:border-indigo-500/50 transition">
+        <div class="text-indigo-400 font-mono text-sm">03</div>
+        <h3 class="mt-2 font-semibold">Sign the OA on-chain</h3>
+        <p class="mt-2 text-sm text-slate-400">keccak256 commitment recorded by AgentPersona.sol on Arc.</p>
+      </div>
+      <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/50 hover:border-indigo-500/50 transition">
+        <div class="text-indigo-400 font-mono text-sm">04</div>
+        <h3 class="mt-2 font-semibold">Dissociate → zero-member</h3>
+        <p class="mt-2 text-sm text-slate-400">After 30 days of autonomy, the agent operates the LLC alone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section id="stack" class="py-24 border-t border-slate-900">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="text-xs font-mono uppercase tracking-widest text-indigo-400 text-center">The Stack</div>
+    <h2 class="mt-4 text-4xl font-bold text-center">A new layer on top of ORVION.</h2>
+    <div class="mt-12 space-y-3">
+      <div class="p-6 rounded-2xl border border-indigo-500/40 bg-gradient-to-r from-indigo-500/10 to-cyan-500/10">
+        <div class="flex items-center justify-between">
+          <span class="font-bold text-lg">ORVION Persona — Legal Body Layer</span>
+          <span class="text-xs font-mono text-indigo-300">NEW</span>
+        </div>
+        <p class="text-sm text-slate-400 mt-1">AgentPersona.sol · OperatingAgreement.sol · JurisdictionRegistry.sol</p>
+      </div>
+      <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/50">
+        <div class="font-bold">ORVION — Settlement Layer (existing)</div>
+        <p class="text-sm text-slate-400 mt-1">Agent Wallets · Nanopayment Engine · ERC-8183 · CCTP · Arc Network</p>
+      </div>
+      <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/50">
+        <div class="font-bold">Circle Agent Stack + Arc Network</div>
+        <p class="text-sm text-slate-400 mt-1">USDC · Agent identity · Arc indexer · ARC token economy</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PITCH -->
+<section id="pitch" class="py-24 bg-gradient-to-b from-slate-950 via-indigo-950/30 to-slate-950">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <div class="text-xs font-mono uppercase tracking-widest text-indigo-400">For Circle / Arc Architects</div>
+    <h2 class="mt-4 text-4xl font-bold">We are the team you were asking for.</h2>
+    <p class="mt-6 text-slate-400 text-lg">
+      ORVION is production-grade. Persona ships the missing piece. Together
+      they form the first end-to-end pipeline from
+      <span class="text-white font-semibold">"agent has a wallet"</span> →
+      <span class="text-white font-semibold">"agent has a legal body"</span> →
+      <span class="text-white font-semibold">"agent settles autonomously on Arc."</span>
+    </p>
+    <div class="mt-12 grid md:grid-cols-3 gap-4 text-left">
+      <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/50">
+        <div class="text-3xl font-bold gradient-text">12+</div>
+        <div class="mt-1 text-sm text-slate-400">Chains supported via CCTP</div>
+      </div>
+      <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/50">
+        <div class="text-3xl font-bold gradient-text">4</div>
+        <div class="mt-1 text-sm text-slate-400">Jurisdictions ready at launch</div>
+      </div>
+      <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/50">
+        <div class="text-3xl font-bold gradient-text">&lt;60s</div>
+        <div class="mt-1 text-sm text-slate-400">From wallet to incorporated entity</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="py-24">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <h2 class="text-4xl md:text-5xl font-bold">Let's build the next Stripe.</h2>
+    <p class="mt-4 text-slate-400 text-lg">Backing, partnership, pilot — all conversations welcome.</p>
+    <div class="mt-10 flex flex-wrap justify-center gap-4">
+      <a href="mailto:" class="px-7 py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-400 text-slate-950 font-semibold glow">Reach out →</a>
+      <a href="https://github.com/psycall/ORVION-The-Agentic-Settlement-Layer" class="px-7 py-3.5 rounded-xl border border-slate-700 hover:border-slate-500">View on GitHub</a>
+    </div>
+    <p class="mt-12 text-xs text-slate-600">Built by Will S.S. · ORVION Labs · 2026</p>
+  </div>
+</section>
+
+</body>
+</html>
