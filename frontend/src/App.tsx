@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useAuth } from "./hooks/useAuth";
-import LandingPageShowcase from "./pages/LandingPageShowcase";
+import { PersonaLandingPage } from "./pages/PersonaLandingPage";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
+import { GiveAgentLegalBody } from "./pages/legal/GiveAgentLegalBody";
+import { PersonaDashboard } from "./pages/legal/PersonaDashboard";
 
 /**
  * Protected route component
@@ -34,13 +36,29 @@ function App() {
     <Router>
       <AnimatePresence mode="wait">
         <Routes>
-          <Route path="/" element={<LandingPageShowcase />} />
+          <Route path="/" element={<PersonaLandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
                 <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/legal/incorporate"
+            element={
+              <ProtectedRoute>
+                <GiveAgentLegalBody />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/legal/dashboard"
+            element={
+              <ProtectedRoute>
+                <PersonaDashboard />
               </ProtectedRoute>
             }
           />
