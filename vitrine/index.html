@@ -65,6 +65,24 @@
       pointer-events: none;
     }
 
+    .scanline {
+      width: 100%;
+      height: 100px;
+      z-index: 10;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 217, 255, 0.05) 50%, rgba(0, 0, 0, 0) 100%);
+      opacity: 0.1;
+      position: fixed;
+      bottom: 100%;
+      animation: scanline 10s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes scanline {
+      0% { bottom: 100%; }
+      80% { bottom: 100%; }
+      100% { bottom: -100px; }
+    }
+
     /* Glitch effect */
     @keyframes glitch {
       0%, 100% { transform: translate(0); }
@@ -579,6 +597,7 @@
 </head>
 <body>
   <div class="grid-bg"></div>
+  <div class="scanline"></div>
 
   <nav>
     <div class="container">
@@ -615,13 +634,13 @@
         <p style="color: var(--color-text-muted); margin-bottom: 2rem;">Experience the convergence of AI autonomy and legal recognition.</p>
         <div class="featured-images">
           <div class="image-card">
-            <img src="./public/images/95ba22c0-526e-11f1-bc6f-81ffac0ccf01.webp" alt="Arc Network Settlement Layer - Agent Network Visualization">
+            <img loading="lazy" src="./public/images/95ba22c0-526e-11f1-bc6f-81ffac0ccf01.webp" alt="Arc Network Settlement Layer - Agent Network Visualization">
           </div>
           <div class="image-card">
-            <img src="./public/images/22049.webp" alt="Circle USDC Financial System - Agent Legal Framework">
+            <img loading="lazy" src="./public/images/22049.webp" alt="Circle USDC Financial System - Agent Legal Framework">
           </div>
           <div class="image-card">
-            <img src="./public/images/6cb27170-526e-11f1-bc6f-81ffac0ccf01.webp" alt="Agent's Legal Body - Contract Signing Ceremony">
+            <img loading="lazy" src="./public/images/6cb27170-526e-11f1-bc6f-81ffac0ccf01.webp" alt="Agent's Legal Body - Contract Signing Ceremony">
           </div>
         </div>
       </div>

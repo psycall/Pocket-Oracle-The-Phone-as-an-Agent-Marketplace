@@ -145,7 +145,7 @@ try:
     from legal_body.backend.api.v1.legal import router as legal_router
     app.include_router(legal_router, prefix="/api/v1/legal", tags=["legal-body"])
     from legal_body.backend.models.persona import Base as LegalBase
-    LegalBase.metadata.create_all(bind=engine)
+    LegalBase.metadata.create_all(bind=database.engine)
 except Exception as _e:  # pragma: no cover
     import logging
     logging.getLogger(__name__).warning("legal_body module not loaded: %s", _e)

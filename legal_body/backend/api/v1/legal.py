@@ -24,12 +24,7 @@ from ...services.onchain import OnChainClient
 router = APIRouter()
 
 # ── DB dependency ────────────────────────────────────────────────────────
-# Replace this with ORVION's existing `get_db` dependency from main.py.
-try:
-    from main import get_db  # type: ignore
-except Exception:
-    def get_db():  # pragma: no cover - placeholder for standalone import
-        raise RuntimeError("Bind to ORVION's get_db dependency.")
+from orvion.database import get_db
 
 onchain = OnChainClient()
 

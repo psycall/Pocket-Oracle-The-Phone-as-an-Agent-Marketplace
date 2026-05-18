@@ -9,14 +9,9 @@ from datetime import datetime
 from sqlalchemy import (
     Column, Integer, String, DateTime, ForeignKey, Enum, JSON, Boolean
 )
-from sqlalchemy.orm import relationship, declarative_base
+from sqlalchemy.orm import relationship
 import enum
-
-# If ORVION already exposes a shared Base, do:
-#   from main import Base
-# To avoid hard coupling here we declare a local Base and the
-# integration script in scripts/integrate_with_orvion.py will rebind it.
-Base = declarative_base()
+from orvion.models import Base
 
 
 class JurisdictionEnum(str, enum.Enum):
