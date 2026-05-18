@@ -87,3 +87,21 @@ This project is maintained by **Will S.S.** For partnership or technical inquiri
 ---
 
 **Status**: Production Ready ✅ | **Network**: Arc Testnet 🌐 | **License**: MIT 📄
+
+
+## 🧬 ORVION Persona — Agent Incorporation Engine
+
+The `legal_body/` module gives any ORVION Agent Wallet a **legal body**:
+a zero-member LLC (or equivalent) cryptographically bound to the agent's
+keys, so the agent can contract, hold property and sue/be sued under
+existing U.S. business-entity codes.
+
+* Smart contracts: `legal_body/contracts/AgentPersona.sol`, `OperatingAgreement.sol`, `JurisdictionRegistry.sol`
+* API: `/api/v1/legal/incorporate`, `/sign`, `/dissociate`, `/personas`
+* Frontend: `/legal/incorporate`, `/legal/dashboard`
+* Templates: Wyoming DAO LLC · Delaware Series LLC · NY LLC · Marshall Islands DAO
+
+Inspired by Aaron Wright's *"The Agent's Legal Body"* (2026) and Shawn
+Bayern's *"Of Bitcoins, Independently Wealthy Software, and the Zero-Member LLC"* (2014).
+Built for [Circle Agent Stack](https://www.circle.com) and the
+[Arc Network](https://www.arc.network).
