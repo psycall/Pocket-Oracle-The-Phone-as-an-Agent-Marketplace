@@ -40,7 +40,6 @@ legal_body/
 │   └── new_york/
 ├── scripts/
 │   ├── integrate_with_orvion.py   # ← idempotent plug-in installer
-│   ├── deploy_manus.sh
 │   └── push_github.sh
 └── docs/WHITEPAPER.md
 ```
