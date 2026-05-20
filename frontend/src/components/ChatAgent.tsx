@@ -12,7 +12,7 @@ export function ChatAgent() {
   const [messages, setMessages] = useState<Message[]>([
     { 
       role: 'assistant', 
-      content: '👋 Olá! Conecte sua wallet e me diga o que fazer. Ex: "Faça um swap de 100 USDC para ETH na Arbitrum"',
+      content: '👋 Bem-vindo ao ORVION Agentic! Conecte sua wallet e diga o que quer fazer (ex: "Compra 150 USDC de ETH na Arbitrum e envia pra mim").',
       timestamp: new Date().toLocaleTimeString()
     }
   ]);
@@ -130,9 +130,11 @@ export function ChatAgent() {
 
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-5xl font-black glow-text mb-2">ORVION Agentic</h1>
-          <p className="text-slate-400 text-sm">Agente autônomo de finanças descentralizadas</p>
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-5xl font-black glow-text mb-2">ORVION AGENTIC</h1>
+            <p className="text-slate-400 text-sm">Agente autônomo de finanças descentralizadas</p>
+          </div>
         </div>
 
         {/* Chat Container */}
