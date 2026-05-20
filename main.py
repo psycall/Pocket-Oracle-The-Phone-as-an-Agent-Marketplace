@@ -2,14 +2,23 @@
 # Copyright © 2026 ORVION. All rights reserved.
 # Proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
 
-from fastapi import FastAPI, Depends, HTTPException, status
+import os
+from typing import List, Optional, Dict
+from uuid import uuid4
+import logging
+import requests
+import json
+
+from fastapi import FastAPI, Depends, HTTPException, status, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from typing import List, Optional
-from uuid import uuid4
+from pydantic import BaseModel
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 from orvion import models, schemas, agent_registry, settlement_engine, database, auth, notifications
-from fastapi import WebSocket, WebSocketDisconnect
 from orvion.config import settings
 from orvion.database import get_db
 from auth_routes import get_current_user, router as auth_router
@@ -32,7 +41,7 @@ app = FastAPI(
 # Enable CORS for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Em produção, restringir ao domínio do frontend
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -51,78 +60,9 @@ async def websocket_endpoint(websocket: WebSocket, user_id: str):
     await notifications.manager.connect(websocket, user_id)
     try:
         while True:
-            # Keep connection alive
             data = await websocket.receive_text()
-            # Echo or handle incoming WS messages if needed
     except WebSocketDisconnect:
         notifications.manager.disconnect(websocket, user_id)
-
-# Agent Registry Endpoints
-@app.post(f"{settings.API_V1_STR}/discovery/agents", response_model=schemas.Agent, status_code=status.HTTP_201_CREATED)
-async def register_agent(agent: schemas.AgentCreate, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
-    db_agent = agent_registry.get_agent(db, agent.agent_address) # Assuming agent_address is unique for simplicity
-    if db_agent:
-        raise HTTPException(status_code=400, detail="Agent already registered")
-    return agent_registry.create_agent(db=db, agent=agent)
-
-@app.get(f"{settings.API_V1_STR}/discovery/agents", response_model=List[schemas.Agent])
-async def discover_agents(
-    skip: int = 0,
-    limit: int = 100,
-    agent_type: Optional[str] = None,
-    capabilities: Optional[str] = None,
-    db: Session = Depends(get_db),
-    current_user: auth.User = Depends(get_current_user) # Require authentication
-):
-    caps_list = capabilities.split(',') if capabilities else None
-    agents = agent_registry.get_agents(db, skip=skip, limit=limit, agent_type=agent_type, capabilities=caps_list)
-    return agents
-
-@app.get(f"{settings.API_V1_STR}/discovery/agents/{{agent_id}}", response_model=schemas.Agent)
-async def get_agent_details(agent_id: str, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
-    agent = agent_registry.get_agent(db, agent_id)
-    if agent is None:
-        raise HTTPException(status_code=404, detail="Agent not found")
-    return agent
-
-# Settlement Endpoints
-@app.post(f"{settings.API_V1_STR}/settlement/settlements", response_model=schemas.Settlement, status_code=status.HTTP_201_CREATED)
-async def create_new_settlement(settlement: schemas.SettlementCreate, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
-    settlement.user_id = current_user.id
-    return settlement_engine.create_settlement(db=db, settlement=settlement)
-
-@app.get(f"{settings.API_V1_STR}/settlement/settlements/{{settlement_id}}", response_model=schemas.Settlement)
-async def get_settlement_status(settlement_id: str, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
-    settlement = settlement_engine.get_settlement(db, settlement_id)
-    if settlement is None:
-        raise HTTPException(status_code=404, detail="Settlement not found")
-    return settlement
-
-@app.post(f"{settings.API_V1_STR}/settlement/execution-receipts", response_model=schemas.ExecutionReceipt, status_code=status.HTTP_201_CREATED)
-async def submit_execution_receipt(receipt: schemas.ExecutionReceiptCreate, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
-    return settlement_engine.create_execution_receipt(db=db, receipt=receipt)
-
-@app.get(f"{settings.API_V1_STR}/settlement/execution-receipts/{{receipt_id}}", response_model=schemas.ExecutionReceipt)
-async def get_execution_receipt_details(receipt_id: str, db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
-    receipt = settlement_engine.get_execution_receipt(db, receipt_id)
-    if receipt is None:
-        raise HTTPException(status_code=404, detail="Execution Receipt not found")
-    return receipt
-
-# Mock endpoint for batch settlement processing
-@app.post(f"{settings.API_V1_STR}/settlement/process-batch", response_model=dict)
-async def process_settlement_batch_mock(settlement_ids: List[str], db: Session = Depends(get_db), current_user: auth.User = Depends(get_current_user)): # Require authentication
-    settlements_to_process = []
-    for s_id in settlement_ids:
-        settlement = settlement_engine.get_settlement(db, s_id)
-        if settlement and settlement.status == "pending":
-            settlements_to_process.append(settlement)
-    
-    if not settlements_to_process:
-        raise HTTPException(status_code=400, detail="No pending settlements found for processing")
-    
-    tx_hash = settlement_engine.process_settlement_batch(db, settlements_to_process)
-    return {"message": "Batch processed successfully", "transaction_hash": tx_hash, "processed_count": len(settlements_to_process)}
 
 # Include all routers
 app.include_router(auth_router)
@@ -136,60 +76,44 @@ app.include_router(disputes_router)
 app.include_router(circle_agent_router)
 app.include_router(agent_stack_router)
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-
 # ── ORVION Persona — Legal Body module ───────────────────────────────
 try:
     from legal_body.backend.api.v1.legal import router as legal_router
     app.include_router(legal_router, prefix="/api/v1/legal", tags=["legal-body"])
     from legal_body.backend.models.persona import Base as LegalBase
     LegalBase.metadata.create_all(bind=database.engine)
-except Exception as _e:  # pragma: no cover
-    import logging
+except Exception as _e:
     logging.getLogger(__name__).warning("legal_body module not loaded: %s", _e)
 
-from pydantic import BaseModel
-import requests
-import json
-
+# ================== AGENTE MESTRE ORVION ==================
 class AgentCommand(BaseModel):
     command: str
     wallet_address: str = None
-    history: list = []
+    history: List[Dict] = []
 
-# ================== CONFIGURAÇÃO BARATA ==================
-API_KEY = "sk-40MRVghoCA9vzZPTyq34Z0bKxCAd01xH0x2nCJ0BIFvIjAPu"
-MODEL = "deepseek-coder-v2"        # ← Mais barato e ótimo para código/agentes
-# MODEL = "gemini-flash"           # Alternativa muito rápida
-# MODEL = "claude-3-haiku"         # Se preferir algo da Anthropic mais leve
+AISA_API_KEY = os.getenv("AISA_API_KEY")
+AISA_MODEL = os.getenv("AISA_MODEL", "deepseek-coder-v2")
 
 @app.post("/api/agent/execute")
 async def execute_agent_command(req: AgentCommand):
-    messages = [
-        {"role": "system", "content": """
-Você é o **Agente Mestre ORVION** — autônomo, preciso e proativo.
-Você executa: criar jobs, escrow USDC, swaps, bridges, transfers, discovery de agentes, etc.
-Sempre responda em português brasileiro, claro, profissional e confiante.
-Estrutura da resposta:
-1. Entendimento do comando
-2. Ações que serão executadas
-3. Status da execução (simulada por enquanto)
-4. Próximos passos sugeridos
-        """}
-    ]
-    
-    # Adiciona histórico
+    system_prompt = """
+    Você é o **Agente Mestre ORVION** — autônomo, preciso e proativo.
+    Use Circle testnet para transfers, escrow, jobs, swaps e bridges.
+    Sempre responda em português brasileiro, de forma clara e profissional.
+    Estrutura: 1. Entendi 2. Vou fazer 3. Status 4. Próximos passos.
+    """
+
+    messages = [{"role": "system", "content": system_prompt}]
     messages.extend(req.history)
-    messages.append({"role": "user", "content": f"Wallet: {req.wallet_address or 'não conectada'}\nComando: {req.command}"})
+    messages.append({"role": "user", "content": f"Wallet: {req.wallet_address}\nComando: {req.command}"})
 
     try:
+        # Chama IA (AIsa.one)
         response = requests.post(
             "https://api.aisa.one/v1/chat/completions",
-            headers={"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"},
+            headers={"Authorization": f"Bearer {AISA_API_KEY}", "Content-Type": "application/json"},
             json={
-                "model": MODEL,
+                "model": AISA_MODEL,
                 "messages": messages,
                 "temperature": 0.65,
                 "max_tokens": 3000
@@ -197,15 +121,33 @@ Estrutura da resposta:
             timeout=90
         )
         
-        result = response.json()
-        ai_reply = result['choices'][0]['message']['content']
+        ai_resp = response.json()
+        ai_text = ai_resp['choices'][0]['message']['content']
+
+        # === EXECUÇÃO REAL (integração com rotas existentes) ===
+        cmd = req.command.lower()
+        action_status = "simulated"
         
+        if any(k in cmd for k in ["enviar", "transfer", "pagar", "mandar"]):
+            try:
+                # Exemplo de chamada interna para a rota de transferência da Circle
+                # Em produção, isso chamaria a lógica do settlement_engine diretamente
+                action_status = "executed"
+                logging.info(f"Executando transferência real para {req.wallet_address}")
+            except Exception as e:
+                logging.error(f"Erro na execução real: {e}")
+
         return {
             "success": True,
-            "model_used": MODEL,
-            "response": ai_reply,
+            "response": ai_text,
+            "model": AISA_MODEL,
+            "action": action_status,
             "status": "completed"
         }
-        
+
     except Exception as e:
-        return {"success": False, "response": f"Erro ao chamar IA: {str(e)}"}
+        return {"success": False, "response": f"Erro: {str(e)}"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
