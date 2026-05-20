@@ -36,6 +36,9 @@ export function ChatAgent() {
       content: input,
       timestamp: new Date().toLocaleTimeString()
     };
+    
+    const historyToSend = messages.map(m => ({ role: m.role, content: m.content }));
+    
     setMessages(prev => [...prev, userMessage]);
     const currentInput = input;
     setInput('');
@@ -45,7 +48,11 @@ export function ChatAgent() {
       const res = await fetch('http://localhost:8000/api/agent/execute', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ command: currentInput, wallet_address: address })
+        body: JSON.stringify({ 
+          command: currentInput, 
+          wallet_address: address,
+          history: historyToSend
+        })
       });
       
       const data = await res.json();

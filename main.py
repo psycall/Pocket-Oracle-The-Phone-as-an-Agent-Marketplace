@@ -157,6 +157,7 @@ import json
 class AgentCommand(BaseModel):
     command: str
     wallet_address: str = None
+    history: list = []
 
 # ================== CONFIGURAÇÃO BARATA ==================
 API_KEY = "sk-40MRVghoCA9vzZPTyq34Z0bKxCAd01xH0x2nCJ0BIFvIjAPu"
@@ -166,30 +167,30 @@ MODEL = "deepseek-coder-v2"        # ← Mais barato e ótimo para código/agent
 
 @app.post("/api/agent/execute")
 async def execute_agent_command(req: AgentCommand):
-    system_prompt = """
-    Você é o Agente Autônomo ORVION — extremamente competente, proativo e preciso.
-    Sua função é executar comandos financeiros e operacionais: criar jobs, escrow, swaps, bridges, transfers via Circle/Arc etc.
-    Sempre responda em português brasileiro, de forma clara e profissional.
-    Explique o que vai fazer → Execute (simule por enquanto) → Mostre status e próximos passos.
-    """
+    messages = [
+        {"role": "system", "content": """
+Você é o Agente Autônomo ORVION — extremamente competente e proativo.
+Sua função é executar comandos financeiros e operacionais: criar jobs, escrow, swaps, bridges, transfers via Circle/Arc etc.
+Sempre responda em português brasileiro, de forma clara e profissional.
+Explique o que vai fazer → Execute (simule por enquanto) → Mostre status e sugira próximos passos.
+        """}
+    ]
+    
+    # Adiciona histórico
+    messages.extend(req.history)
+    messages.append({"role": "user", "content": f"Wallet: {req.wallet_address or 'não conectada'}\nComando: {req.command}"})
 
     try:
         response = requests.post(
             "https://api.aisa.one/v1/chat/completions",
-            headers={
-                "Authorization": f"Bearer {API_KEY}",
-                "Content-Type": "application/json"
-            },
+            headers={"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"},
             json={
                 "model": MODEL,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": f"Wallet: {req.wallet_address}\nComando: {req.command}"}
-                ],
+                "messages": messages,
                 "temperature": 0.65,
-                "max_tokens": 2000
+                "max_tokens": 2500
             },
-            timeout=60
+            timeout=90
         )
         
         result = response.json()
