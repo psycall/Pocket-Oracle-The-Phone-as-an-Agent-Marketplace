@@ -149,3 +149,58 @@ try:
 except Exception as _e:  # pragma: no cover
     import logging
     logging.getLogger(__name__).warning("legal_body module not loaded: %s", _e)
+
+from pydantic import BaseModel
+import requests
+import json
+
+class AgentCommand(BaseModel):
+    command: str
+    wallet_address: str = None
+
+# ================== CONFIGURAÇÃO BARATA ==================
+API_KEY = "sk-40MRVghoCA9vzZPTyq34Z0bKxCAd01xH0x2nCJ0BIFvIjAPu"
+MODEL = "deepseek-coder-v2"        # ← Mais barato e ótimo para código/agentes
+# MODEL = "gemini-flash"           # Alternativa muito rápida
+# MODEL = "claude-3-haiku"         # Se preferir algo da Anthropic mais leve
+
+@app.post("/api/agent/execute")
+async def execute_agent_command(req: AgentCommand):
+    system_prompt = """
+    Você é o Agente Autônomo ORVION — extremamente competente, proativo e preciso.
+    Sua função é executar comandos financeiros e operacionais: criar jobs, escrow, swaps, bridges, transfers via Circle/Arc etc.
+    Sempre responda em português brasileiro, de forma clara e profissional.
+    Explique o que vai fazer → Execute (simule por enquanto) → Mostre status e próximos passos.
+    """
+
+    try:
+        response = requests.post(
+            "https://api.aisa.one/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": MODEL,
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": f"Wallet: {req.wallet_address}\nComando: {req.command}"}
+                ],
+                "temperature": 0.65,
+                "max_tokens": 2000
+            },
+            timeout=60
+        )
+        
+        result = response.json()
+        ai_reply = result['choices'][0]['message']['content']
+        
+        return {
+            "success": True,
+            "model_used": MODEL,
+            "response": ai_reply,
+            "status": "completed"
+        }
+        
+    except Exception as e:
+        return {"success": False, "response": f"Erro ao chamar IA: {str(e)}"}
