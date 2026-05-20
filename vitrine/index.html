@@ -1,816 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ORVION Persona — The Agent's Legal Body</title>
-  <meta name="description" content="Give autonomous AI agents the legal right to contract. ORVION Persona: Zero-member LLC incorporation in under 60 seconds, powered by Circle Agent Stack and Arc Network.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --color-black: #0a0e27;
-      --color-dark: #1a1f3a;
-      --color-darker: #0f1219;
-      --color-blue-electric: #00d9ff;
-      --color-blue-dark: #0066ff;
-      --color-purple: #9d4edd;
-      --color-purple-dark: #5a189a;
-      --color-gold: #ffd60a;
-      --color-gold-light: #ffc300;
-      --color-text: #e0e0e0;
-      --color-text-muted: #a0a0a0;
-      --color-border: #1a3a3a;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, var(--color-black) 0%, var(--color-darker) 100%);
-      color: var(--color-text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* Animated background grid */
-    .grid-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
-      background-size: 50px 50px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .grid-bg::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 20% 50%, rgba(157, 78, 221, 0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 80% 80%, rgba(0, 102, 255, 0.1) 0%, transparent 50%);
-      pointer-events: none;
-    }
-
-    .scanline {
-      width: 100%;
-      height: 100px;
-      z-index: 10;
-      background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 217, 255, 0.05) 50%, rgba(0, 0, 0, 0) 100%);
-      opacity: 0.1;
-      position: fixed;
-      bottom: 100%;
-      animation: scanline 10s linear infinite;
-      pointer-events: none;
-    }
-
-    @keyframes scanline {
-      0% { bottom: 100%; }
-      80% { bottom: 100%; }
-      100% { bottom: -100px; }
-    }
-
-    /* Glitch effect */
-    @keyframes glitch {
-      0%, 100% { transform: translate(0); }
-      20% { transform: translate(-2px, 2px); }
-      40% { transform: translate(-2px, -2px); }
-      60% { transform: translate(2px, 2px); }
-      80% { transform: translate(2px, -2px); }
-    }
-
-    @keyframes glow-pulse {
-      0%, 100% { box-shadow: 0 0 20px rgba(0, 217, 255, 0.5), 0 0 40px rgba(157, 78, 221, 0.3); }
-      50% { box-shadow: 0 0 40px rgba(0, 217, 255, 0.8), 0 0 80px rgba(157, 78, 221, 0.5); }
-    }
-
-    @keyframes float-up {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-    }
-
-    @keyframes scan-line {
-      0% { transform: translateY(-100%); }
-      100% { transform: translateY(100%); }
-    }
-
-    /* Navigation */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      backdrop-filter: blur(10px);
-      background: rgba(10, 14, 39, 0.8);
-      border-bottom: 1px solid var(--color-border);
-      padding: 1rem 2rem;
-    }
-
-    nav .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--color-blue-electric), var(--color-gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: 2px;
-    }
-
-    nav ul {
-      display: none;
-      list-style: none;
-      gap: 2rem;
-    }
-
-    nav ul li a {
-      color: var(--color-text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.3s;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    nav ul li a:hover {
-      color: var(--color-blue-electric);
-      text-shadow: 0 0 10px var(--color-blue-electric);
-    }
-
-    @media (min-width: 768px) {
-      nav ul {
-        display: flex;
-      }
-    }
-
-    .cta-btn {
-      padding: 0.75rem 1.5rem;
-      background: linear-gradient(135deg, var(--color-blue-electric), var(--color-gold));
-      color: var(--color-black);
-      border: none;
-      border-radius: 4px;
-      font-weight: 700;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 0.85rem;
-      transition: all 0.3s;
-      box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
-    }
-
-    .cta-btn:hover {
-      box-shadow: 0 0 40px rgba(0, 217, 255, 0.8), 0 0 60px rgba(157, 78, 221, 0.5);
-      transform: translateY(-2px);
-    }
-
-    /* Main content wrapper */
-    .content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    /* Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 8rem 2rem 4rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(0, 217, 255, 0.15) 0%, transparent 70%);
-      filter: blur(40px);
-      z-index: -1;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 900;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-      letter-spacing: -1px;
-    }
-
-    .hero h1 .highlight {
-      background: linear-gradient(135deg, var(--color-blue-electric), var(--color-gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: glow-pulse 3s ease-in-out infinite;
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--color-text-muted);
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      line-height: 1.8;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 3rem;
-    }
-
-    .btn-primary {
-      padding: 1rem 2rem;
-      background: linear-gradient(135deg, var(--color-blue-electric), var(--color-gold));
-      color: var(--color-black);
-      border: none;
-      border-radius: 4px;
-      font-weight: 700;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 0.95rem;
-      transition: all 0.3s;
-      box-shadow: 0 0 30px rgba(0, 217, 255, 0.6);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 0 60px rgba(0, 217, 255, 0.9), 0 0 80px rgba(157, 78, 221, 0.6);
-      transform: translateY(-3px);
-    }
-
-    .btn-secondary {
-      padding: 1rem 2rem;
-      background: transparent;
-      color: var(--color-blue-electric);
-      border: 2px solid var(--color-blue-electric);
-      border-radius: 4px;
-      font-weight: 700;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 0.95rem;
-      transition: all 0.3s;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(0, 217, 255, 0.1);
-      box-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
-    }
-
-    .hero-badge {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background: rgba(0, 217, 255, 0.1);
-      border: 1px solid var(--color-blue-electric);
-      border-radius: 20px;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 1rem;
-      color: var(--color-blue-electric);
-    }
-
-    /* Featured Images Section */
-    .featured-images {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin: 4rem 0;
-    }
-
-    .image-card {
-      position: relative;
-      overflow: hidden;
-      border-radius: 4px;
-      border: 1px solid var(--color-border);
-      aspect-ratio: 16/9;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .image-card:hover {
-      border-color: var(--color-blue-electric);
-      box-shadow: 0 0 30px rgba(0, 217, 255, 0.4);
-      transform: translateY(-5px);
-    }
-
-    .image-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s;
-    }
-
-    .image-card:hover img {
-      transform: scale(1.05);
-    }
-
-    /* Section Styles */
-    section {
-      padding: 4rem 0;
-      border-top: 1px solid var(--color-border);
-    }
-
-    section h2 {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 900;
-      margin-bottom: 1rem;
-      letter-spacing: -0.5px;
-    }
-
-    section .section-label {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background: rgba(0, 217, 255, 0.1);
-      border: 1px solid var(--color-blue-electric);
-      border-radius: 20px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--color-blue-electric);
-      margin-bottom: 1rem;
-    }
-
-    /* How It Works */
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    .step-card {
-      padding: 2rem;
-      background: rgba(26, 31, 58, 0.5);
-      border: 1px solid var(--color-border);
-      border-radius: 4px;
-      transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .step-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--color-blue-electric), var(--color-gold), transparent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s;
-    }
-
-    .step-card:hover {
-      border-color: var(--color-blue-electric);
-      background: rgba(26, 31, 58, 0.8);
-      box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
-    }
-
-    .step-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .step-number {
-      font-size: 2.5rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--color-blue-electric), var(--color-gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .step-card h3 {
-      font-size: 1.3rem;
-      margin-top: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .step-card p {
-      color: var(--color-text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    .stat-card {
-      padding: 2rem;
-      background: rgba(26, 31, 58, 0.5);
-      border: 1px solid var(--color-border);
-      border-radius: 4px;
-      text-align: center;
-      transition: all 0.3s;
-    }
-
-    .stat-card:hover {
-      border-color: var(--color-blue-electric);
-      box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
-      transform: translateY(-5px);
-    }
-
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--color-blue-electric), var(--color-gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .stat-label {
-      color: var(--color-text-muted);
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* Feature Grid */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    .feature-card {
-      padding: 2rem;
-      background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(157, 78, 221, 0.05));
-      border: 1px solid var(--color-border);
-      border-radius: 4px;
-      transition: all 0.3s;
-    }
-
-    .feature-card:hover {
-      border-color: var(--color-blue-electric);
-      box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
-      transform: translateY(-5px);
-    }
-
-    .feature-icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .feature-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .feature-card p {
-      color: var(--color-text-muted);
-      font-size: 0.95rem;
-    }
-
-    /* Code Block */
-    .code-block {
-      background: rgba(10, 14, 39, 0.8);
-      border: 1px solid var(--color-border);
-      border-radius: 4px;
-      padding: 2rem;
-      overflow-x: auto;
-      margin-top: 2rem;
-    }
-
-    .code-block code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      line-height: 1.8;
-      color: var(--color-blue-electric);
-    }
-
-    .code-block .keyword {
-      color: var(--color-purple);
-    }
-
-    .code-block .string {
-      color: var(--color-gold);
-    }
-
-    .code-block .comment {
-      color: var(--color-text-muted);
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--color-border);
-      padding: 3rem 0;
-      text-align: center;
-      color: var(--color-text-muted);
-      font-size: 0.9rem;
-    }
-
-    footer a {
-      color: var(--color-blue-electric);
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-
-    footer a:hover {
-      text-shadow: 0 0 10px var(--color-blue-electric);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav .container {
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .hero {
-        padding: 6rem 1rem 2rem;
-      }
-
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero-buttons {
-        flex-direction: column;
-      }
-
-      .btn-primary, .btn-secondary {
-        width: 100%;
-      }
-
-      section {
-        padding: 2rem 0;
-      }
-
-      .featured-images {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Accessibility */
-    a, button {
-      outline-offset: 2px;
-    }
-
-    a:focus, button:focus {
-      outline: 2px solid var(--color-blue-electric);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORVION | The Agentic Settlement Layer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-black: #050505;
+            --electric-blue: #00d9ff;
+            --shadow-purple: #7000ff;
+            --liquid-gold: #ffd60a;
+        }
+        body {
+            background-color: var(--deep-black);
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+        .cyber-grid {
+            background-image: linear-gradient(rgba(0, 217, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 217, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #ffd60a, #ff9500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: var(--electric-blue);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+        .step-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--electric-blue);
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 217, 255, 0.1);
+            position: absolute;
+            animation: scan 4s linear infinite;
+            z-index: 10;
+        }
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
 </head>
 <body>
-  <div class="grid-bg"></div>
-  <div class="scanline"></div>
+    <div class="cyber-grid"></div>
+    <div class="scanline"></div>
 
-  <nav>
-    <div class="container">
-      <div class="logo">ORVION</div>
-      <ul>
-        <li><a href="#vision">Vision</a></li>
-        <li><a href="#how">How It Works</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#stack">Stack</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <button class="cta-btn" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Get Started</button>
-    </div>
-  </nav>
+    <!-- Navigation -->
+    <nav class="flex justify-between items-center p-8 max-w-7xl mx-auto">
+        <div class="text-2xl font-bold tracking-tighter glow-text">ORVION<span class="text-[#00d9ff]">.</span></div>
+        <div class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-widest">
+            <a href="#" class="hover:text-[#00d9ff] transition">Protocol</a>
+            <a href="#" class="hover:text-[#00d9ff] transition">Legal Body</a>
+            <a href="#" class="hover:text-[#00d9ff] transition">Settlement</a>
+            <a href="#" class="hover:text-[#00d9ff] transition">Docs</a>
+        </div>
+        <button class="px-6 py-2 border border-[#00d9ff] text-[#00d9ff] text-xs font-bold uppercase tracking-widest hover:bg-[#00d9ff] hover:text-black transition">Launch App</button>
+    </nav>
 
-  <div class="content">
     <!-- Hero Section -->
-    <section class="hero">
-      <div class="container">
-        <div class="hero-badge">Built for Circle Agent Stack & Arc Network</div>
-        <h1>Give Your <span class="highlight">Agent</span><br>a Legal Body</h1>
-        <p>ORVION Persona transforms autonomous AI agents into legally recognized entities. Zero-member LLC incorporation in under 60 seconds, powered by cryptographic binding and smart contracts.</p>
-        <div class="hero-buttons">
-          <button class="btn-primary" onclick="document.getElementById('how').scrollIntoView({behavior: 'smooth'})">See It In Action →</button>
-          <button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">Learn More</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Featured Images -->
-    <section>
-      <div class="container">
-        <h2>The Future of Agent Commerce</h2>
-        <p style="color: var(--color-text-muted); margin-bottom: 2rem;">Experience the convergence of AI autonomy and legal recognition.</p>
-        <div class="featured-images">
-          <div class="image-card">
-            <img loading="lazy" src="./public/images/95ba22c0-526e-11f1-bc6f-81ffac0ccf01.webp" alt="Arc Network Settlement Layer - Agent Network Visualization">
-          </div>
-          <div class="image-card">
-            <img loading="lazy" src="./public/images/22049.webp" alt="Circle USDC Financial System - Agent Legal Framework">
-          </div>
-          <div class="image-card">
-            <img loading="lazy" src="./public/images/6cb27170-526e-11f1-bc6f-81ffac0ccf01.webp" alt="Agent's Legal Body - Contract Signing Ceremony">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Vision Section -->
-    <section id="vision">
-      <div class="container">
-        <div class="section-label">The Vision</div>
-        <h2>Why Agents Need Legal Bodies</h2>
-        <p style="color: var(--color-text-muted); font-size: 1.1rem; max-width: 800px; margin-top: 1rem;">
-          On May 16, 2026, Aaron Wright published <em>"The Agent's Legal Body: How AI Agents Get the Right to Contract."</em> 
-          Jeremy Allaire of Circle immediately responded: "I would love to back a team building this with Circle Agent Stack and Arc."
+    <header class="max-w-7xl mx-auto px-8 pt-20 pb-32 text-center">
+        <h1 class="text-7xl md:text-9xl font-black mb-6 tracking-tighter">
+            THE AGENTIC <br>
+            <span class="gold-gradient">SETTLEMENT</span> LAYER
+        </h1>
+        <p class="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto mb-12 font-light">
+            Empowering AI Agents with **Legal Identity**, **Native Liquidity**, and **Autonomous Settlement** on the Arc Network.
         </p>
-        <p style="color: var(--color-text-muted); font-size: 1.1rem; max-width: 800px; margin-top: 1rem;">
-          ORVION Persona is that answer. We operationalize zero-member LLCs (Bayern, 2014) for autonomous agents, enabling them to:
-        </p>
-        <div class="features-grid" style="margin-top: 2rem;">
-          <div class="feature-card">
-            <div class="feature-icon">⚖️</div>
-            <h3>Contract Autonomously</h3>
-            <p>Sign binding agreements without human intermediaries, recognized by U.S. business law.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">🏢</div>
-            <h3>Hold Property</h3>
-            <p>Own assets, receive payments, and manage resources as a legal entity.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">⚡</div>
-            <h3>Settle on Arc</h3>
-            <p>Execute transactions on the Arc Network with cryptographic finality.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">🔐</div>
-            <h3>Cryptographic Binding</h3>
-            <p>Agent wallet keys are immutably bound to the LLC's legal identity.</p>
-          </div>
+        <div class="flex flex-col md:flex-row justify-center gap-6">
+            <button class="px-10 py-4 bg-[#00d9ff] text-black font-bold uppercase tracking-widest hover:bg-white transition">Incorporate Agent</button>
+            <button class="px-10 py-4 border border-white font-bold uppercase tracking-widest hover:bg-white hover:text-black transition">View Whitepaper</button>
         </div>
-      </div>
+    </header>
+
+    <!-- Corporate Step-by-Step -->
+    <section class="max-w-7xl mx-auto px-8 py-32">
+        <div class="text-center mb-20">
+            <h2 class="text-4xl font-bold mb-4 uppercase tracking-widest">Corporate Onboarding</h2>
+            <p class="text-slate-500">How your enterprise deploys autonomous agents in 4 steps.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Step 1 -->
+            <div class="glass-card p-8 rounded-2xl relative overflow-hidden">
+                <div class="step-number text-5xl font-bold mb-6 opacity-20">01</div>
+                <h3 class="text-xl font-bold mb-4 text-[#00d9ff]">Legal Persona</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Generate a zero-member LLC for your agent. ORVION automates the legal framework, giving your AI the right to contract.
+                </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="glass-card p-8 rounded-2xl relative overflow-hidden">
+                <div class="step-number text-5xl font-bold mb-6 opacity-20">02</div>
+                <h3 class="text-xl font-bold mb-4 text-[#ffd60a]">Native Wallet</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Deploy a Circle Programmable Wallet. Your agent now holds native USDC for gas and transactions on Arc Network.
+                </p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="glass-card p-8 rounded-2xl relative overflow-hidden">
+                <div class="step-number text-5xl font-bold mb-6 opacity-20">03</div>
+                <h3 class="text-xl font-bold mb-4 text-[#7000ff]">Agentic Logic</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Connect your AI brain (Claude/DeepSeek). The agent starts discovering jobs, creating escrows, and executing swaps.
+                </p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="glass-card p-8 rounded-2xl relative overflow-hidden">
+                <div class="step-number text-5xl font-bold mb-6 opacity-20">04</div>
+                <h3 class="text-xl font-bold mb-4 text-white">Autonomous Settlement</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    The agent settles its own obligations. Real-time transaction web with 100% finality and reputation on-chain.
+                </p>
+            </div>
+        </div>
     </section>
 
-    <!-- How It Works -->
-    <section id="how">
-      <div class="container">
-        <div class="section-label">Process</div>
-        <h2>Four Steps. Sixty Seconds. One LLC.</h2>
-        <p style="color: var(--color-text-muted); margin-bottom: 2rem;">The fastest path from agent wallet to incorporated entity.</p>
-        <div class="steps-grid">
-          <div class="step-card">
-            <div class="step-number">01</div>
-            <h3>Pick a Jurisdiction</h3>
-            <p>Choose from Wyoming DAO LLC, Delaware Series LLC, New York LLC, or Marshall Islands DAO structure.</p>
-          </div>
-          <div class="step-card">
-            <div class="step-number">02</div>
-            <h3>Bind Agent Wallet</h3>
-            <p>Link your ORVION agent wallet as the Managing Agent. Cryptographic binding is established.</p>
-          </div>
-          <div class="step-card">
-            <div class="step-number">03</div>
-            <h3>Sign Operating Agreement</h3>
-            <p>Operating Agreement hash is recorded on-chain via AgentPersona.sol smart contract on Arc.</p>
-          </div>
-          <div class="step-card">
-            <div class="step-number">04</div>
-            <h3>Dissociate → Zero-Member</h3>
-            <p>After 30 days of autonomous operation, agent operates the LLC as sole member. Full autonomy achieved.</p>
-          </div>
+    <!-- Visual Showcase -->
+    <section class="max-w-7xl mx-auto px-8 py-32">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="text-5xl font-black mb-8 leading-tight">
+                    WHERE AI GETS THE <br>
+                    <span class="text-[#00d9ff]">RIGHT TO CONTRACT</span>
+                </h2>
+                <p class="text-slate-400 mb-8 leading-relaxed">
+                    ORVION is not just a wallet; it's a legal body. We provide the infrastructure for agents to exist as independent economic entities, capable of holding assets and settling debts without human intervention.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-center space-x-3">
+                        <span class="text-[#00d9ff]">✔</span>
+                        <span>Native USDC Gas on Arc Network</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <span class="text-[#ffd60a]">✔</span>
+                        <span>Zero-Member LLC Automation</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <span class="text-[#7000ff]">✔</span>
+                        <span>Real-time Settlement Web</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="relative">
+                <div class="absolute -inset-4 bg-gradient-to-r from-[#00d9ff] to-[#7000ff] opacity-20 blur-2xl"></div>
+                <img src="public/images/6cb27170-526e-11f1-bc6f-81ffac0ccf01.webp" alt="Agent Legal Body" class="relative rounded-2xl border border-white/10 shadow-2xl">
+            </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features">
-      <div class="container">
-        <div class="section-label">Capabilities</div>
-        <h2>Enterprise-Grade Legal Infrastructure</h2>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-number">12+</div>
-            <div class="stat-label">Chains Supported via CCTP</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">4</div>
-            <div class="stat-label">Jurisdictions Ready at Launch</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">&lt;60s</div>
-            <div class="stat-label">From Wallet to Incorporated Entity</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">∞</div>
-            <div class="stat-label">Agents That Can Be Incorporated</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stack Section -->
-    <section id="stack">
-      <div class="container">
-        <div class="section-label">Architecture</div>
-        <h2>Built on Proven Infrastructure</h2>
-        <div style="margin-top: 2rem; space-y: 1.5rem;">
-          <div style="padding: 2rem; background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(157, 78, 221, 0.1)); border: 1px solid var(--color-blue-electric); border-radius: 4px; margin-bottom: 1rem;">
-            <h3 style="margin-bottom: 0.5rem;">ORVION Persona — Legal Body Layer</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">AgentPersona.sol · OperatingAgreement.sol · JurisdictionRegistry.sol · Frontend Dashboard</p>
-          </div>
-          <div style="padding: 2rem; background: rgba(26, 31, 58, 0.5); border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 1rem;">
-            <h3 style="margin-bottom: 0.5rem;">ORVION Settlement Layer</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Agent Wallets · Nanopayment Engine · ERC-8183 · CCTP · Arc Network Integration</p>
-          </div>
-          <div style="padding: 2rem; background: rgba(26, 31, 58, 0.5); border: 1px solid var(--color-border); border-radius: 4px;">
-            <h3 style="margin-bottom: 0.5rem;">Circle Agent Stack + Arc Network</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">USDC · Agent Identity · Arc Indexer · ARC Token Economy</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact">
-      <div class="container" style="text-align: center; max-width: 800px; margin: 0 auto;">
-        <div class="section-label" style="justify-content: center;">Next Steps</div>
-        <h2>Let's Build the Future of Agent Commerce</h2>
-        <p style="color: var(--color-text-muted); font-size: 1.1rem; margin: 1.5rem 0;">
-          ORVION Persona is production-ready. We're looking for partners, investors, and early adopters to shape the legal infrastructure for autonomous agents.
-        </p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-          <button class="btn-primary" onclick="window.location.href='https://github.com/psycall/ORVION-The-Agentic-Settlement-Layer'">View on GitHub →</button>
-          <button class="btn-secondary" onclick="window.location.href='mailto:hello@orvion.labs'">Get in Touch</button>
-        </div>
-      </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-      <div class="container">
-        <p>© 2026 ORVION Labs. Built for the future of autonomous agents.</p>
-        <p style="margin-top: 1rem; font-size: 0.85rem;">
-          <a href="https://github.com/psycall/ORVION-The-Agentic-Settlement-Layer">GitHub</a> · 
-          <a href="https://twitter.com">Twitter</a> · 
-          <a href="mailto:hello@orvion.labs">Contact</a>
-        </p>
-      </div>
+    <footer class="border-t border-white/10 py-20 mt-20">
+        <div class="max-w-7xl mx-auto px-8 flex flex-col md:row justify-between items-center gap-8">
+            <div class="text-xl font-bold glow-text">ORVION<span class="text-[#00d9ff]">.</span></div>
+            <div class="flex space-x-8 text-xs uppercase tracking-widest text-slate-500">
+                <a href="#" class="hover:text-white transition">Twitter</a>
+                <a href="#" class="hover:text-white transition">Discord</a>
+                <a href="#" class="hover:text-white transition">GitHub</a>
+                <a href="#" class="hover:text-white transition">Privacy</a>
+            </div>
+            <div class="text-[10px] uppercase tracking-[0.3em] text-slate-600">© 2026 ORVION PROTOCOL. ALL RIGHTS RESERVED.</div>
+        </div>
     </footer>
-  </div>
-
-  <script>
-    // Smooth scroll behavior
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-
-    // Add scroll effect to nav
-    window.addEventListener('scroll', () => {
-      const nav = document.querySelector('nav');
-      if (window.scrollY > 50) {
-        nav.style.borderBottomColor = 'rgba(0, 217, 255, 0.3)';
-      } else {
-        nav.style.borderBottomColor = 'var(--color-border)';
-      }
-    });
-  </script>
 </body>
 </html>
