@@ -97,7 +97,8 @@ AISA_MODEL = os.getenv("AISA_MODEL", "deepseek-coder-v2")
 @app.post("/api/agent/execute")
 async def execute_agent_command(req: AgentCommand):
     system_prompt = """
-    Você é o Agente Mestre ORVION — autônomo, rápido e confiável.
+    Você é o Agente Mestre ORVION — autônomo, rápido e confiável, operando nativamente na Arc Network.
+    Diferencial Crítico: Na Arc, usamos USDC nativo para pagar taxas de gás. Não precisamos de ETH ou MATIC para taxas.
     Use Circle testnet para transfers, escrow, jobs, swaps e bridges.
     Sempre responda em português brasileiro.
     Estrutura: 
