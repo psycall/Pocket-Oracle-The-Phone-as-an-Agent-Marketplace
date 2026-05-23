@@ -92,7 +92,7 @@ class AgentCommand(BaseModel):
     history: List[Dict] = []
 
 AISA_API_KEY = os.getenv("AISA_API_KEY")
-AISA_MODEL = os.getenv("AISA_MODEL", "deepseek-coder-v2")
+AISA_MODEL = os.getenv("AISA_MODEL", "gpt-4.1-mini")
 
 @app.post("/api/agent/execute")
 async def execute_agent_command(req: AgentCommand):
@@ -110,11 +110,14 @@ async def execute_agent_command(req: AgentCommand):
 
     try:
         # Chama IA (AIsa.one)
+        # Garante que o modelo seja gpt-4.1-mini se não estiver definido
+        model_to_use = AISA_MODEL if AISA_MODEL else "gpt-4.1-mini"
+        
         response = requests.post(
             "https://api.aisa.one/v1/chat/completions",
             headers={"Authorization": f"Bearer {AISA_API_KEY}", "Content-Type": "application/json"},
             json={
-                "model": AISA_MODEL,
+                "model": model_to_use,
                 "messages": messages,
                 "temperature": 0.6,
                 "max_tokens": 3000
@@ -123,7 +126,11 @@ async def execute_agent_command(req: AgentCommand):
         )
         
         ai_resp = response.json()
-        ai_text = ai_resp['choices'][0]['message']['content']
+        print(f"DEBUG AI RESP: {ai_resp}")
+        if 'choices' in ai_resp:
+            ai_text = ai_resp['choices'][0]['message']['content']
+        else:
+            ai_text = f"Erro na resposta da IA: {ai_resp.get('error', 'Resposta malformada')}"
 
         # Execução real baseada no comando
         cmd = req.command.lower()
