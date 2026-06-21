@@ -10,7 +10,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Verify project structure
         run: |
           echo "Project is Node.js/Python based — no Java/Maven build required."
@@ -21,7 +21,7 @@ jobs:
     needs: check
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: docker/setup-buildx-action@v3
       - name: Build Docker image
         run: docker build -t orvion:latest . || true
